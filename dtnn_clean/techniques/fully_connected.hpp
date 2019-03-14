@@ -2,6 +2,7 @@
 
 #include <arrayfire.h>
 
+#include "../feed.hpp"
 #include "../propagation_stage.hpp"
 #include "../wb.hpp"
 
@@ -11,8 +12,8 @@ namespace dtnn {
     ~FullyConnected() = default;
     FullyConnected() = default;
     FullyConnected(std::shared_ptr<wb> weights);
-    void forward(Pack &p) override;
-    void backward(Pack &p) override;
+    void forward(Feed &f) override;
+    void backward(Feed &f) override;
 
     std::shared_ptr<wb> weights_;
     std::shared_ptr<wb> gradient_;

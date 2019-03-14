@@ -9,14 +9,14 @@ TEST_CASE("logistic forward", "[logistic]") {
   af::array input = af::array(af::dim4(5), hostinput);
   af::array expected = af::array(af::dim4(5), hostexpected);
 
-  dtnn::Pack p;
-  p.signal = input;
+  dtnn::Feed f;
+  f.signal = input;
   auto logistic = dtnn::Logistic();
-  logistic.forward(p);
+  logistic.forward(f);
 
-  REQUIRE(dtnn::test::isnumber(p.signal));
-  REQUIRE(dtnn::test::samedim(p.signal, expected));
-  REQUIRE(dtnn::test::approx(p.signal, expected));
+  REQUIRE(dtnn::test::isnumber(f.signal));
+  REQUIRE(dtnn::test::samedim(f.signal, expected));
+  REQUIRE(dtnn::test::approx(f.signal, expected));
 }
 
 TEST_CASE("logistic serializes", "[logistic]") {

@@ -11,6 +11,7 @@
 #include <cereal/types/memory.hpp>
 
 #include "wb.hpp"
+#include "feed.hpp"
 #include "techniques/fully_connected.hpp"
 #include "techniques/logistic.hpp"
 
