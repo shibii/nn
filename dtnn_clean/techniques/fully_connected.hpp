@@ -11,6 +11,7 @@ namespace dtnn {
   public:
     ~FullyConnected() = default;
     FullyConnected() = default;
+    FullyConnected(std::shared_ptr<wb> weights, std::shared_ptr<wb> gradient);
     FullyConnected(std::shared_ptr<wb> weights);
     void forward(Feed &f) override;
     void backward(Feed &f) override;
