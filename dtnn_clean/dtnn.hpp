@@ -14,6 +14,7 @@
 #include "feed.hpp"
 #include "techniques/fully_connected.hpp"
 #include "techniques/logistic.hpp"
+#include "techniques/squared_loss.hpp"
 
 #include "serialization/arrayfire.hpp"
 #include "serialization/wb.hpp"

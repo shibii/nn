@@ -8,6 +8,6 @@ namespace dtnn {
   public:
     LossFunction() = default;
     virtual ~LossFunction() = default;
-    virtual void error(Feed &f) = 0;
+    virtual void error(Feed &f, af::array target) = 0;
   };
 }
