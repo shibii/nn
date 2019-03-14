@@ -14,9 +14,9 @@ TEST_CASE("logistic forward", "[logistic]") {
   auto logistic = dtnn::Logistic();
   logistic.forward(f);
 
-  REQUIRE(dtnn::test::isnumber(f.signal));
-  REQUIRE(dtnn::test::samedim(f.signal, expected));
-  REQUIRE(dtnn::test::approx(f.signal, expected));
+  REQUIRE(util::isnumber(f.signal));
+  REQUIRE(util::samedim(f.signal, expected));
+  REQUIRE(util::approx(f.signal, expected));
 }
 
 TEST_CASE("logistic serializes", "[logistic]") {
