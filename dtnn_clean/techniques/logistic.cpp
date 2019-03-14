@@ -6,6 +6,6 @@ namespace dtnn {
     f.signal = activation_;
   }
   void Logistic::backward(Feed &f) {
-
+    f.signal = f.signal * (activation_ * (1.f - activation_));
   }
 }
