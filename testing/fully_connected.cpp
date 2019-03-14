@@ -36,6 +36,5 @@ TEST_CASE("fullyconnected serializes", "[fullyconnected]") {
     oarchive(stages);
   }
   std::string identifier("\"polymorphic_name\": \"dtnn::FullyConnected\"");
-  std::cout << ostream.str();
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

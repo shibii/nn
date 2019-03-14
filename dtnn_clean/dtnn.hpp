@@ -20,3 +20,4 @@
 #include "serialization/wb.hpp"
 #include "serialization/fully_connected.hpp"
 #include "serialization/logistic.hpp"
+#include "serialization/squared_loss.hpp"
