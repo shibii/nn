@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include <sstream>
 
-TEST_CASE("fullyconnected forward", "[fullyconnected]") {
+TEST_CASE("fully connected", "[fully connected]") {
   float hweights[] = { 1, -1, 2, 1 };
   float hbias[] = { 1, 2 };
   float hinput[] = { 0, 1, -1, -2 };
@@ -48,7 +48,7 @@ TEST_CASE("fullyconnected forward", "[fullyconnected]") {
   REQUIRE(util::approx(f.signal, expectederror));
 }
 
-TEST_CASE("fullyconnected serializes", "[fullyconnected]") {
+TEST_CASE("fully connected serializes", "[fully connected]") {
   std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
   auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
   auto af = std::make_shared<dtnn::FullyConnected>(dtnn::FullyConnected(weights));

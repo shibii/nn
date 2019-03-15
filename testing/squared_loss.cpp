@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include <sstream>
 
-TEST_CASE("squaredloss error", "[squaredloss]") {
+TEST_CASE("squared loss error", "[squared loss]") {
   float hostinput[] = { 1.f, 1.f, 2.f };
   float hosttarget[] = { 1.f, 2.f, -1.f };
   float hostexpected[] = { 0.f, -1.f, 3.f };
@@ -21,7 +21,7 @@ TEST_CASE("squaredloss error", "[squaredloss]") {
   REQUIRE(util::approx(f.signal, expected));
 }
 
-TEST_CASE("squaredloss serializes", "[squaredloss]") {
+TEST_CASE("squared loss serializes", "[squared loss]") {
   std::vector<std::shared_ptr<dtnn::LossFunction>> polymloss;
   auto loss = std::make_shared<dtnn::SquaredLoss>(dtnn::SquaredLoss());
   polymloss.push_back(loss);
