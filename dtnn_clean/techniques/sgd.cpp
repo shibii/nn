@@ -1,15 +1,16 @@
 #include "sgd.hpp"
+#include <iostream>
 
 namespace dtnn {
   SGD::SGD(float learningrate) : learningrate_(learningrate) {
-
   }
   void SGD::optimize() {
-    for (auto state : states_) {
-      *state.weights_ -= learningrate_ * *state.gradient_;
+    for (auto param : params_) {
+      param->weights -= learningrate_ * param->gradient;
+      param->gradient.zero();
     }
   }
-  void SGD::attach(std::shared_ptr<wb> weights, std::shared_ptr<wb> gradient) {
-    states_.push_back({ weights, gradient });
+  void SGD::attach(std::shared_ptr<OptimizableWeights> param) {
+    params_.push_back(param);
   }
 }

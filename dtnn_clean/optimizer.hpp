@@ -2,6 +2,7 @@
 
 #include <arrayfire.h>
 #include "wb.hpp"
+#include "optimizable_weights.hpp"
 
 namespace dtnn {
   class OptimizerState {
@@ -16,6 +17,6 @@ namespace dtnn {
     Optimizer() = default;
     virtual ~Optimizer() = default;
     virtual void optimize() = 0;
-    virtual void attach(std::shared_ptr<wb> weights, std::shared_ptr<wb> gradient) = 0;
+    virtual void attach(std::shared_ptr<OptimizableWeights> param) = 0;
   };
 }
