@@ -3,6 +3,10 @@
 namespace dtnn {
   wb::wb(af::array w, af::array b) : w(w), b(b) {
   }
+  wb::wb(af::dim4 wdim, dim_t bdim) {
+    w = af::constant(0.f, wdim);
+    b = af::constant(0.f, bdim);
+  }
   wb::wb(af::dim4 wdim, dim_t bdim, float sigma) {
     w = af::randn(wdim) * sigma;
     b = af::constant(0.f, bdim);
