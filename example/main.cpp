@@ -6,29 +6,27 @@ int main(unsigned int argc, const char* argv[]) {
 
   af::setSeed(time(NULL));
 
-  int units1 = 400;
-  auto w1 = std::make_shared<wb>(wb(af::dim4(units1, 1), units1, 3.6 / sqrtf(units1)));
-  auto g1 = std::make_shared<wb>(wb(af::dim4(units1, 1), units1, 0.f));
-  FullyConnected fc1(w1, g1);
-
+  SGD optimizer(1e-4f);
+  Feed sample;
+  sample.signal = af::randu(af::dim4(1)) * af::Pi;
+  int units1 = 100;
+  FullyConnected fc1(units1);
+  auto w1 = fc1.init(sample);
+  optimizer.attach(w1);
+  fc1.forward(sample);
   Logistic af1;
-
-  int units2 = 400;
-  auto w2 = std::make_shared<wb>(wb(af::dim4(1, units2), 1, 3.6 / sqrtf(units2)));
-  auto g2 = std::make_shared<wb>(wb(af::dim4(1, units2), 1, 0.f));
-  FullyConnected fc2(w2, g2);
-
+  int units2 = 1;
+  FullyConnected fc2(units2);
+  auto w2 = fc2.init(sample);
+  optimizer.attach(w2);
   Logistic af2;
-
   SquaredLoss loss;
-  SGD optimizer(1e-1f);
-  optimizer.attach(w1, g1);
-  optimizer.attach(w2, g2);
+
   while (true) {
     float totalloss = 0;
     for (int i = 0; i < 1000; i++) {
       Feed f;
-      af::array input = af::randu(af::dim4(1, 1, 1, 10)) * af::Pi;
+      af::array input = af::randu(af::dim4(1, 1, 1, 100)) * af::Pi;
       af::array target = af::sin(input);
       f.signal = input;
 
@@ -37,7 +35,6 @@ int main(unsigned int argc, const char* argv[]) {
       fc2.forward(f);
       af2.forward(f);
       loss.error(f, target);
-      totalloss += loss.loss(target);
 
       af2.backward(f);
       fc2.backward(f);
@@ -45,10 +42,19 @@ int main(unsigned int argc, const char* argv[]) {
       fc1.backward(f);
 
       optimizer.optimize();
-      g1->zero();
-      g2->zero();
     }
-    std::cout << totalloss << std::endl;
+
+    Feed f;
+    af::array input = af::randu(af::dim4(1, 1, 1, 1000)) * af::Pi;
+    af::array target = af::sin(input);
+    f.signal = input;
+
+    fc1.forward(f);
+    af1.forward(f);
+    fc2.forward(f);
+    af2.forward(f);
+    loss.error(f, target);
+    std::cout << af::sum<float>(loss.output_ - target) / 1000.f << std::endl;
   }
 
   return 0;
