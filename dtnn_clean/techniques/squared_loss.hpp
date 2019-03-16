@@ -9,5 +9,7 @@ namespace dtnn {
     ~SquaredLoss() = default;
     SquaredLoss() = default;
     void error(Feed &f, af::array target) override;
+    float loss(af::array target) override;
+    af::array output_;
   };
 }

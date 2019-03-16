@@ -7,6 +7,10 @@ namespace dtnn {
     w = af::randn(wdim) * sigma;
     b = af::constant(0.f, bdim);
   }
+  void wb::zero() {
+    w = af::constant(0.f, w.dims());
+    b = af::constant(0.f, b.dims());
+  }
   void operator+=(wb& lhs, const wb& rhs) {
     lhs.w = lhs.w + rhs.w;
     lhs.b = lhs.b + rhs.b;
