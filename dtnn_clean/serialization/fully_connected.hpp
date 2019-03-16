@@ -6,7 +6,7 @@ namespace cereal {
   template<class Archive>
   void serialize(Archive & archive, dtnn::FullyConnected & m)
   {
-    archive(m.weights_);
+    archive(m.param_, m.units_);
   }
 }
 CEREAL_REGISTER_TYPE(dtnn::FullyConnected);
