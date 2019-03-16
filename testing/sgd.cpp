@@ -9,14 +9,23 @@ TEST_CASE("sgd", "[sgd]") {
   float hgw[] = { 1, 2, 3, -4 };
   float hgb[] = { -1, 2 };
 
-  auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
-  weights->w = af::array(af::dim4(2, 2), hw);
-  weights->b = af::array(af::dim4(2), hb);
-  auto gradient = std::make_shared<dtnn::wb>(dtnn::wb());
-  gradient->w = af::array(af::dim4(2, 2), hgw);
-  gradient->b = af::array(af::dim4(2), hgb);
+
+
+  dtnn::wb weights = {
+    af::array(af::dim4(2, 2), hw),
+    af::array(af::dim4(2), hb)
+  };
+
+  dtnn::wb gradient = {
+    af::array(af::dim4(2, 2), hgw),
+    af::array(af::dim4(2), hgb)
+  };
+  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  ow->weights = weights;
+  ow->gradient = gradient;
+
   auto optimizer = dtnn::SGD(0.5f);
-  optimizer.attach(weights, gradient);
+  optimizer.attach(ow);
   optimizer.optimize();
 
   float hexpectedw[] = { 1.5, 3, 1.5, -2 };
@@ -24,24 +33,23 @@ TEST_CASE("sgd", "[sgd]") {
   af::array expectedw = af::array(af::dim4(2, 2), hexpectedw);
   af::array expectedb = af::array(af::dim4(2), hexpectedb);
 
-  REQUIRE(util::isnumber(weights->w));
-  REQUIRE(util::isnumber(weights->b));
-  REQUIRE(util::samedim(weights->w, expectedw));
-  REQUIRE(util::samedim(weights->b, expectedb));
-  REQUIRE(util::approx(weights->w, expectedw));
-  REQUIRE(util::approx(weights->b, expectedb));
+  REQUIRE(util::isnumber(ow->weights.w));
+  REQUIRE(util::isnumber(ow->weights.b));
+  REQUIRE(util::samedim(ow->weights.w, expectedw));
+  REQUIRE(util::samedim(ow->weights.b, expectedb));
+  REQUIRE(util::approx(ow->weights.w, expectedw));
+  REQUIRE(util::approx(ow->weights.b, expectedb));
 }
 
-//TEST_CASE("sgd serializes", "[sgd]") {
-//  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-//  auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
-//  auto af = std::make_shared<dtnn::FullyConnected>(dtnn::FullyConnected(weights));
-//  stages.push_back(af);
-//  std::ostringstream ostream;
-//  {
-//    cereal::JSONOutputArchive oarchive(ostream);
-//    oarchive(stages);
-//  }
-//  std::string identifier("\"polymorphic_name\": \"dtnn::FullyConnected\"");
-//  REQUIRE(ostream.str().find(identifier) != std::string::npos);
-//}
+TEST_CASE("sgd serializes", "[sgd]") {
+  std::shared_ptr<dtnn::Optimizer> optimizer;
+  optimizer = std::make_shared<dtnn::SGD>(1.f);
+
+  std::ostringstream ostream;
+  {
+    cereal::JSONOutputArchive oarchive(ostream);
+    oarchive(optimizer);
+  }
+  std::string identifier("\"polymorphic_name\": \"dtnn::SGD\"");
+  REQUIRE(ostream.str().find(identifier) != std::string::npos);
+}
