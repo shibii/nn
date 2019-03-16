@@ -11,6 +11,7 @@
 #include <cereal/types/memory.hpp>
 
 #include "wb.hpp"
+#include "optimizable_weights.hpp"
 #include "feed.hpp"
 #include "techniques/fully_connected.hpp"
 #include "techniques/logistic.hpp"
@@ -19,6 +20,8 @@
 
 #include "serialization/arrayfire.hpp"
 #include "serialization/wb.hpp"
+#include "serialization/optimizable_weights.hpp"
 #include "serialization/fully_connected.hpp"
 #include "serialization/logistic.hpp"
 #include "serialization/squared_loss.hpp"
+#include "serialization/sgd.hpp"
