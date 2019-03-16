@@ -7,6 +7,7 @@ namespace dtnn {
   public:
     wb() = default;
     wb(af::array w, af::array b);
+    wb(af::dim4 wdim, dim_t bdim);
     wb(af::dim4 wdim, dim_t bdim, float sigma);
     void zero();
     af::array w;
