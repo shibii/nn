@@ -17,6 +17,8 @@
 #include "techniques/logistic.hpp"
 #include "techniques/squared_loss.hpp"
 #include "techniques/sgd.hpp"
+#include "blob_provider.hpp"
+#include "network.hpp"
 
 #include "serialization/arrayfire.hpp"
 #include "serialization/wb.hpp"
