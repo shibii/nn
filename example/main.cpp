@@ -6,55 +6,31 @@ int main(unsigned int argc, const char* argv[]) {
 
   af::setSeed(time(NULL));
 
-  SGD optimizer(1e-4f);
-  Feed sample;
-  sample.signal = af::randu(af::dim4(1)) * af::Pi;
-  int units1 = 100;
-  FullyConnected fc1(units1);
-  auto w1 = fc1.init(sample);
-  optimizer.attach(w1);
-  fc1.forward(sample);
-  Logistic af1;
-  int units2 = 1;
-  FullyConnected fc2(units2);
-  auto w2 = fc2.init(sample);
-  optimizer.attach(w2);
-  Logistic af2;
-  SquaredLoss loss;
+  af::array inputs = af::randu(af::dim4(1, 1, 1, 10000)) * af::Pi;
+  af::array targets = af::sin(inputs);
 
-  while (true) {
-    float totalloss = 0;
-    for (int i = 0; i < 1000; i++) {
-      Feed f;
-      af::array input = af::randu(af::dim4(1, 1, 1, 100)) * af::Pi;
-      af::array target = af::sin(input);
-      f.signal = input;
+  auto provider = std::make_shared<BlobProvider>(BlobProvider(inputs.host<float>(),
+    targets.host<float>(), inputs.dims(), targets.dims()));
 
-      fc1.forward(f);
-      af1.forward(f);
-      fc2.forward(f);
-      af2.forward(f);
-      loss.error(f, target);
+  auto optimizer = std::make_shared<SGD>(1e-4f);
 
-      af2.backward(f);
-      fc2.backward(f);
-      af1.backward(f);
-      fc1.backward(f);
-
-      optimizer.optimize();
+  Network nn(provider);
+  nn.add(optimizer);
+  auto fc1 = std::make_shared<FullyConnected>(100);
+  nn.add(fc1);
+  nn.add(std::make_shared<Logistic>());
+  auto fc2 = std::make_shared<FullyConnected>(1);
+  nn.add(fc2);
+  nn.add(std::make_shared<Logistic>());
+  auto loss = std::make_shared<SquaredLoss>();
+  nn.add(loss);
+  while (true){
+    for (int i = 0; i < 10000; i++) {
+      nn.train(16);
     }
-
-    Feed f;
-    af::array input = af::randu(af::dim4(1, 1, 1, 1000)) * af::Pi;
-    af::array target = af::sin(input);
-    f.signal = input;
-
-    fc1.forward(f);
-    af1.forward(f);
-    fc2.forward(f);
-    af2.forward(f);
-    loss.error(f, target);
-    std::cout << af::sum<float>(loss.output_ - target) / 1000.f << std::endl;
+    nn.predict(10000);
+    std::cout << af::sum<float>(loss->output_ - nn.currentbatch_.targets) / 10000.f << std::endl;
+    std::cout << nn.currentbatch_.targets.dims(3) << std::endl;
   }
 
   return 0;
