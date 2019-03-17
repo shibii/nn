@@ -7,23 +7,20 @@ TEST_CASE("fully connected", "[fully connected]") {
   float hweights[] = { 1, -1, 2, 1 };
   float hbias[] = { 1, 2 };
 
-  dtnn::wb weights = {
-    af::array(af::dim4(2, 2), hweights),
-    af::array(af::dim4(2), hbias)
-  };
-
-  dtnn::wb gradient = {
-    af::constant(0.f, af::dim4(2, 2)),
-    af::constant(0.f, af::dim4(2))
-  };
-
-  auto fc = dtnn::FullyConnected();
-  dtnn::OptimizableWeights ow = { weights, gradient };
-  fc.param_ = std::make_shared<dtnn::OptimizableWeights>(ow);
-
   dtnn::Feed f;
   float hinput[] = { 0, 1, -1, -2 };
   f.signal = af::array(af::dim4(2, 1, 1, 2), hinput);
+
+  auto fc = dtnn::FullyConnected(2);
+  auto param = fc.init(f);
+  param->weights = {
+    af::array(af::dim4(2, 2), hweights),
+    af::array(af::dim4(2), hbias)
+  };
+  param->gradient = {
+    af::constant(0.f, af::dim4(2, 2)),
+    af::constant(0.f, af::dim4(2))
+  };
 
   fc.forward(f);
 
@@ -42,11 +39,10 @@ TEST_CASE("fully connected", "[fully connected]") {
   float herror[] = { 1, -1, 2, 2 };
   f.signal = af::array(af::dim4(2, 1, 1, 2), herror);
   fc.backward(f);
-
-  REQUIRE(util::isnumber(fc.param_->gradient.w));
-  REQUIRE(util::isnumber(fc.param_->gradient.b));
-  REQUIRE(util::approx(fc.param_->gradient.w, expectedgw));
-  REQUIRE(util::approx(fc.param_->gradient.b, expectedgb));
+  REQUIRE(util::isnumber(param->gradient.w));
+  REQUIRE(util::isnumber(param->gradient.b));
+  REQUIRE(util::approx(param->gradient.w, expectedgw));
+  REQUIRE(util::approx(param->gradient.b, expectedgb));
 
   float hexpectederror[] = { 2, 1, 0, 6 };
   af::array expectederror = af::array(af::dim4(2, 1, 1, 2), hexpectederror);
