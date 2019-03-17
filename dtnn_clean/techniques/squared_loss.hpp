@@ -10,6 +10,7 @@ namespace dtnn {
     SquaredLoss() = default;
     void error(Feed &f, af::array target) override;
     float loss(af::array target) override;
+    void output(Feed &f);
     af::array output_;
   };
 }

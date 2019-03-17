@@ -8,4 +8,7 @@ namespace dtnn {
   float SquaredLoss::loss(af::array target) {
     return af::sum<float>(0.5 * af::pow(target - output_, 2));
   }
+  void SquaredLoss::output(Feed &f) {
+    output_ = f.signal;
+  }
 }
