@@ -3,13 +3,12 @@
 #include <arrayfire.h>
 
 namespace dtnn {
-  struct Samples {
-    af::array inputs;
-    af::array targets;
+  struct Batch {
+    virtual af::array get_inputs() = 0;
   };
 
   class SampleProvider {
   public:
-    virtual Samples batch(dim_t size) = 0;
+    virtual Batch& batch(dim_t size) = 0;
   };
 }
