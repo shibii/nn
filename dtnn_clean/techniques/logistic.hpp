@@ -3,11 +3,11 @@
 #include <arrayfire.h>
 
 #include "../feed.hpp"
-#include "../propagation_stage.hpp"
+#include "../weightless_stage.hpp"
 #include "../wb.hpp"
 
 namespace dtnn {
-  class Logistic : public PropagationStage {
+  class Logistic : public WeightlessStage {
   public:
     ~Logistic() = default;
     Logistic() = default;

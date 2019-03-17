@@ -5,6 +5,7 @@
 
 namespace dtnn {
   class WeightedStage : public PropagationStage {
+  public:
     virtual std::shared_ptr<OptimizableWeights> init(Feed sample) = 0;
   };
 }
