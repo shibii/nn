@@ -6,15 +6,21 @@ int main(unsigned int argc, const char* argv[]) {
 
   af::setSeed(time(NULL));
 
-  af::array inputs = af::randu(af::dim4(1, 1, 1, 10000)) * af::Pi;
-  af::array targets = af::sin(inputs);
+  af::array training_inputs = af::randu(af::dim4(1, 1, 1, 10000)) * af::Pi;
+  af::array training_targets = af::sin(training_inputs);
 
+  af::array test_inputs = af::randu(af::dim4(1, 1, 1, 10000)) * af::Pi;
+  af::array test_targets = af::sin(test_inputs);
+
+  auto training_provider = TrainingBlob(training_inputs.host<float>(), training_targets.host<float>(),
+    training_inputs.dims(), training_targets.dims());
+
+  auto test_provider = TrainingBlob(test_inputs.host<float>(), test_targets.host<float>(),
+    test_inputs.dims(), test_targets.dims());
 
   auto optimizer = std::make_shared<SGD>(1e-3f);
-  auto provider = TrainingBlob(inputs.host<float>(), targets.host<float>(),
-                               inputs.dims(), targets.dims());
 
-  Network nn(provider, optimizer);
+  Network nn(training_provider, optimizer);
 
   auto fc1 = std::make_shared<FullyConnected>(20);
   nn.add(fc1);
@@ -34,15 +40,15 @@ int main(unsigned int argc, const char* argv[]) {
   auto loss = std::make_shared<SquaredLoss>();
   nn.add(loss);
 
+  af::array validation_loss = nn.test(test_provider, 10000);
+  std::cout << "loss: " << af::sum<float>(validation_loss) << std::endl;
 
-  while (true) {
-    for (int i = 0; i < 10000; i++) {
-      nn.train(provider, 16);
+  for (int epochs = 0; epochs < 10; epochs++) {
+    for (int i = 0; i < 1000; i++) {
+      nn.train(training_provider, 16);
     }
-    nn.test(provider, 10000);
-    auto realtargets = provider.current_batch_.targets;
-    auto predtargets = loss->output_;
-    std::cout << af::sum<float>(realtargets - predtargets) / 10000.f << std::endl;
+    validation_loss = nn.test(test_provider, 10000);
+    std::cout << "loss: " << af::sum<float>(validation_loss) << std::endl;
   }
 
   return 0;

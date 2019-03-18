@@ -1,15 +1,14 @@
 #include "squared_loss.hpp"
 
 namespace dtnn {
-  void SquaredLoss::error(Feed &f, af::array target) {
-    output_ = f.signal;
-    f.signal = -(target - f.signal);
+  af::array SquaredLoss::error(Feed &f, af::array target) {
+    return -(target - f.signal);
   }
-  float SquaredLoss::loss(af::array target) {
-    return af::sum<float>(0.5 * af::pow(target - output_, 2));
+  af::array SquaredLoss::loss(Feed &f, af::array target) {
+    return 0.5 * af::pow(target - f.signal, 2);
   }
-  void SquaredLoss::output(Feed &f) {
-    output_ = f.signal;
+  af::array SquaredLoss::output(Feed &f) {
+    return f.signal;
   }
   template<class Archive> void SquaredLoss::serialize(Archive & archive)
   {

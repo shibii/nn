@@ -24,8 +24,8 @@ namespace dtnn {
     void add(std::shared_ptr<WeightedStage> stage);
     void add(std::shared_ptr<LossFunction> loss);
     void train(TrainingProvider &provider, dim_t batchsize);
-    void test(TrainingProvider &provider, dim_t batchsize);
-    void predict(PredictionProvider &provider, dim_t batchsize);
+    af::array test(TrainingProvider &provider, dim_t batchsize);
+    af::array predict(PredictionProvider &provider, dim_t batchsize);
   private:
     std::vector<std::shared_ptr<PropagationStage>> stages_;
     std::shared_ptr<LossFunction> loss_;

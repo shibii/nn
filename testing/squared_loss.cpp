@@ -17,11 +17,11 @@ TEST_CASE("squared loss error", "[squared loss]") {
   dtnn::Feed f;
   f.signal = input;
   auto lf = dtnn::SquaredLoss();
-  lf.error(f, target);
+  af::array error = lf.error(f, target);
 
-  REQUIRE(util::isnumber(f.signal));
-  REQUIRE(util::samedim(f.signal, expected));
-  REQUIRE(util::approx(f.signal, expected));
+  REQUIRE(util::isnumber(error));
+  REQUIRE(util::samedim(error, expected));
+  REQUIRE(util::approx(error, expected));
 }
 
 TEST_CASE("squared loss serializes", "[squared loss]") {

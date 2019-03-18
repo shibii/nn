@@ -2,8 +2,7 @@
 
 namespace dtnn {
   Network::Network(SampleProvider &provider, std::shared_ptr<Optimizer> optimizer) {
-    auto sample = provider.batch(1).get_inputs();
-    inputdim_ = sample.dims();
+    inputdim_ = provider.input_dimensions();
     optimizer_ = optimizer;
   }
   void Network::add(std::shared_ptr<WeightlessStage> stage) {
@@ -28,29 +27,28 @@ namespace dtnn {
     for (auto stage : stages_) {
       stage->forward(feed);
     }
-    loss_->error(feed, batch.targets);
+    feed.signal = loss_->error(feed, batch.targets);
     for (auto stage = stages_.rbegin(); stage != stages_.rend(); stage++) {
       (*stage)->backward(feed);
     }
     optimizer_->optimize();
   }
-  void Network::test(TrainingProvider &provider, dim_t batchsize) {
+  af::array Network::test(TrainingProvider &provider, dim_t batchsize) {
     TrainingBatch batch = provider.batch(batchsize);
     Feed feed;
     feed.signal = batch.inputs;
     for (auto stage : stages_) {
       stage->forward(feed);
     }
-    loss_->output(feed);
-    //loss_->error(feed, batch.targets);
+    return loss_->loss(feed, batch.targets);
   }
-  void Network::predict(PredictionProvider &provider, dim_t batchsize) {
+  af::array Network::predict(PredictionProvider &provider, dim_t batchsize) {
     PredictionBatch batch = provider.batch(batchsize);
     Feed feed;
     feed.signal = batch.inputs;
     for (auto stage : stages_) {
       stage->forward(feed);
     }
-    loss_->output(feed);
+    return loss_->output(feed);
   }
 }

@@ -11,11 +11,10 @@ namespace dtnn {
   public:
     ~SquaredLoss() = default;
     SquaredLoss() = default;
-    void error(Feed &f, af::array target) override;
-    float loss(af::array target) override;
-    void output(Feed &f);
+    af::array error(Feed &f, af::array target) override;
+    af::array loss(Feed &f, af::array target) override;
+    af::array output(Feed &f);
     template<class Archive> void serialize(Archive & archive);
-    af::array output_;
   };
 }
 CEREAL_REGISTER_TYPE(dtnn::SquaredLoss);
