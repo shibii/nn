@@ -1,7 +1,6 @@
 #pragma once
 
 #include <arrayfire.h>
-#include <cereal/types/vector.hpp>
 
 namespace cereal {
   template <class Archive>

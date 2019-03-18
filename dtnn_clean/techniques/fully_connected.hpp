@@ -1,11 +1,12 @@
 #pragma once
 
+#include <memory>
 #include <arrayfire.h>
-#include <cereal/access.hpp>
 
-#include "../feed.hpp"
+#include "../serialization.hpp"
 #include "../weighted_stage.hpp"
-#include "../wb.hpp"
+#include "../feed.hpp"
+#include "../optimizable_weights.hpp"
 
 namespace dtnn {
   class FullyConnected : public WeightedStage {
@@ -16,11 +17,14 @@ namespace dtnn {
     void forward(Feed &f) override;
     void backward(Feed &f) override;
     std::shared_ptr<OptimizableWeights> init(Feed sample);
+    template<class Archive> void serialize(Archive & archive);
 
+  private:
     std::shared_ptr<OptimizableWeights> param_;
     dim_t units_;
-  private:
     af::dim4 inputdim_;
     af::array inputflat_;
   };
 }
+CEREAL_REGISTER_TYPE(dtnn::FullyConnected);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::FullyConnected);

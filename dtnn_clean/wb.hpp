@@ -1,6 +1,7 @@
 #pragma once
 
 #include <arrayfire.h>
+#include "serialization.hpp"
 
 namespace dtnn {
   class wb {
@@ -13,6 +14,11 @@ namespace dtnn {
     af::array w;
     af::array b;
   };
+
+  template<class Archive> void serialize(Archive & archive, wb & m)
+  {
+    archive(m.w, m.b);
+  }
 
   void operator+=(wb &lhs, const wb &rhs);
   void operator-=(wb &lhs, const wb &rhs);

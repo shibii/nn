@@ -1,17 +1,10 @@
 #pragma once
 
-#include <arrayfire.h>
-#include "wb.hpp"
+#include <memory>
+
 #include "optimizable_weights.hpp"
 
 namespace dtnn {
-  class OptimizerState {
-  public:
-    std::shared_ptr<wb> weights_;
-    std::shared_ptr<wb> gradient_;
-    std::shared_ptr<wb> state_;
-  };
-
   class Optimizer {
   public:
     Optimizer() = default;

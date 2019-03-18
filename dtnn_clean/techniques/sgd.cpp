@@ -1,5 +1,4 @@
 #include "sgd.hpp"
-#include <iostream>
 
 namespace dtnn {
   SGD::SGD(float learningrate) : learningrate_(learningrate) {
@@ -12,5 +11,9 @@ namespace dtnn {
   }
   void SGD::attach(std::shared_ptr<OptimizableWeights> param) {
     params_.push_back(param);
+  }
+  template<class Archive> void SGD::serialize(Archive & archive)
+  {
+    archive(learningrate_, params_);
   }
 }

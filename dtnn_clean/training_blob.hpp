@@ -1,5 +1,7 @@
 #pragma once
 
+#include <arrayfire.h>
+
 #include "training_provider.hpp"
 
 namespace dtnn {

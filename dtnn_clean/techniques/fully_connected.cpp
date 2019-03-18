@@ -38,4 +38,8 @@ namespace dtnn {
     param_ = std::make_shared<OptimizableWeights>(ow);
     return param_;
   }
+  template<class Archive> void FullyConnected::serialize(Archive & archive)
+  {
+    archive(param_, units_);
+  }
 }

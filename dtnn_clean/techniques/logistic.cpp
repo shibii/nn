@@ -8,4 +8,7 @@ namespace dtnn {
   void Logistic::backward(Feed &f) {
     f.signal = f.signal * (activation_ * (1.f - activation_));
   }
+  template<class Archive> void Logistic::serialize(Archive & archive)
+  {
+  }
 }

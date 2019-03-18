@@ -1,7 +1,10 @@
-#include "catch.hpp"
-#include <dtnn.hpp>
-#include "util.hpp"
 #include <sstream>
+#include "catch.hpp"
+
+#include "techniques/fully_connected.hpp"
+#include "feed.hpp"
+
+#include "util.hpp"
 
 TEST_CASE("fully connected", "[fully connected]") {
   float hweights[] = { 1, -1, 2, 1 };
@@ -55,8 +58,13 @@ TEST_CASE("fully connected", "[fully connected]") {
 TEST_CASE("fully connected serializes", "[fully connected]") {
   std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
   auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
-  auto af = std::make_shared<dtnn::FullyConnected>(dtnn::FullyConnected());
-  stages.push_back(af);
+  auto fc = std::make_shared<dtnn::FullyConnected>(dtnn::FullyConnected(2));
+
+  dtnn::Feed f;
+  f.signal = af::constant(0.f, af::dim4(2, 1, 1, 2));
+  fc->init(f);
+
+  stages.push_back(fc);
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);

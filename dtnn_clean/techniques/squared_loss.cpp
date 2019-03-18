@@ -11,4 +11,7 @@ namespace dtnn {
   void SquaredLoss::output(Feed &f) {
     output_ = f.signal;
   }
+  template<class Archive> void SquaredLoss::serialize(Archive & archive)
+  {
+  }
 }

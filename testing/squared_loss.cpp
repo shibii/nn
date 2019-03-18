@@ -1,7 +1,10 @@
-#include "catch.hpp"
-#include <dtnn.hpp>
-#include "util.hpp"
 #include <sstream>
+#include "catch.hpp"
+
+#include "techniques/squared_loss.hpp"
+#include "feed.hpp"
+
+#include "util.hpp"
 
 TEST_CASE("squared loss error", "[squared loss]") {
   float hostinput[] = { 1.f, 1.f, 2.f };

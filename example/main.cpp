@@ -1,5 +1,5 @@
-#include <dtnn.hpp>
 #include <ctime>
+#include <dtnn.hpp>
 
 int main(unsigned int argc, const char* argv[]) {
   using namespace dtnn;

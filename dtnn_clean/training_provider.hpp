@@ -1,6 +1,7 @@
 #pragma once
 
 #include <arrayfire.h>
+
 #include "sample_provider.hpp"
 
 namespace dtnn {

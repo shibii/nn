@@ -1,6 +1,5 @@
 #pragma once
 
-#include <arrayfire.h>
 #include "feed.hpp"
 
 namespace dtnn {

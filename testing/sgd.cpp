@@ -1,7 +1,9 @@
-#include "catch.hpp"
-#include <dtnn.hpp>
-#include "util.hpp"
 #include <sstream>
+#include "catch.hpp"
+
+#include "techniques/SGD.hpp"
+
+#include "util.hpp"
 
 TEST_CASE("sgd", "[sgd]") {
   float hw[] = { 2, 4, 3, -4 };
@@ -9,20 +11,15 @@ TEST_CASE("sgd", "[sgd]") {
   float hgw[] = { 1, 2, 3, -4 };
   float hgb[] = { -1, 2 };
 
-
-
-  dtnn::wb weights = {
+  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  ow->weights = {
     af::array(af::dim4(2, 2), hw),
     af::array(af::dim4(2), hb)
   };
-
-  dtnn::wb gradient = {
+  ow->gradient = {
     af::array(af::dim4(2, 2), hgw),
     af::array(af::dim4(2), hgb)
   };
-  auto ow = std::make_shared<dtnn::OptimizableWeights>();
-  ow->weights = weights;
-  ow->gradient = gradient;
 
   auto optimizer = dtnn::SGD(0.5f);
   optimizer.attach(ow);

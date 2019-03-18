@@ -1,12 +1,20 @@
 #pragma once
 
-#include "propagation_stage.hpp"
-#include "loss_function.hpp"
-#include "weighted_stage.hpp"
-#include "weightless_stage.hpp"
-#include "optimizer.hpp"
+#include <memory>
+#include <vector>
+#include <arrayfire.h>
+
+#include "sample_provider.hpp"
 #include "training_provider.hpp"
 #include "prediction_provider.hpp"
+
+#include "optimizer.hpp"
+
+#include "propagation_stage.hpp"
+#include "weighted_stage.hpp"
+#include "weightless_stage.hpp"
+
+#include "loss_function.hpp"
 
 namespace dtnn {
   class Network {

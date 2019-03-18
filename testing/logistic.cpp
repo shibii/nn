@@ -1,7 +1,10 @@
-#include "catch.hpp"
-#include <dtnn.hpp>
-#include "util.hpp"
 #include <sstream>
+#include "catch.hpp"
+
+#include "techniques/logistic.hpp"
+#include "feed.hpp"
+
+#include "util.hpp"
 
 TEST_CASE("logistic", "[logistic]") {
   float hostinput[] = { -1e+20f, -1.f, 0.f, 1.f, 1e+20f };

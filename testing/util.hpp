@@ -1,6 +1,7 @@
 #pragma once
 
 #include <arrayfire.h>
+
 namespace util {
   static bool samedim(af::array a, af::array b) {
     return a.dims() == b.dims();
