@@ -1,9 +1,9 @@
 #include "network.hpp"
 
 namespace dtnn {
-  Network::Network(SampleProvider &provider, std::shared_ptr<Optimizer> optimizer) {
-    inputdim_ = provider.input_dimensions();
-    optimizer_ = optimizer;
+  Network::Network(af::dim4 input_dimensions, std::shared_ptr<Optimizer> optimizer)
+    : optimizer_(optimizer), inputdim_(input_dimensions)
+  {
   }
   void Network::add(std::shared_ptr<WeightlessStage> stage) {
     stages_.push_back(stage);
@@ -20,8 +20,7 @@ namespace dtnn {
   void Network::add(std::shared_ptr<LossFunction> loss) {
     loss_ = loss;
   }
-  void Network::train(TrainingProvider &provider, dim_t batchsize) {
-    TrainingBatch batch = provider.batch(batchsize);
+  void Network::train(TrainingBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
     for (auto stage : stages_) {
@@ -33,8 +32,7 @@ namespace dtnn {
     }
     optimizer_->optimize();
   }
-  af::array Network::test(TrainingProvider &provider, dim_t batchsize) {
-    TrainingBatch batch = provider.batch(batchsize);
+  af::array Network::test(TrainingBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
     for (auto stage : stages_) {
@@ -42,8 +40,7 @@ namespace dtnn {
     }
     return loss_->loss(feed, batch.targets);
   }
-  af::array Network::predict(PredictionProvider &provider, dim_t batchsize) {
-    PredictionBatch batch = provider.batch(batchsize);
+  af::array Network::predict(PredictionBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
     for (auto stage : stages_) {

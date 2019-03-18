@@ -20,7 +20,7 @@ int main(unsigned int argc, const char* argv[]) {
 
   auto optimizer = std::make_shared<SGD>(1e-3f);
 
-  Network nn(training_provider, optimizer);
+  Network nn(training_provider.input_dimensions(), optimizer);
 
   auto fc1 = std::make_shared<FullyConnected>(20);
   nn.add(fc1);
@@ -40,14 +40,17 @@ int main(unsigned int argc, const char* argv[]) {
   auto loss = std::make_shared<SquaredLoss>();
   nn.add(loss);
 
-  af::array validation_loss = nn.test(test_provider, 10000);
+  auto test_batch = test_provider.batch(10000);
+  af::array validation_loss = nn.test(test_batch);
   std::cout << "loss: " << af::sum<float>(validation_loss) << std::endl;
 
   for (int epochs = 0; epochs < 10; epochs++) {
     for (int i = 0; i < 1000; i++) {
-      nn.train(training_provider, 16);
+      auto training_batch = training_provider.batch(16);
+      nn.train(training_batch);
     }
-    validation_loss = nn.test(test_provider, 10000);
+    test_batch = test_provider.batch(10000);
+    validation_loss = nn.test(test_batch);
     std::cout << "loss: " << af::sum<float>(validation_loss) << std::endl;
   }
 

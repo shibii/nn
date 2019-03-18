@@ -19,13 +19,13 @@
 namespace dtnn {
   class Network {
   public:
-    Network(SampleProvider &provider, std::shared_ptr<Optimizer> optimizer);
+    Network(af::dim4 input_dimensions, std::shared_ptr<Optimizer> optimizer);
     void add(std::shared_ptr<WeightlessStage> stage);
     void add(std::shared_ptr<WeightedStage> stage);
     void add(std::shared_ptr<LossFunction> loss);
-    void train(TrainingProvider &provider, dim_t batchsize);
-    af::array test(TrainingProvider &provider, dim_t batchsize);
-    af::array predict(PredictionProvider &provider, dim_t batchsize);
+    void train(TrainingBatch &batch);
+    af::array test(TrainingBatch &batch);
+    af::array predict(PredictionBatch &batch);
   private:
     std::vector<std::shared_ptr<PropagationStage>> stages_;
     std::shared_ptr<LossFunction> loss_;
