@@ -9,8 +9,9 @@ namespace dtnn {
   public:
     TrainingBlob(float* inputs, float* targets, af::dim4 inputdim, af::dim4 targetdim);
     TrainingBatch& batch(dim_t size) override;
-    TrainingBatch current_batch_;
+    af::dim4 input_dimensions() override;
   private:
+    TrainingBatch current_batch_;
     af::array inputs_;
     af::array targets_;
     dim_t location_;

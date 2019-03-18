@@ -6,7 +6,6 @@
 
 namespace dtnn {
   struct TrainingBatch : public Batch {
-    af::array get_inputs() override { return inputs; };
     af::array inputs;
     af::array targets;
   };
