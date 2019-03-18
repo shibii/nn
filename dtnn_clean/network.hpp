@@ -4,7 +4,6 @@
 #include <vector>
 #include <arrayfire.h>
 
-#include "sample_provider.hpp"
 #include "training_provider.hpp"
 #include "prediction_provider.hpp"
 

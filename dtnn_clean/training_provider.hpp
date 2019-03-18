@@ -2,16 +2,15 @@
 
 #include <arrayfire.h>
 
-#include "sample_provider.hpp"
-
 namespace dtnn {
-  struct TrainingBatch : public Batch {
+  struct TrainingBatch {
     af::array inputs;
     af::array targets;
   };
 
-  class TrainingProvider : public SampleProvider {
+  class TrainingProvider {
   public:
     virtual TrainingBatch& batch(dim_t size) = 0;
+    virtual af::dim4 input_dimensions() = 0;
   };
 }
