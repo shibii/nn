@@ -42,12 +42,12 @@ namespace dtnn {
     af::array output = loss_->output(feed);
     return TestingResult(output, batch.targets, loss);
   }
-  af::array Network::predict(PredictionBatch &batch) {
+  PredictionResult Network::predict(PredictionBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
     for (auto &stage : stages_) {
       stage->forward(feed);
     }
-    return loss_->output(feed);
+    return PredictionResult(loss_->output(feed));
   }
 }

@@ -16,6 +16,7 @@
 #include "loss_function.hpp"
 
 #include "testing_result.hpp"
+#include "prediction_result.hpp"
 
 namespace dtnn {
   class Network {
@@ -26,7 +27,7 @@ namespace dtnn {
     void add(std::shared_ptr<LossFunction> loss);
     void train(TrainingBatch &batch);
     TestingResult test(TrainingBatch &batch);
-    af::array predict(PredictionBatch &batch);
+    PredictionResult predict(PredictionBatch &batch);
   private:
     std::vector<std::shared_ptr<PropagationStage>> stages_;
     std::shared_ptr<LossFunction> loss_;
