@@ -4,6 +4,21 @@ namespace dtnn {
   TestingResult::TestingResult(af::array output, af::array target, af::array loss)
     : output_(output), target_(target), loss_(loss)
   {}
+  std::vector<float> TestingResult::output_raw() {
+    std::vector<float> raw(output_.elements());
+    output_.host(raw.data());
+    return raw;
+  }
+  std::vector<float> TestingResult::target_raw() {
+    std::vector<float> raw(target_.elements());
+    target_.host(raw.data());
+    return raw;
+  }
+  std::vector<float> TestingResult::loss_raw() {
+    std::vector<float> raw(loss_.elements());
+    loss_.host(raw.data());
+    return raw;
+  }
   float TestingResult::loss() {
     af::array metric = column_batch(loss_);
     metric = af::sum(metric, 0);
