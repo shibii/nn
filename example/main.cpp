@@ -40,18 +40,14 @@ int main(unsigned int argc, const char* argv[]) {
   auto loss = std::make_shared<SquaredLoss>();
   nn.add(loss);
 
-  auto test_batch = test_provider.batch(10000);
-  af::array validation_loss = nn.test(test_batch);
-  std::cout << "loss: " << af::sum<float>(validation_loss) << std::endl;
-
-  for (int epochs = 0; epochs < 10; epochs++) {
+  for (int epochs = 0; epochs < 25; epochs++) {
     for (int i = 0; i < 1000; i++) {
       auto training_batch = training_provider.batch(16);
       nn.train(training_batch);
     }
-    test_batch = test_provider.batch(10000);
-    validation_loss = nn.test(test_batch);
-    std::cout << "loss: " << af::sum<float>(validation_loss) << std::endl;
+    auto test_batch = test_provider.batch(10000);
+    auto result = nn.test(test_batch);
+    std::cout << "network loss: " << result.loss() << " rmse: " << result.rmse() << std::endl;
   }
 
   return 0;

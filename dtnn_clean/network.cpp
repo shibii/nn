@@ -32,13 +32,15 @@ namespace dtnn {
     }
     optimizer_->optimize();
   }
-  af::array Network::test(TrainingBatch &batch) {
+  TestingResult Network::test(TrainingBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
     for (auto &stage : stages_) {
       stage->forward(feed);
     }
-    return loss_->loss(feed, batch.targets);
+    af::array loss = loss_->loss(feed, batch.targets);
+    af::array output = loss_->output(feed);
+    return TestingResult(output, batch.targets, loss);
   }
   af::array Network::predict(PredictionBatch &batch) {
     Feed feed;
