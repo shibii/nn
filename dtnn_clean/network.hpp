@@ -3,24 +3,23 @@
 #include <memory>
 #include <vector>
 #include <arrayfire.h>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/memory.hpp>
 
 #include "training_provider.hpp"
 #include "prediction_provider.hpp"
-
 #include "optimizer.hpp"
-
 #include "propagation_stage.hpp"
 #include "weighted_stage.hpp"
 #include "weightless_stage.hpp"
-
 #include "loss_function.hpp"
-
 #include "testing_result.hpp"
 #include "prediction_result.hpp"
 
 namespace dtnn {
   class Network {
   public:
+    Network() = default;
     Network(af::dim4 input_dimensions, std::shared_ptr<Optimizer> optimizer);
     void add(std::shared_ptr<WeightlessStage> stage);
     void add(std::shared_ptr<WeightedStage> stage);
@@ -28,6 +27,10 @@ namespace dtnn {
     void train(TrainingBatch &batch);
     TestingResult test(TrainingBatch &batch);
     PredictionResult predict(PredictionBatch &batch);
+    template <class Archive> void serialize(Archive &ar) {
+      ar(stages_, loss_, optimizer_, inputdim_);
+    }
+
   private:
     std::vector<std::shared_ptr<PropagationStage>> stages_;
     std::shared_ptr<LossFunction> loss_;
