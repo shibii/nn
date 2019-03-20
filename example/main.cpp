@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ctime>
 #include <dtnn.hpp>
 
