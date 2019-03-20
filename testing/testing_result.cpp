@@ -19,7 +19,6 @@ TEST_CASE("testing result", "[testing result]") {
   REQUIRE(h_target == result.target_raw());
   REQUIRE(h_loss == result.loss_raw());
 
-  REQUIRE(result.loss() == 6.f);
-  float epsilon = 1e-4;
-  REQUIRE(abs(result.rmse() - 1.6985f) < epsilon);
+  REQUIRE(util::approx(result.loss(), 6.f));
+  REQUIRE(util::approx(result.rmse(), 1.6985f));
 }
