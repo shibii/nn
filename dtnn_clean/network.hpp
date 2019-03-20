@@ -6,6 +6,7 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/memory.hpp>
 
+#include "arrayfire_serialization.hpp"
 #include "training_provider.hpp"
 #include "prediction_provider.hpp"
 #include "optimizer.hpp"
