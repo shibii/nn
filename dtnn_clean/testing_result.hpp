@@ -11,6 +11,8 @@ namespace dtnn {
     std::vector<float> loss_raw();
     float loss();
     float rmse();
+    float accuracy();
+    float accuracy(float threshold);
 
   private:
     af::array column_batch(af::array &a);

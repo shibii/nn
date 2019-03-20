@@ -21,4 +21,17 @@ TEST_CASE("testing result", "[testing result]") {
 
   REQUIRE(util::approx(result.loss(), 6.f));
   REQUIRE(util::approx(result.rmse(), 1.6985f));
+
+  h_ouput = { .1f, .2, .6, .1, .3, .2, .3, .2, .7, .1, .1, .1 };
+  h_target = { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0 };
+  output = af::array(af::dim4(2, 2, 1, 3), h_ouput.data());
+  target = af::array(af::dim4(2, 2, 1, 3), h_target.data());
+  result = { output, target, loss };
+
+  REQUIRE(util::approx(0.6666f, result.accuracy()));
+
+  h_target = { 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 };
+  target = af::array(af::dim4(2, 2, 1, 3), h_target.data());
+  result = { output, target, loss };
+  REQUIRE(util::approx(.8333f, result.accuracy(0.3f)));
 }

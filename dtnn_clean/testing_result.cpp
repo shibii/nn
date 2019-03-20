@@ -32,6 +32,20 @@ namespace dtnn {
     metric = af::sqrt(metric);
     return af::mean<float>(metric);
   }
+  float TestingResult::accuracy() {
+    af::array output_column = column_batch(output_);
+    af::array target_column = column_batch(target_);
+    af::array output_max, output_maxIdx;
+    af::max(output_max, output_maxIdx, output_column, 0);
+    af::array target_max, target_maxIdx;
+    af::max(target_max, target_maxIdx, target_column, 0);
+    return af::sum<float>(output_maxIdx == target_maxIdx) / output_.dims(3);
+  }
+  float TestingResult::accuracy(float threshold) {
+    af::array over_threshold = output_ >= threshold;
+    af::array correct = over_threshold == target_;
+    return af::sum<float>(correct) / correct.elements();
+  }
   af::array TestingResult::column_batch(af::array &a) {
     af::dim4 column(a.dims(0) * a.dims(1) * a.dims(2), 1, 1, a.dims(3));
     return af::moddims(a, column);
