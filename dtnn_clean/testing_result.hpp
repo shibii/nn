@@ -15,8 +15,6 @@ namespace dtnn {
     float accuracy(float threshold);
 
   private:
-    af::array column_batch(af::array &a);
-
     af::array output_;
     af::array target_;
     af::array loss_;

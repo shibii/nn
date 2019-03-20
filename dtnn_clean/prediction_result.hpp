@@ -12,8 +12,6 @@ namespace dtnn {
     std::vector<float> output_raw();
 
   private:
-    af::array column_batch(af::array &a);
-
     af::array output_;
   };
 }

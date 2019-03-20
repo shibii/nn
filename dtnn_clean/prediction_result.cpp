@@ -1,4 +1,5 @@
 #include "prediction_result.hpp"
+#include "arrayfire_util.hpp"
 
 namespace dtnn {
   PredictionResult::PredictionResult(af::array output)
@@ -6,9 +7,7 @@ namespace dtnn {
   {
   }
   std::vector<float> PredictionResult::output_raw() {
-    std::vector<float> raw(output_.elements());
-    output_.host(raw.data());
-    return raw;
+    return util::vectorize(output_);
   }
   unsigned int PredictionResult::classify() {
     float value;
@@ -21,9 +20,5 @@ namespace dtnn {
     std::vector<uint8_t> raw(output_.elements());
     over_threshold.as(u8).host(raw.data());
     return raw;
-  }
-  af::array PredictionResult::column_batch(af::array &a) {
-    af::dim4 column(a.dims(0) * a.dims(1) * a.dims(2), 1, 1, a.dims(3));
-    return af::moddims(a, column);
   }
 }
