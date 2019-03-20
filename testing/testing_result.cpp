@@ -34,4 +34,11 @@ TEST_CASE("testing result", "[testing result]") {
   target = af::array(af::dim4(2, 2, 1, 3), h_target.data());
   result = { output, target, loss };
   REQUIRE(util::approx(.8333f, result.accuracy(0.3f)));
+
+  h_ouput = { .7, .8, .1, .6, .1, .4 };
+  h_target = { 1, 1, 1, 0, 0, 1 };
+  output = af::array(af::dim4(1, 6, 1, 1), h_ouput.data());
+  target = af::array(af::dim4(1, 6, 1, 1), h_target.data());
+  result = { output, target, loss };
+  REQUIRE(util::approx(.6666f, result.precision(0.5f)));
 }

@@ -27,6 +27,11 @@ namespace dtnn {
     metric = af::sqrt(metric);
     return af::mean<float>(metric);
   }
+  float TestingResult::precision(float threshold) {
+    af::array predicted_positive = output_ >= threshold;
+    af::array true_positive = predicted_positive * target_;
+    return af::sum<float>(true_positive) / af::sum<float>(predicted_positive);
+  }
   float TestingResult::accuracy() {
     af::array output_column = util::column_batch(output_);
     af::array target_column = util::column_batch(target_);

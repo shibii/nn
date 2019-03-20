@@ -11,6 +11,7 @@ namespace dtnn {
     std::vector<float> loss_raw();
     float loss();
     float rmse();
+    float precision(float threshold);
     float accuracy();
     float accuracy(float threshold);
 
