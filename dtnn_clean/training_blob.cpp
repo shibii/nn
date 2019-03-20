@@ -8,8 +8,8 @@ namespace dtnn {
   TrainingBatch& TrainingBlob::batch(dim_t size) {
     if (location_ + size >= inputs_.dims(3))
       location_ = 0;
-    current_batch_.inputs = inputs_(af::span, af::span, af::span, af::seq(location_, size-1));
-    current_batch_.targets = targets_(af::span, af::span, af::span, af::seq(location_, size-1));
+    current_batch_.inputs = inputs_(af::span, af::span, af::span, af::seq((double)location_, (double)size-1));
+    current_batch_.targets = targets_(af::span, af::span, af::span, af::seq((double)location_, (double)size-1));
     return current_batch_;
   }
   af::dim4 TrainingBlob::input_dimensions() {
