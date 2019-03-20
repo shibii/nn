@@ -6,9 +6,12 @@ namespace util {
   static bool samedim(af::array a, af::array b) {
     return a.dims() == b.dims();
   }
-  static bool approx(af::array a, af::array b, float sigma = 1e-3f) {
-    af::array err = af::abs(a - b) > sigma;
+  static bool approx(af::array a, af::array b, float epsilon = 1e-4f) {
+    af::array err = af::abs(a - b) > epsilon;
     return af::sum<int>(err) == 0;
+  }
+  static bool approx(float a,float b, float epsilon = 1e-4f) {
+    return abs(a - b) < epsilon;
   }
   static bool nonans(af::array a) {
     return af::sum<int>(af::isNaN(a)) == 0;
