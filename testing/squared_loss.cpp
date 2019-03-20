@@ -25,13 +25,12 @@ TEST_CASE("squared loss error", "[squared loss]") {
 }
 
 TEST_CASE("squared loss serializes", "[squared loss]") {
-  std::vector<std::shared_ptr<dtnn::LossFunction>> polymloss;
-  auto loss = std::make_shared<dtnn::SquaredLoss>(dtnn::SquaredLoss());
-  polymloss.push_back(loss);
+  std::shared_ptr<dtnn::LossFunction> loss;
+  loss = std::make_shared<dtnn::SquaredLoss>(dtnn::SquaredLoss());
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
-    oarchive(polymloss);
+    oarchive(loss);
   }
   std::string identifier("\"polymorphic_name\": \"dtnn::SquaredLoss\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);

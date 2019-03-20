@@ -2,8 +2,10 @@
 
 #include <memory>
 #include <arrayfire.h>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/types/memory.hpp>
 
-#include "../serialization.hpp"
+#include "../cereal_archives.hpp"
 #include "../weighted_stage.hpp"
 #include "../feed.hpp"
 #include "../optimizable_weights.hpp"
@@ -17,7 +19,7 @@ namespace dtnn {
     void forward(Feed &f) override;
     void backward(Feed &f) override;
     std::shared_ptr<OptimizableWeights> init(Feed sample);
-    template<class Archive> void serialize(Archive & archive);
+    template <class Archive> void serialize(Archive &ar);
 
   private:
     std::shared_ptr<OptimizableWeights> param_;
@@ -27,4 +29,4 @@ namespace dtnn {
   };
 }
 CEREAL_REGISTER_TYPE(dtnn::FullyConnected);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::FullyConnected);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::FullyConnected)

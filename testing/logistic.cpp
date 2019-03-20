@@ -1,6 +1,7 @@
 #include <sstream>
 #include "catch.hpp"
 
+#include <cereal/types/vector.hpp>
 #include "techniques/logistic.hpp"
 #include "feed.hpp"
 

@@ -12,8 +12,7 @@ namespace dtnn {
   void SGD::attach(std::shared_ptr<OptimizableWeights> param) {
     params_.push_back(param);
   }
-  template<class Archive> void SGD::serialize(Archive & archive)
-  {
-    archive(learningrate_, params_);
+  template <class Archive> void SGD::serialize(Archive &ar) {
+    ar(learningrate_, params_);
   }
 }

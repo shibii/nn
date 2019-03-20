@@ -10,7 +10,6 @@ namespace dtnn {
   af::array SquaredLoss::output(Feed &f) {
     return f.signal;
   }
-  template<class Archive> void SquaredLoss::serialize(Archive & archive)
-  {
+  template <class Archive> void SquaredLoss::serialize(Archive &ar) {
   }
 }

@@ -1,21 +1,22 @@
 #pragma once
 
 #include <arrayfire.h>
+#include <cereal/types/polymorphic.hpp>
 
-#include "../serialization.hpp"
+#include "../cereal_archives.hpp"
 #include "../loss_function.hpp"
 #include "../feed.hpp"
 
 namespace dtnn {
   class SquaredLoss : public LossFunction {
   public:
-    ~SquaredLoss() = default;
     SquaredLoss() = default;
+    ~SquaredLoss() = default;
     af::array error(Feed &f, af::array target) override;
     af::array loss(Feed &f, af::array target) override;
-    af::array output(Feed &f);
-    template<class Archive> void serialize(Archive & archive);
+    af::array output(Feed &f) override;
+    template <class Archive> void serialize(Archive &ar);
   };
 }
 CEREAL_REGISTER_TYPE(dtnn::SquaredLoss);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::LossFunction, dtnn::SquaredLoss);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::LossFunction, dtnn::SquaredLoss)

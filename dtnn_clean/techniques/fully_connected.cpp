@@ -11,7 +11,7 @@ namespace dtnn {
     inputflat_ = af::moddims(f.signal, flatdim);
     // weighted connections are calculated
     af::array output = af::matmul(param_->weights.w, inputflat_) +
-      af::tile(param_->weights.b, 1, flatdim[1]);
+      af::tile(param_->weights.b, 1, (unsigned int)flatdim[1]);
     // batch dimension is restored
     f.signal = af::moddims(output, output.dims(0), 1, 1, output.dims(1));
   }
@@ -32,14 +32,13 @@ namespace dtnn {
     af::dim4 indim = sample.signal.dims();
     dim_t elements = indim[0] * indim[1] * indim[2];
 
-    auto w = wb(af::dim4(units_, elements), units_, 3.6 / sqrtf(units_));
+    auto w = wb(af::dim4(units_, elements), units_, 3.6f / sqrtf((float)units_));
     auto g = wb(af::dim4(units_, elements), units_);
     OptimizableWeights ow = { w, g };
     param_ = std::make_shared<OptimizableWeights>(ow);
     return param_;
   }
-  template<class Archive> void FullyConnected::serialize(Archive & archive)
-  {
-    archive(param_, units_);
+  template <class Archive> void FullyConnected::serialize(Archive &ar) {
+    ar(param_, units_);
   }
 }
