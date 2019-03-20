@@ -23,21 +23,15 @@ namespace dtnn {
   void Network::train(TrainingBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
-    for (auto &stage : stages_) {
-      stage->forward(feed);
-    }
+    forward_stages(feed);
     feed.signal = loss_->error(feed, batch.targets);
-    for (auto stage = stages_.rbegin(); stage != stages_.rend(); stage++) {
-      (*stage)->backward(feed);
-    }
+    backward_stages(feed);
     optimizer_->optimize();
   }
   TestingResult Network::test(TrainingBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
-    for (auto &stage : stages_) {
-      stage->forward(feed);
-    }
+    forward_stages(feed);
     af::array loss = loss_->loss(feed, batch.targets);
     af::array output = loss_->output(feed);
     return TestingResult(output, batch.targets, loss);
@@ -45,9 +39,17 @@ namespace dtnn {
   PredictionResult Network::predict(PredictionBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
+    forward_stages(feed);
+    return PredictionResult(loss_->output(feed));
+  }
+  void Network::forward_stages(Feed &feed) {
     for (auto &stage : stages_) {
       stage->forward(feed);
     }
-    return PredictionResult(loss_->output(feed));
+  }
+  void Network::backward_stages(Feed &feed) {
+    for (auto stage = stages_.rbegin(); stage != stages_.rend(); stage++) {
+      (*stage)->backward(feed);
+    }
   }
 }

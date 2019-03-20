@@ -33,6 +33,9 @@ namespace dtnn {
     }
 
   private:
+    void forward_stages(Feed &feed);
+    void backward_stages(Feed &feed);
+
     std::vector<std::shared_ptr<PropagationStage>> stages_;
     std::shared_ptr<LossFunction> loss_;
     std::shared_ptr<Optimizer> optimizer_;
