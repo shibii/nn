@@ -58,3 +58,22 @@ TEST_CASE("convolutional", "[convolutional]") {
   REQUIRE(util::samedim(f.signal, expectederror));
   REQUIRE(util::approx(f.signal, expectederror));
 }
+
+TEST_CASE("convolutional serializes", "[convolutional]") {
+  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
+  auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
+  auto conv = std::make_shared<dtnn::Convolutional>(dtnn::Convolutional(2,2,1,1,1,1,8));
+
+  dtnn::Feed f;
+  f.signal = af::constant(0.f, af::dim4(2, 1, 1, 2));
+  conv->init(f);
+
+  stages.push_back(conv);
+  std::ostringstream ostream;
+  {
+    cereal::JSONOutputArchive oarchive(ostream);
+    oarchive(stages);
+  }
+  std::string identifier("\"polymorphic_name\": \"dtnn::Convolutional\"");
+  REQUIRE(ostream.str().find(identifier) != std::string::npos);
+}
