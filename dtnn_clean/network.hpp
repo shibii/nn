@@ -25,6 +25,8 @@ namespace dtnn {
     void add(std::shared_ptr<WeightlessStage> stage);
     void add(std::shared_ptr<WeightedStage> stage);
     void add(std::shared_ptr<LossFunction> loss);
+    void generate_gradient(TrainingBatch &batch);
+    void update_weights();
     void train(TrainingBatch &batch);
     TestingResult test(TrainingBatch &batch);
     PredictionResult predict(PredictionBatch &batch);

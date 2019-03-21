@@ -20,13 +20,19 @@ namespace dtnn {
   void Network::add(std::shared_ptr<LossFunction> loss) {
     loss_ = loss;
   }
-  void Network::train(TrainingBatch &batch) {
+  void Network::generate_gradient(TrainingBatch &batch) {
     Feed feed;
     feed.signal = batch.inputs;
     forward_stages(feed);
     feed.signal = loss_->error(feed, batch.targets);
     backward_stages(feed);
+  }
+  void Network::update_weights() {
     optimizer_->optimize();
+  }
+  void Network::train(TrainingBatch &batch) {
+    generate_gradient(batch);
+    update_weights();
   }
   TestingResult Network::test(TrainingBatch &batch) {
     Feed feed;
