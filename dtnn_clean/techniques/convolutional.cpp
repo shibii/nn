@@ -24,8 +24,8 @@ namespace dtnn {
     // convolution result modified such that spatial,
     // channel and batch dimensions are correct
     convolutiondim_ = convolution.dims();
-    dim_t windows0 = 1 + (inputdim_[0] + pad0_ - size0_) / stride0_;
-    dim_t windows1 = 1 + (inputdim_[1] + pad1_ - size1_) / stride1_;
+    dim_t windows0 = 1 + (inputdim_[0] + 2 * pad0_ - size0_) / stride0_;
+    dim_t windows1 = 1 + (inputdim_[1] + 2 * pad1_ - size1_) / stride1_;
     af::dim4 outdim{ windows0 , windows1 , inputdim_[3] , features_ };
     convolution = af::moddims(convolution, outdim);
     f.signal = af::reorder(convolution, 0, 1, 3, 2);
