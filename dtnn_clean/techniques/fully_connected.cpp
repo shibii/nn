@@ -32,8 +32,8 @@ namespace dtnn {
     af::dim4 indim = sample.signal.dims();
     dim_t elements = indim[0] * indim[1] * indim[2];
 
-    auto w = wb(af::dim4(units_, elements), units_, 3.6f / sqrtf((float)units_));
-    auto g = wb(af::dim4(units_, elements), units_);
+    auto w = wb(af::dim4(units_, elements), af::dim4(units_), 3.6f / sqrtf((float)units_));
+    auto g = wb(af::dim4(units_, elements), af::dim4(units_));
     OptimizableWeights ow = { w, g };
     param_ = std::make_shared<OptimizableWeights>(ow);
     return param_;
