@@ -18,7 +18,7 @@ namespace dtnn {
     Convolutional(dim_t size0, dim_t size1, dim_t stride0, dim_t stride1, dim_t pad0, dim_t pad1, dim_t features);
     void forward(Feed &f) override;
     void backward(Feed &f) override;
-    std::shared_ptr<OptimizableWeights> init(Feed sample);
+    std::shared_ptr<OptimizableWeights> init(af::dim4 input) override;
     template <class Archive> void serialize(Archive &ar);
 
   private:

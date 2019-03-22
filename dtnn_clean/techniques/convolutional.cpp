@@ -44,8 +44,7 @@ namespace dtnn {
     error = af::reorder(error, 0, 2, 1, 3);
     f.signal = af::wrap(error, inputdim_[0], inputdim_[1], size0_, size1_, stride0_, stride1_, pad0_, pad1_);
   }
-  std::shared_ptr<OptimizableWeights> Convolutional::init(Feed sample) {
-    af::dim4 indim = sample.signal.dims();
+  std::shared_ptr<OptimizableWeights> Convolutional::init(af::dim4 input) {
     af::dim4 kerneldim = {size0_ * size1_, features_};
     auto w = wb(kerneldim, af::dim4(1, features_), 3.6f / sqrtf((float)(size0_ * size1_)));
     auto g = wb(kerneldim, af::dim4(1, features_));

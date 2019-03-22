@@ -28,10 +28,8 @@ namespace dtnn {
     // error shape is modified to match the input received in forward pass
     f.signal = af::moddims(output, inputdim_);
   }
-  std::shared_ptr<OptimizableWeights> FullyConnected::init(Feed sample) {
-    af::dim4 indim = sample.signal.dims();
-    dim_t elements = indim[0] * indim[1] * indim[2];
-
+  std::shared_ptr<OptimizableWeights> FullyConnected::init(af::dim4 input) {
+    dim_t elements = input[0] * input[1] * input[2];
     auto w = wb(af::dim4(units_, elements), af::dim4(units_), 3.6f / sqrtf((float)units_));
     auto g = wb(af::dim4(units_, elements), af::dim4(units_));
     OptimizableWeights ow = { w, g };

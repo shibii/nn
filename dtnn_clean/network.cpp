@@ -14,7 +14,7 @@ namespace dtnn {
     for (auto &stage : stages_) {
       stage->forward(feed);
     }
-    optimizer_->attach(stage->init(feed));
+    optimizer_->attach(stage->init(feed.signal.dims()));
     stages_.push_back(stage);
   }
   void Network::add(std::shared_ptr<LossFunction> loss) {

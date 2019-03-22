@@ -17,7 +17,7 @@ TEST_CASE("convolutional", "[convolutional]") {
   f.signal = af::array(af::dim4(3, 3, 2, 3), hinput);
 
   auto conv = dtnn::Convolutional(2, 2, 1, 1, 0, 0, 2);
-  auto param = conv.init(f);
+  auto param = conv.init(f.signal.dims());
   param->weights = {
     af::array(af::dim4(8, 2), hweights),
     af::array(af::dim4(1, 2), hbias)
@@ -66,7 +66,7 @@ TEST_CASE("convolutional serializes", "[convolutional]") {
 
   dtnn::Feed f;
   f.signal = af::constant(0.f, af::dim4(2, 1, 1, 2));
-  conv->init(f);
+  conv->init(f.signal.dims());
 
   stages.push_back(conv);
   std::ostringstream ostream;

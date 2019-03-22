@@ -18,7 +18,7 @@ namespace dtnn {
     FullyConnected(dim_t units);
     void forward(Feed &f) override;
     void backward(Feed &f) override;
-    std::shared_ptr<OptimizableWeights> init(Feed sample);
+    std::shared_ptr<OptimizableWeights> init(af::dim4 input) override;
     template <class Archive> void serialize(Archive &ar);
 
   private:

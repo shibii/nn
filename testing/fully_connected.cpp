@@ -15,7 +15,7 @@ TEST_CASE("fully connected", "[fully connected]") {
   f.signal = af::array(af::dim4(2, 1, 1, 2), hinput);
 
   auto fc = dtnn::FullyConnected(2);
-  auto param = fc.init(f);
+  auto param = fc.init(f.signal.dims());
   param->weights = {
     af::array(af::dim4(2, 2), hweights),
     af::array(af::dim4(2), hbias)
@@ -62,7 +62,7 @@ TEST_CASE("fully connected serializes", "[fully connected]") {
 
   dtnn::Feed f;
   f.signal = af::constant(0.f, af::dim4(2, 1, 1, 2));
-  fc->init(f);
+  fc->init(f.signal.dims());
 
   stages.push_back(fc);
   std::ostringstream ostream;
