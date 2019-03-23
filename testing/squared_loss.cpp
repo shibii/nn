@@ -7,21 +7,24 @@
 #include "util.hpp"
 
 TEST_CASE("squared loss error", "[squared loss]") {
-  float hostinput[] = { 1.f, 1.f, 2.f };
-  float hosttarget[] = { 1.f, 2.f, -1.f };
-  float hostexpected[] = { 0.f, -1.f, 3.f };
-  af::array input = af::array(af::dim4(3), hostinput);
-  af::array target = af::array(af::dim4(3), hosttarget);
-  af::array expected = af::array(af::dim4(3), hostexpected);
+  float h_input[] = { 500, 0, -100 };
+  float h_target[] = { 455, -100, 100 };
+  float h_output[] = { 500, 0, -100 };
+  float h_error[] = { 45, 100, -200 };
+  float h_loss[] = { 1012.5, 5000, 20000 };
+  af::array input = af::array(af::dim4(3), h_input);
+  af::array target = af::array(af::dim4(3), h_target);
+  af::array output = af::array(af::dim4(3), h_output);
+  af::array error = af::array(af::dim4(3), h_error);
+  af::array loss = af::array(af::dim4(3), h_loss);
 
   dtnn::Feed f;
   f.signal = input;
   auto lf = dtnn::SquaredLoss();
-  af::array error = lf.error(f, target);
 
-  REQUIRE(util::isnumber(error));
-  REQUIRE(util::samedim(error, expected));
-  REQUIRE(util::approx(error, expected));
+  REQUIRE(util::approx(output, lf.output(f)));
+  REQUIRE(util::approx(error, lf.error(f, target)));
+  REQUIRE(util::approx(loss, lf.loss(f, target)));
 }
 
 TEST_CASE("squared loss serializes", "[squared loss]") {
