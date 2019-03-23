@@ -7,16 +7,17 @@
 #include "util.hpp"
 
 TEST_CASE("softmax cross entropy", "[softmax cross entropy]") {
-  float h_input[] = { 1.f, -1.f, .1f };
-  float h_target[] = { 1.f, 0.f, 0.f };
-  float h_output[] = { .6486f, .0878f, .2637f };
-  float h_error[] = { -.3515f, .0878f, .2637f };
-  float h_loss[] = { .4330f, 0.f, 0.f };
-  af::array input = af::array(af::dim4(3), h_input);
-  af::array target = af::array(af::dim4(3), h_target);
-  af::array output = af::array(af::dim4(3), h_output);
-  af::array error = af::array(af::dim4(3), h_error);
-  af::array loss = af::array(af::dim4(3), h_loss);
+
+  float h_input[] = { -1e+20f, -1.f, 0.f, 1.f, 1e+20f, 1e+20f};
+  float h_target[] = { 0, 0, 0, 1, 0, 0 };
+  float h_output[] = { 0, 0, 0, 0, .5, .5 };
+  float h_error[] = { 0, 0, 0, -1, .5, .5 };
+  float h_loss[] = { 0, 0, 0, 1e+20f, 0, 0 };
+  af::array input = af::array(af::dim4(6), h_input);
+  af::array target = af::array(af::dim4(6), h_target);
+  af::array output = af::array(af::dim4(6), h_output);
+  af::array error = af::array(af::dim4(6), h_error);
+  af::array loss = af::array(af::dim4(6), h_loss);
 
   dtnn::Feed f;
   f.signal = input;
