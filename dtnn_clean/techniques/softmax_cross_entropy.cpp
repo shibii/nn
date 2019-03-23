@@ -17,7 +17,7 @@ namespace dtnn {
   }
   template <class Archive> void SoftmaxCrossEntropy::serialize(Archive &ar) {
   }
-  af::array SoftmaxCrossEntropy::softmax(af::array &input) {
+  af::array SoftmaxCrossEntropy::softmax(const af::array &input) {
     // output values are shifted to avoid overflow
     af::array max = af::tile(af::max(input), (unsigned int)input.dims(0));
     af::array exp = af::exp(input - max);

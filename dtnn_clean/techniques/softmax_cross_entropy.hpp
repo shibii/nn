@@ -17,7 +17,7 @@ namespace dtnn {
     af::array output(Feed &f) override;
     template <class Archive> void serialize(Archive &ar);
   private:
-    af::array softmax(af::array &input);
+    af::array softmax(const af::array &input);
   };
 }
 CEREAL_REGISTER_TYPE(dtnn::SoftmaxCrossEntropy);
