@@ -5,10 +5,8 @@ namespace dtnn {
     return -(target - logistic(f.signal));
   }
   af::array LogisticCrossEntropy::loss(Feed &f, af::array target) {
-    af::array lhs = 1.f / (1.f + af::exp(-f.signal));
-    af::array rhs = af::exp(-f.signal) / (1.f + af::exp(-f.signal));
-    af::replace(rhs, !af::isNaN(rhs), 1.f);
-    return target * lhs + !target * rhs;
+    af::array clamped = af::clamp(f.signal, 0.f, af::Inf);
+    return clamped - f.signal * target + af::log(1.f + af::exp(-af::abs(f.signal)));
   }
   af::array LogisticCrossEntropy::output(Feed &f) {
     return logistic(f.signal);

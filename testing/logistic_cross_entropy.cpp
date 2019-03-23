@@ -11,7 +11,7 @@ TEST_CASE("logistic cross entropy", "[logistic cross entropy]") {
   float h_target[] = { 1.f, 1.f, 1.f, 1.f, 1.f, 0.f, 0.f, 0.f , 0.f , 0.f };
   float h_output[] = { 0, .2689, .5, .7311, 1, 0, .2689, .5, .7311, 1 };
   float h_error[] = { -1, -.7311, -.5, -.2690, 0, 0, .2689, .5, .7311, 1 };
-  float h_loss[] = { 0, .2689, .5, .7311, 1, 1, .7311, 0.5, .2689, 0 };
+  float h_loss[] = { 1e+20f, 1.3133f, .6931, .3133, 0, 0, 0.3133, .6931, 1.3133, 1e+20f };
   af::array input = af::array(af::dim4(10), h_input);
   af::array target = af::array(af::dim4(10), h_target);
   af::array output = af::array(af::dim4(10), h_output);
