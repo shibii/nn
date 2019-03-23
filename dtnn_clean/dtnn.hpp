@@ -13,4 +13,5 @@
 #include "techniques/leaky_relu.hpp"
 #include "techniques/squared_loss.hpp"
 #include "techniques/softmax_cross_entropy.hpp"
+#include "techniques/logistic_cross_entropy.hpp"
 #include "techniques/sgd.hpp"
