@@ -15,3 +15,4 @@
 #include "techniques/softmax_cross_entropy.hpp"
 #include "techniques/logistic_cross_entropy.hpp"
 #include "techniques/sgd.hpp"
+#include "techniques/momentum.hpp"
