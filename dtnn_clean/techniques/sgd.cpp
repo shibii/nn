@@ -4,7 +4,7 @@ namespace dtnn {
   SGD::SGD(float learningrate) : learningrate_(learningrate) {
   }
   void SGD::optimize() {
-    for (auto param : params_) {
+    for (auto &param : params_) {
       param->weights -= learningrate_ * param->gradient;
       param->gradient.zero();
     }
