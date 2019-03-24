@@ -3,7 +3,6 @@
 #include "catch.hpp"
 
 #include "testing_result.hpp"
-
 #include "util.hpp"
 
 TEST_CASE("testing result", "[testing result]") {
@@ -30,15 +29,15 @@ TEST_CASE("testing result", "[testing result]") {
 
   REQUIRE(util::approx(0.6666f, result.accuracy()));
 
-  h_target = { 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 };
+  h_ouput = { .7, .2, .6, .1, .3, .7, .8, .2, .7, .1, .7, .6 };
+  h_target = { 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0 };
+  output = af::array(af::dim4(2, 2, 1, 3), h_ouput.data());
   target = af::array(af::dim4(2, 2, 1, 3), h_target.data());
   result = { output, target, loss };
-  REQUIRE(util::approx(.8333f, result.accuracy(0.3f)));
 
-  h_ouput = { .7, .8, .1, .6, .1, .4 };
-  h_target = { 1, 1, 1, 0, 0, 1 };
-  output = af::array(af::dim4(1, 6, 1, 1), h_ouput.data());
-  target = af::array(af::dim4(1, 6, 1, 1), h_target.data());
-  result = { output, target, loss };
-  REQUIRE(util::approx(.6666f, result.precision(0.5f)));
+  REQUIRE(util::approx(.7143f, result.precision(0.6f)));
+  REQUIRE(util::approx(.8333f, result.recall(0.6f)));
+  REQUIRE(util::approx(.7692f, result.f1(0.6f)));
+  REQUIRE(util::approx(.75f, result.accuracy(0.6f)));
+  REQUIRE(util::approx(.6667f, result.specificity(0.6f)));
 }

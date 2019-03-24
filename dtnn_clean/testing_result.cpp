@@ -28,9 +28,45 @@ namespace dtnn {
     return af::mean<float>(metric);
   }
   float TestingResult::precision(float threshold) {
-    af::array predicted_positive = output_ >= threshold;
-    af::array true_positive = predicted_positive * target_;
-    return af::sum<float>(true_positive) / af::sum<float>(predicted_positive);
+    float tp = true_positive(threshold);
+    float fp = false_positive(threshold);
+    return tp / (tp + fp);
+  }
+  float TestingResult::recall(float threshold) {
+    float tp = true_positive(threshold);
+    float fn = false_negative(threshold);
+    return tp / (tp + fn);
+  }
+  float TestingResult::f1(float threshold) {
+    float p = precision(threshold);
+    float r = recall(threshold);
+    return (2 * p * r) / (p + r);
+  }
+  float TestingResult::specificity(float threshold) {
+    float tn = true_negative(threshold);
+    float fp = false_positive(threshold);
+    return tn / (tn + fp);
+  }
+  float TestingResult::accuracy(float threshold) {
+    af::array over_threshold = output_ >= threshold;
+    af::array correct = over_threshold == target_;
+    return af::count<float>(correct) / correct.elements();
+  }
+  float TestingResult::true_positive(float threshold) {
+    af::array positive = output_ >= threshold;
+    return af::count<float>(positive * target_);
+  }
+  float TestingResult::true_negative(float threshold) {
+    af::array positive = output_ >= threshold;
+    return af::count<float>(!positive * !target_);
+  }
+  float TestingResult::false_positive(float threshold) {
+    af::array positive = output_ >= threshold;
+    return af::count<float>(positive * !target_);
+  }
+  float TestingResult::false_negative(float threshold) {
+    af::array positive = output_ >= threshold;
+    return af::count<float>(!positive * target_);
   }
   float TestingResult::accuracy() {
     af::array output_column = util::column_batch(output_);
@@ -39,11 +75,6 @@ namespace dtnn {
     af::max(output_max, output_maxIdx, output_column, 0);
     af::array target_max, target_maxIdx;
     af::max(target_max, target_maxIdx, target_column, 0);
-    return af::sum<float>(output_maxIdx == target_maxIdx) / output_.dims(3);
-  }
-  float TestingResult::accuracy(float threshold) {
-    af::array over_threshold = output_ >= threshold;
-    af::array correct = over_threshold == target_;
-    return af::sum<float>(correct) / correct.elements();
+    return af::mean<float>(output_maxIdx == target_maxIdx);
   }
 }
