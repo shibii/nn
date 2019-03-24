@@ -20,7 +20,7 @@ namespace dtnn {
     inputflat_ = af::moddims(reorderinput, flatdim);
     // performing convolution
     af::array convolution = af::matmulTN(inputflat_, param_->weights.w);
-    convolution += af::tile(param_->weights.b, convolution.dims(0));
+    convolution += af::tile(param_->weights.b, (unsigned int)convolution.dims(0));
     // convolution result modified such that spatial,
     // channel and batch dimensions are correct
     convolutiondim_ = convolution.dims();
@@ -46,7 +46,7 @@ namespace dtnn {
   }
   std::shared_ptr<OptimizableWeights> Convolutional::init(af::dim4 input) {
     af::dim4 kerneldim = {size0_ * size1_ * input[2], features_};
-    auto w = wb(kerneldim, af::dim4(1, features_), 3.6f / sqrtf((float)(size0_ * size1_)));
+    auto w = wb(kerneldim, af::dim4(1, features_), 3.6f / sqrtf((float)(size0_ * size1_ * input[2])));
     auto g = wb(kerneldim, af::dim4(1, features_));
     OptimizableWeights ow = { w, g };
     param_ = std::make_shared<OptimizableWeights>(ow);

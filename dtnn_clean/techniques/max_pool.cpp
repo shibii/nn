@@ -32,7 +32,7 @@ namespace dtnn {
     mask(linear) = 1.f;
     // error is tiled back to the dimensions of seperate window
     // columns and non-max values are masked out
-    error = af::tile(error, unwrapdim_[0]) * mask;
+    error = af::tile(error, (unsigned int)unwrapdim_[0]) * mask;
     // error is wrapped back to the shape originally received in forward pass
     f.signal = af::wrap(error, inputdim_[0], inputdim_[1], size0_, size1_, stride0_, stride1_, pad0_, pad1_);
   }
