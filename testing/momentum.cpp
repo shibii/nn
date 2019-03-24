@@ -68,7 +68,6 @@ TEST_CASE("momentum serializes", "[momentum]") {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(optimizer);
   }
-  std::cout << ostream.str();
   std::string identifier("\"polymorphic_name\": \"dtnn::Momentum\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }
