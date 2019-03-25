@@ -21,13 +21,39 @@ TEST_CASE("testing result", "[testing result]") {
   REQUIRE(util::approx(result.loss(), 6.f));
   REQUIRE(util::approx(result.rmse(), 1.6985f));
 
-  h_ouput = { .1f, .2, .6, .1, .3, .2, .3, .2, .7, .1, .1, .1 };
-  h_target = { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0 };
-  output = af::array(af::dim4(2, 2, 1, 3), h_ouput.data());
-  target = af::array(af::dim4(2, 2, 1, 3), h_target.data());
+  h_ouput = { .3f, .1f, .1f, .2f,
+    .7f, .6f, .1f, .1f,
+    .6f, .7f, .6f, .1f,
+    .1f, .2f, .1f, .0f,
+    .0f, .7f, .8f, .1f,
+    .1f, .2f, .3f, .0f};
+  h_target = { 1.f,0.f,0.f,0.f,
+    0.f,1.f,0.f,0.f,
+    0.f,1.f,0.f,0.f,
+    1.f,0.f,0.f,0.f,
+    0.f,0.f,0.f,1.f,
+    1.f,0.f,0.f,0.f };
+  output = af::array(af::dim4(2, 2, 1, 6), h_ouput.data());
+  target = af::array(af::dim4(2, 2, 1, 6), h_target.data());
   result = { output, target, loss };
 
-  REQUIRE(util::approx(0.6666f, result.accuracy()));
+  REQUIRE(util::approx(0.3333f, result.accuracy()));
+
+
+  h_ouput = { .3f, .1f, .1f, .2f };
+  h_target = { 1.f,0.f,0.f,0.f };
+  output = af::array(af::dim4(2, 2, 1, 1), h_ouput.data());
+  target = af::array(af::dim4(2, 2, 1, 1), h_target.data());
+  result = { output, target, loss };
+  REQUIRE(util::approx(1.f, result.accuracy()));
+
+
+  h_ouput = { .7f, .6f, .1f, .1f };
+  h_target = { 0.f,1.f,0.f,0.f };
+  output = af::array(af::dim4(2, 2, 1, 1), h_ouput.data());
+  target = af::array(af::dim4(2, 2, 1, 1), h_target.data());
+  result = { output, target, loss };
+  REQUIRE(util::approx(0.f, result.accuracy()));
 
   h_ouput = { .7, .2, .6, .1, .3, .7, .8, .2, .7, .1, .7, .6 };
   h_target = { 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0 };
