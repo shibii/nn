@@ -11,9 +11,7 @@ namespace dtnn {
   void Network::add(std::shared_ptr<WeightedStage> stage) {
     Feed feed;
     feed.signal = af::constant(0.f, inputdim_);
-    for (auto &stage : stages_) {
-      stage->forward(feed);
-    }
+    forward_stages(feed);
     optimizer_->attach(stage->init(feed.signal.dims()));
     stages_.push_back(stage);
   }
