@@ -46,7 +46,7 @@ namespace dtnn {
   }
   std::shared_ptr<OptimizableWeights> Convolutional::init(af::dim4 input) {
     af::dim4 kerneldim = {size0_ * size1_ * input[2], features_};
-    auto w = wb(kerneldim, af::dim4(1, features_), 3.6f / sqrtf((float)(size0_ * size1_ * input[2])));
+    auto w = wb(kerneldim, af::dim4(1, features_), sqrtf(2.f / (float)(size0_ * size1_ * input[2])));
     auto g = wb(kerneldim, af::dim4(1, features_));
     OptimizableWeights ow = { w, g };
     param_ = std::make_shared<OptimizableWeights>(ow);
