@@ -15,6 +15,9 @@ namespace dtnn {
     w = af::constant(0.f, w.dims());
     b = af::constant(0.f, b.dims());
   }
+  wb wb::pow(int p) {
+    return { af::pow(w, p) , af::pow(b, p) };
+  }
   void operator+=(wb& lhs, const wb& rhs) {
     lhs.w = lhs.w + rhs.w;
     lhs.b = lhs.b + rhs.b;
