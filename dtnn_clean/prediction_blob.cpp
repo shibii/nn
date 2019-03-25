@@ -4,10 +4,12 @@ namespace dtnn {
   PredictionBlob::PredictionBlob(float* inputs, af::dim4 inputdim) : location_(0) {
     inputs_ = af::array(inputdim, inputs);
   }
-  PredictionBatch& PredictionBlob::batch(dim_t size) {
-    if (location_ + size >= inputs_.dims(3))
-      location_ = 0;
-    current_batch_.inputs = inputs_(af::span, af::span, af::span, af::seq((double)location_, (double)size - 1));
+  const PredictionBatch& PredictionBlob::batch(dim_t size) {
+    if (location_ + size > inputs_.dims(3)) location_ = 0;
+
+    auto range = af::seq(location_, location_ + size - 1);
+    current_batch_.inputs = inputs_(af::span, af::span, af::span, range);
+    location_ += size;
     return current_batch_;
   }
   af::dim4 PredictionBlob::input_dimensions() {
