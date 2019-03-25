@@ -54,19 +54,19 @@ namespace dtnn {
   }
   float TestingResult::true_positive(float threshold) {
     af::array positive = output_ >= threshold;
-    return af::count<float>(positive * target_);
+    return af::count<float>(positive && target_);
   }
   float TestingResult::true_negative(float threshold) {
     af::array positive = output_ >= threshold;
-    return af::count<float>(!positive * !target_);
+    return af::count<float>(!positive && !target_);
   }
   float TestingResult::false_positive(float threshold) {
     af::array positive = output_ >= threshold;
-    return af::count<float>(positive * !target_);
+    return af::count<float>(positive && !target_);
   }
   float TestingResult::false_negative(float threshold) {
     af::array positive = output_ >= threshold;
-    return af::count<float>(!positive * target_);
+    return af::count<float>(!positive && target_);
   }
   float TestingResult::accuracy() {
     af::array output_column = util::column_batch(output_);
