@@ -7,6 +7,7 @@
 #include "techniques/fully_connected.hpp"
 #include "techniques/convolutional.hpp"
 #include "techniques/max_pool.hpp"
+#include "techniques/dropout.hpp"
 #include "techniques/logistic.hpp"
 #include "techniques/tanh.hpp"
 #include "techniques/relu.hpp"
@@ -16,3 +17,5 @@
 #include "techniques/logistic_cross_entropy.hpp"
 #include "techniques/sgd.hpp"
 #include "techniques/momentum.hpp"
+#include "techniques/rmsprop.hpp"
+#include "techniques/adam.hpp"
