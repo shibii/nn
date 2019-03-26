@@ -17,7 +17,7 @@ namespace dtnn {
       input = input(af::span, af::span, af::span, indices);
       target = target(af::span, af::span, af::span, indices);
     }
-    static af::array replace_zeroes(const af::array &a, float r = 1e-6f) {
+    static af::array unzero(const af::array &a, float r = 1e-6f) {
       return a + (a == 0.f) * r;
     }
     static std::vector<float> vectorize(const af::array &a) {
