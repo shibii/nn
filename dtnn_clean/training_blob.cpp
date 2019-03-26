@@ -24,4 +24,7 @@ namespace dtnn {
   af::dim4 TrainingBlob::input_dimensions() {
     return af::dim4(inputs_.dims(0), inputs_.dims(1), inputs_.dims(2), 1);
   }
+  dim_t TrainingBlob::samples() {
+    return inputs_.dims(3);
+  }
 }

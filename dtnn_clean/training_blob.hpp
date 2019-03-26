@@ -11,6 +11,7 @@ namespace dtnn {
     TrainingBlob(float* inputs, float* targets, af::dim4 inputdim, af::dim4 targetdim);
     const TrainingBatch& batch(dim_t size) override;
     af::dim4 input_dimensions() override;
+    dim_t samples();
   private:
     TrainingBatch current_batch_;
     af::array inputs_;
