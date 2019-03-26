@@ -16,12 +16,8 @@ namespace dtnn {
 
       wb mhat = state.m / (1.f - decay1T_);
       wb vhat = state.v / (1.f - decay2T_);
-      wb rootvhat = {
-        af::sqrt(util::replace_zeroes(vhat.w)),
-        af::sqrt(util::replace_zeroes(vhat.b))
-      };
 
-      state.param->weights -= learningrate_ * mhat / (rootvhat);
+      state.param->weights -= learningrate_ * mhat / vhat.sqrt();
       state.param->gradient.zero();
     }
   }

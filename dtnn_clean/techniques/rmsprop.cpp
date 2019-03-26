@@ -11,11 +11,7 @@ namespace dtnn {
       state.rms = (1.f - decay_) * state.rms
         + decay_ * state.param->gradient.pow(2);
 
-      af::array rootw = af::sqrt(util::replace_zeroes(state.rms.w));
-      af::array rootb = af::sqrt(util::replace_zeroes(state.rms.b));
-      wb root = { rootw, rootb };
-
-      state.param->weights -= learningrate_ * (state.param->gradient / root);
+      state.param->weights -= learningrate_ * (state.param->gradient / state.rms.sqrt());
       state.param->gradient.zero();
     }
   }
