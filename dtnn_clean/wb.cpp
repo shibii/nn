@@ -1,4 +1,5 @@
 #include "wb.hpp"
+#include "arrayfire_util.hpp"
 
 namespace dtnn {
   wb::wb(af::array w, af::array b) : w(w), b(b) {
@@ -17,6 +18,9 @@ namespace dtnn {
   }
   wb wb::pow(int p) {
     return { af::pow(w, p) , af::pow(b, p) };
+  }
+  wb wb::sqrt() {
+    return { af::sqrt(util::unzero(w)), af::sqrt(util::unzero(b)) };
   }
   void operator+=(wb& lhs, const wb& rhs) {
     lhs.w = lhs.w + rhs.w;
