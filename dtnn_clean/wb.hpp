@@ -12,8 +12,8 @@ namespace dtnn {
     wb(af::dim4 wdim, af::dim4 bdim);
     wb(af::dim4 wdim, af::dim4 bdim, float sigma);
     void zero();
-    wb pow(int p);
-    wb sqrt();
+    wb pow(int p) const;
+    wb sqrt() const;
     template <class Archive> void serialize(Archive &ar) { ar(w, b); }
 
     af::array w;

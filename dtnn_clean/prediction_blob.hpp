@@ -9,7 +9,7 @@ namespace dtnn {
   public:
     PredictionBlob(float* inputs, af::dim4 inputdim);
     const PredictionBatch& batch(dim_t size) override;
-    af::dim4 input_dimensions() override;
+    af::dim4 input_dimensions() const override;
   private:
     PredictionBatch current_batch_;
     af::array inputs_;

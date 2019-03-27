@@ -21,10 +21,10 @@ namespace dtnn {
     location_ += size;
     return current_batch_;
   }
-  af::dim4 TrainingBlob::input_dimensions() {
+  af::dim4 TrainingBlob::input_dimensions() const {
     return af::dim4(inputs_.dims(0), inputs_.dims(1), inputs_.dims(2), 1);
   }
-  dim_t TrainingBlob::samples() {
+  dim_t TrainingBlob::samples() const {
     return inputs_.dims(3);
   }
 }

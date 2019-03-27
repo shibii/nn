@@ -11,6 +11,6 @@ namespace dtnn {
   class TrainingProvider {
   public:
     virtual const TrainingBatch& batch(dim_t size) = 0;
-    virtual af::dim4 input_dimensions() = 0;
+    virtual af::dim4 input_dimensions() const = 0;
   };
 }

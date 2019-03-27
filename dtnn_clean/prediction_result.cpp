@@ -6,16 +6,16 @@ namespace dtnn {
     : output_(output)
   {
   }
-  std::vector<float> PredictionResult::output_raw() {
+  std::vector<float> PredictionResult::output_raw() const {
     return util::vectorize(output_);
   }
-  unsigned int PredictionResult::classify() {
+  unsigned int PredictionResult::classify() const {
     float value;
     unsigned index;
     af::max(&value, &index, output_);
     return index;
   }
-  std::vector<uint8_t> PredictionResult::classify(float threshold) {
+  std::vector<uint8_t> PredictionResult::classify(float threshold) const {
     auto over_threshold = output_ >= threshold;
     std::vector<uint8_t> raw(output_.elements());
     over_threshold.as(u8).host(raw.data());

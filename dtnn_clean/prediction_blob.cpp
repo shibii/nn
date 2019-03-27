@@ -12,7 +12,7 @@ namespace dtnn {
     location_ += size;
     return current_batch_;
   }
-  af::dim4 PredictionBlob::input_dimensions() {
+  af::dim4 PredictionBlob::input_dimensions() const {
     return { inputs_.dims(0), inputs_.dims(1), inputs_.dims(2) };
   }
 }

@@ -10,6 +10,6 @@ namespace dtnn {
   class PredictionProvider {
   public:
     virtual const PredictionBatch& batch(dim_t size) = 0;
-    virtual af::dim4 input_dimensions() = 0;
+    virtual af::dim4 input_dimensions() const = 0;
   };
 }

@@ -12,12 +12,12 @@ namespace dtnn {
   public:
     SoftmaxCrossEntropy() = default;
     ~SoftmaxCrossEntropy() = default;
-    af::array error(Feed &f, af::array target) override;
-    af::array loss(Feed &f, af::array target) override;
-    af::array output(Feed &f) override;
+    af::array error(Feed &f, af::array target) const override;
+    af::array loss(Feed &f, af::array target) const override;
+    af::array output(Feed &f) const override;
     template <class Archive> void serialize(Archive &ar);
   private:
-    af::array softmax(const af::array &input);
+    af::array softmax(const af::array &input) const;
   };
 }
 CEREAL_REGISTER_TYPE(dtnn::SoftmaxCrossEntropy);

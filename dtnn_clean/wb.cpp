@@ -16,10 +16,10 @@ namespace dtnn {
     w = af::constant(0.f, w.dims());
     b = af::constant(0.f, b.dims());
   }
-  wb wb::pow(int p) {
+  wb wb::pow(int p) const {
     return { af::pow(w, p) , af::pow(b, p) };
   }
-  wb wb::sqrt() {
+  wb wb::sqrt() const {
     return { af::sqrt(util::unzero(w)), af::sqrt(util::unzero(b)) };
   }
   void operator+=(wb& lhs, const wb& rhs) {

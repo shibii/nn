@@ -10,8 +10,8 @@ namespace dtnn {
     TrainingBlob(af::array inputs, af::array targets);
     TrainingBlob(float* inputs, float* targets, af::dim4 inputdim, af::dim4 targetdim);
     const TrainingBatch& batch(dim_t size) override;
-    af::dim4 input_dimensions() override;
-    dim_t samples();
+    af::dim4 input_dimensions() const override;
+    dim_t samples() const;
   private:
     TrainingBatch current_batch_;
     af::array inputs_;
