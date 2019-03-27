@@ -1,4 +1,5 @@
 #include "max_pool.hpp"
+#include "../arrayfire_util.hpp"
 
 namespace dtnn {
   MaxPool::MaxPool(dim_t size0, dim_t size1, dim_t stride0, dim_t stride1, dim_t pad0, dim_t pad1)
@@ -32,7 +33,7 @@ namespace dtnn {
     mask(linear) = 1.f;
     // error is tiled back to the dimensions of seperate window
     // columns and non-max values are masked out
-    error = af::tile(error, (unsigned int)unwrapdim_[0]) * mask;
+    error = af::batchFunc(error, mask, util::mul);
     // error is wrapped back to the shape originally received in forward pass
     f.signal = af::wrap(error, inputdim_[0], inputdim_[1], size0_, size1_, stride0_, stride1_, pad0_, pad1_);
   }

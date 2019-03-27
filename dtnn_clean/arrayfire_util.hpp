@@ -25,5 +25,17 @@ namespace dtnn {
       a.host(vec.data());
       return vec;
     }
+    static af::array add(const af::array &lhs, const af::array &rhs) {
+      return lhs + rhs;
+    }
+    static af::array sub(const af::array &lhs, const af::array &rhs) {
+      return lhs - rhs;
+    }
+    static af::array div(const af::array &lhs, const af::array &rhs) {
+      return lhs / rhs;
+    }
+    static af::array mul(const af::array &lhs, const af::array &rhs) {
+      return lhs * rhs;
+    }
   }
 }

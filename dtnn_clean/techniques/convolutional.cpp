@@ -1,4 +1,5 @@
 #include "convolutional.hpp"
+#include "../arrayfire_util.hpp"
 
 namespace dtnn {
   Convolutional::Convolutional(dim_t size0, dim_t size1, dim_t stride0, dim_t stride1, dim_t pad0, dim_t pad1, dim_t features)
@@ -20,7 +21,8 @@ namespace dtnn {
     inputflat_ = af::moddims(reorderinput, flatdim);
     // performing convolution
     af::array convolution = af::matmulTN(inputflat_, param_->weights.w);
-    convolution += af::tile(param_->weights.b, (unsigned int)convolution.dims(0));
+    convolution = af::batchFunc(convolution, param_->weights.b, util::add);
+
     // convolution result modified such that spatial,
     // channel and batch dimensions are correct
     convolutiondim_ = convolution.dims();

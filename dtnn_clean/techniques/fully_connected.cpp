@@ -1,4 +1,5 @@
 #include "fully_connected.hpp"
+#include "../arrayfire_util.hpp"
 
 namespace dtnn {
   FullyConnected::FullyConnected(dim_t units) : units_(units)
@@ -10,8 +11,9 @@ namespace dtnn {
     af::dim4 flatdim(inputdim_[0] * inputdim_[1] * inputdim_[2], inputdim_[3]);
     inputflat_ = af::moddims(f.signal, flatdim);
     // weighted connections are calculated
-    af::array output = af::matmul(param_->weights.w, inputflat_) +
-      af::tile(param_->weights.b, 1, (unsigned int)flatdim[1]);
+    af::array output = af::matmul(param_->weights.w, inputflat_);
+    output = af::batchFunc(output, param_->weights.b, util::add);
+
     // batch dimension is restored
     f.signal = af::moddims(output, output.dims(0), 1, 1, output.dims(1));
   }

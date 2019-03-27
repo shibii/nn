@@ -1,4 +1,5 @@
 #include "softmax_cross_entropy.hpp"
+#include "../arrayfire_util.hpp"
 
 namespace dtnn {
   af::array SoftmaxCrossEntropy::error(Feed &f, af::array target) {
@@ -6,10 +7,11 @@ namespace dtnn {
   }
   af::array SoftmaxCrossEntropy::loss(Feed &f, af::array target) {
     // the shifted values are also used to calculate the log of softmax
-    af::array max = af::tile(af::max(f.signal), (unsigned int)f.signal.dims(0));
-    af::array exp = af::exp(f.signal - max);
-    af::array expsum = af::tile(af::sum(exp), (unsigned int)f.signal.dims(0));
-    af::array logsoftmax = f.signal - (max + af::log(expsum));
+    af::array max = af::max(f.signal);
+    af::array shifted_input = af::batchFunc(f.signal, max, util::sub);
+    af::array expsum = af::sum(af::exp(shifted_input));
+    af::array logsoftmax = af::batchFunc(max, af::log(expsum), util::add);
+    logsoftmax = af::batchFunc(f.signal, logsoftmax, util::sub);
     return -(target * logsoftmax);
   }
   af::array SoftmaxCrossEntropy::output(Feed &f) {
@@ -19,9 +21,9 @@ namespace dtnn {
   }
   af::array SoftmaxCrossEntropy::softmax(const af::array &input) {
     // output values are shifted to avoid overflow
-    af::array max = af::tile(af::max(input), (unsigned int)input.dims(0));
-    af::array exp = af::exp(input - max);
-    af::array expsum = af::tile(af::sum(exp), (unsigned int)input.dims(0));
-    return exp / expsum;
+    af::array max = af::max(input);
+    af::array exp = af::exp(af::batchFunc(input, max, util::sub));
+    af::array expsum = af::sum(exp);
+    return af::batchFunc(exp, expsum, util::div);
   }
 }
