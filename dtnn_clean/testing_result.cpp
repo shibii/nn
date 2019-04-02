@@ -71,10 +71,9 @@ namespace dtnn {
   float TestingResult::accuracy() const {
     af::array output_column = util::column_batch(output_);
     af::array target_column = util::column_batch(target_);
-    af::array output_max, output_maxIdx;
-    af::max(output_max, output_maxIdx, output_column, 0);
-    af::array target_max, target_maxIdx;
-    af::max(target_max, target_maxIdx, target_column, 0);
-    return af::mean<float>(output_maxIdx == target_maxIdx);
+    af::array values, outputIdx, targetIdx;
+    af::max(values, outputIdx, output_column, 0);
+    af::max(values, targetIdx, target_column, 0);
+    return af::mean<float>(outputIdx == targetIdx);
   }
 }
