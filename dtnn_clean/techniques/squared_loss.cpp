@@ -5,7 +5,7 @@ namespace dtnn {
     return -(target - f.signal);
   }
   af::array SquaredLoss::loss(Feed &f, af::array target) const {
-    return 0.5 * af::pow(target - f.signal, 2);
+    return .5f * (target - f.signal)*(target - f.signal);
   }
   af::array SquaredLoss::output(Feed &f) const {
     return f.signal;
