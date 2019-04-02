@@ -19,7 +19,7 @@ namespace util {
   static bool noinfs(af::array a) {
     return af::sum<int>(af::isInf(a)) == 0;
   }
-  static float isnumber(af::array a) {
-    return noinfs(a) || nonans(a);
+  static bool isnumber(af::array a) {
+    return noinfs(a) && nonans(a);
   }
 }
