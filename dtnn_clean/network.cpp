@@ -2,7 +2,7 @@
 
 namespace dtnn {
   Network::Network(af::dim4 input_dimensions, std::shared_ptr<Optimizer> optimizer)
-    : optimizer_(optimizer), inputdim_(input_dimensions)
+    : inputdim_(input_dimensions), optimizer_(optimizer)
   {
   }
   void Network::add(std::shared_ptr<WeightlessStage> stage) {
