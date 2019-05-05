@@ -13,8 +13,8 @@ namespace dtnn {
     b = af::constant(0.f, bdim);
   }
   void wb::zero() {
-    w = af::constant(0.f, w.dims());
-    b = af::constant(0.f, b.dims());
+    w = 0.f;
+    b = 0.f;
   }
   wb wb::pow(int p) const {
     return { af::pow(w, p) , af::pow(b, p) };
