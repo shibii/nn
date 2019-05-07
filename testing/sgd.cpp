@@ -23,7 +23,7 @@ TEST_CASE("sgd", "[sgd]") {
 
   auto optimizer = dtnn::SGD(0.5f);
   optimizer.attach(ow);
-  optimizer.optimize();
+  optimizer.optimize(1);
 
   float hexpectedw[] = { 1.5, 3, 1.5, -2 };
   float hexpectedb[] = { 1.5, 1 };

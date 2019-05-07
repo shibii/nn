@@ -6,12 +6,14 @@ namespace dtnn {
     : learningrate_(learningrate), decay_(decay)
   {
   }
-  void RMSprop::optimize() {
+  void RMSprop::optimize(unsigned int batch_size) {
     for (auto &state : states_) {
-      state.rms = (1.f - decay_) * state.rms
-        + decay_ * state.param->gradient.pow(2);
+      auto avg_gradient = state.param->gradient / batch_size;
 
-      state.param->weights -= learningrate_ * (state.param->gradient / state.rms.sqrt());
+      state.rms = (1.f - decay_) * state.rms
+        + decay_ * avg_gradient.pow(2);
+
+      state.param->weights -= learningrate_ * (avg_gradient / state.rms.sqrt());
       state.param->gradient.zero();
     }
   }

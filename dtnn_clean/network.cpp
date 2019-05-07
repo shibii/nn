@@ -2,7 +2,7 @@
 
 namespace dtnn {
   Network::Network(af::dim4 input_dimensions, std::shared_ptr<Optimizer> optimizer)
-    : inputdim_(input_dimensions), optimizer_(optimizer)
+    : inputdim_(input_dimensions), optimizer_(optimizer), batch_samples_(0)
   {
   }
   void Network::add(std::shared_ptr<WeightlessStage> stage) {
@@ -24,9 +24,11 @@ namespace dtnn {
     forward_stages(feed);
     feed.signal = loss_->error(feed, batch.targets);
     backward_stages(feed);
+    batch_samples_ += feed.signal.dims(3);
   }
   void Network::update_weights() {
-    optimizer_->optimize();
+    optimizer_->optimize(batch_samples_);
+    batch_samples_ = 0;
   }
   void Network::train(TrainingBatch &batch) {
     generate_gradient(batch);

@@ -16,7 +16,7 @@ namespace dtnn {
     Momentum() = default;
     ~Momentum() = default;
     Momentum(float learningrate, float decay = 0.1f);
-    void optimize() override;
+    void optimize(unsigned int batch_size) override;
     void attach(std::shared_ptr<OptimizableWeights> param) override;
     template <class Archive> void serialize(Archive &ar);
 

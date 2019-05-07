@@ -42,5 +42,6 @@ namespace dtnn {
     std::shared_ptr<LossFunction> loss_;
     std::shared_ptr<Optimizer> optimizer_;
     af::dim4 inputdim_;
+    unsigned int batch_samples_;
   };
 }

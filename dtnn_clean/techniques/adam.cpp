@@ -6,13 +6,15 @@ namespace dtnn {
     : learningrate_(learningrate), decay1_(decay1), decay2_(decay2)
   {
   }
-  void Adam::optimize() {
+  void Adam::optimize(unsigned int batch_size) {
     decay1T_ *= decay1_;
     decay2T_ *= decay2_;
 
     for (auto &state : states_) {
-      state.m = decay1_ * state.m + (1.f - decay1_) * state.param->gradient;
-      state.v = decay2_ * state.v + (1.f - decay2_) * state.param->gradient.pow(2);
+      auto avg_gradient = state.param->gradient / batch_size;
+
+      state.m = decay1_ * state.m + (1.f - decay1_) * avg_gradient;
+      state.v = decay2_ * state.v + (1.f - decay2_) * avg_gradient.pow(2);
 
       wb mhat = state.m / (1.f - decay1T_);
       wb vhat = state.v / (1.f - decay2T_);

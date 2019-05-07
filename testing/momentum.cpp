@@ -23,7 +23,7 @@ TEST_CASE("momentum", "[momentum]") {
 
   auto optimizer = dtnn::Momentum(0.5f, 0.1f);
   optimizer.attach(ow);
-  optimizer.optimize();
+  optimizer.optimize(1);
 
   float h_w1[] = { 1.5, 3, 1.5, -2 };
   float h_b1[] = { 1.5, 1 };
@@ -42,7 +42,7 @@ TEST_CASE("momentum", "[momentum]") {
     af::array(af::dim4(2, 2), hgw),
     af::array(af::dim4(2), hgb)
   };
-  optimizer.optimize();
+  optimizer.optimize(1);
 
   REQUIRE(util::approx(ow->weights.w, w2));
   REQUIRE(util::approx(ow->weights.b, b2));
