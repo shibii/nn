@@ -19,3 +19,5 @@
 #include "techniques/momentum.hpp"
 #include "techniques/rmsprop.hpp"
 #include "techniques/adam.hpp"
+#include "techniques/adagrad.hpp"
+#include "serializer.hpp"
