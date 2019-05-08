@@ -8,8 +8,8 @@
 TEST_CASE("sgd", "[sgd]") {
   float hw[] = { 2, 4, 3, -4 };
   float hb[] = { 1, 2 };
-  float hgw[] = { 1, 2, 3, -4 };
-  float hgb[] = { -1, 2 };
+  float hgw[] = { 10, 20, 30, -40 };
+  float hgb[] = { -10, 20 };
 
   auto ow = std::make_shared<dtnn::OptimizableWeights>();
   ow->weights = {
@@ -23,7 +23,7 @@ TEST_CASE("sgd", "[sgd]") {
 
   auto optimizer = dtnn::SGD(0.5f);
   optimizer.attach(ow);
-  optimizer.optimize(1);
+  optimizer.optimize(10);
 
   float hexpectedw[] = { 1.5, 3, 1.5, -2 };
   float hexpectedb[] = { 1.5, 1 };
