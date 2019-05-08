@@ -8,7 +8,7 @@ namespace dtnn {
   }
   void Adagrad::optimize(unsigned int batch_size) {
     for (auto &state : states_) {
-      auto avg_gradient = state.param->gradient / batch_size;
+      auto avg_gradient = state.param->gradient / (float)batch_size;
       state.sum_of_squared_grad += avg_gradient.pow(2);
       state.param->weights -= learningrate_ * avg_gradient / state.sum_of_squared_grad.sqrt();
       state.param->gradient.zero();

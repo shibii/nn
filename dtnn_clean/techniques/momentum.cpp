@@ -8,7 +8,7 @@ namespace dtnn {
   void Momentum::optimize(unsigned int batch_size) {
     for (auto &state : states_) {
       state.velocities = (1.f - decay_) * state.velocities
-        + learningrate_ * state.param->gradient / batch_size;
+        + learningrate_ * state.param->gradient / (float)batch_size;
       state.param->weights -= state.velocities;
       state.param->gradient.zero();
     }

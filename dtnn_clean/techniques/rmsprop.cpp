@@ -8,7 +8,7 @@ namespace dtnn {
   }
   void RMSprop::optimize(unsigned int batch_size) {
     for (auto &state : states_) {
-      auto avg_gradient = state.param->gradient / batch_size;
+      auto avg_gradient = state.param->gradient / (float)batch_size;
 
       state.rms = (1.f - decay_) * state.rms
         + decay_ * avg_gradient.pow(2);
