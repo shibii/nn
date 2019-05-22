@@ -6,6 +6,7 @@
 #include <cereal/types/memory.hpp>
 #include <cereal/types/vector.hpp>
 
+#include "../hyperparameters.hpp"
 #include "../cereal_archives.hpp"
 #include "../optimizer.hpp"
 #include "../optimizable_weights.hpp"
@@ -15,12 +16,10 @@ namespace dtnn {
   public:
     SGD() = default;
     ~SGD() = default;
-    SGD(float learningrate);
-    void optimize(unsigned int batch_size) override;
+    void optimize(Hyperparameters hp) override;
     void attach(std::shared_ptr<OptimizableWeights> param) override;
     template <class Archive> void serialize(Archive &ar);
 
-    float learningrate_;
     std::vector<std::shared_ptr<OptimizableWeights>> params_;
   };
 }

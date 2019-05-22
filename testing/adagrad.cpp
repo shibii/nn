@@ -21,9 +21,12 @@ TEST_CASE("adagrad", "[adagrad]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::Adagrad(0.5f);
+  auto optimizer = dtnn::Adagrad();
   optimizer.attach(ow);
-  optimizer.optimize(10);
+  dtnn::Hyperparameters hp;
+  hp.batch_size = 10;
+  hp.learningrate = 0.5f;
+  optimizer.optimize(hp);
 
   float h_w1[] = { 1.5, 3.5, 3.5, -3.5 };
   float h_b1[] = { 0.5, 1.5 };
@@ -43,7 +46,7 @@ TEST_CASE("adagrad", "[adagrad]") {
   af::array w2 = af::array(af::dim4(2, 2), h_w2);
   af::array b2 = af::array(af::dim4(2), h_b2);
 
-  optimizer.optimize(10);
+  optimizer.optimize(hp);
 
   REQUIRE(util::approx(ow->weights.w, w2));
   REQUIRE(util::approx(ow->weights.b, b2));
@@ -51,7 +54,7 @@ TEST_CASE("adagrad", "[adagrad]") {
 
 TEST_CASE("adagrad serializes", "[adagrad]") {
   std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::Adagrad>(1.f);
+  optimizer = std::make_shared<dtnn::Adagrad>();
 
   auto ow = std::make_shared<dtnn::OptimizableWeights>();
   ow->weights = {

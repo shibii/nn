@@ -21,9 +21,12 @@ TEST_CASE("adam", "[adam]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::Adam(0.5f, 0.8f, 0.9f);
+  auto optimizer = dtnn::Adam(0.8f, 0.9f);
   optimizer.attach(ow);
-  optimizer.optimize(10);
+  dtnn::Hyperparameters hp;
+  hp.batch_size = 10;
+  hp.learningrate = 0.5f;
+  optimizer.optimize(hp);
 
   float h_w1[] = { 1.5, 3.5, 3.5, -3.5 };
   float h_b1[] = { 0.5, 1.5 };
@@ -43,7 +46,7 @@ TEST_CASE("adam", "[adam]") {
   af::array w2 = af::array(af::dim4(2, 2), h_w2);
   af::array b2 = af::array(af::dim4(2), h_b2);
 
-  optimizer.optimize(10);
+  optimizer.optimize(hp);
 
   REQUIRE(util::approx(ow->weights.w, w2));
   REQUIRE(util::approx(ow->weights.b, b2));
@@ -51,7 +54,7 @@ TEST_CASE("adam", "[adam]") {
 
 TEST_CASE("adam serializes", "[adam]") {
   std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::Adam>(1.f);
+  optimizer = std::make_shared<dtnn::Adam>();
 
   auto ow = std::make_shared<dtnn::OptimizableWeights>();
   ow->weights = {

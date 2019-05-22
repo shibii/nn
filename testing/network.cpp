@@ -7,7 +7,7 @@
 
 TEST_CASE("network serializes", "[network]") {
   using namespace dtnn;
-  auto optimizer = std::make_shared<SGD>(1e-3f);
+  auto optimizer = std::make_shared<SGD>();
   Network nn(af::dim4(1), optimizer);
   auto fc1 = std::make_shared<FullyConnected>(20);
   nn.add(fc1);

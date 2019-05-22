@@ -21,9 +21,12 @@ TEST_CASE("momentum", "[momentum]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::Momentum(0.5f, 0.1f);
+  auto optimizer = dtnn::Momentum(0.1f);
   optimizer.attach(ow);
-  optimizer.optimize(10);
+  dtnn::Hyperparameters hp;
+  hp.batch_size = 10;
+  hp.learningrate = 0.5f;
+  optimizer.optimize(hp);
 
   float h_w1[] = { 1.5, 3, 1.5, -2 };
   float h_b1[] = { 1.5, 1 };
@@ -42,7 +45,7 @@ TEST_CASE("momentum", "[momentum]") {
     af::array(af::dim4(2, 2), hgw),
     af::array(af::dim4(2), hgb)
   };
-  optimizer.optimize(10);
+  optimizer.optimize(hp);
 
   REQUIRE(util::approx(ow->weights.w, w2));
   REQUIRE(util::approx(ow->weights.b, b2));
@@ -50,7 +53,7 @@ TEST_CASE("momentum", "[momentum]") {
 
 TEST_CASE("momentum serializes", "[momentum]") {
   std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::Momentum>(1.f, 0.5f);
+  optimizer = std::make_shared<dtnn::Momentum>();
 
   auto ow = std::make_shared<dtnn::OptimizableWeights>();
   ow->weights = {

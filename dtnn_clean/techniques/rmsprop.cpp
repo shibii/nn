@@ -2,18 +2,20 @@
 #include "../arrayfire_util.hpp"
 
 namespace dtnn {
-  RMSprop::RMSprop(float learningrate, float decay)
-    : learningrate_(learningrate), decay_(decay)
+  RMSprop::RMSprop(float decay)
+    : decay_(decay)
   {
   }
-  void RMSprop::optimize(unsigned int batch_size) {
+  void RMSprop::optimize(Hyperparameters hp) {
     for (auto &state : states_) {
-      auto avg_gradient = state.param->gradient / (float)batch_size;
+      auto decay_term = state.param->weights.w * hp.weight_decay;
+      auto avg_gradient = state.param->gradient / (float)hp.batch_size;
 
       state.rms = (1.f - decay_) * state.rms
         + decay_ * avg_gradient.pow(2);
 
-      state.param->weights -= learningrate_ * (avg_gradient / state.rms.sqrt());
+      state.param->weights -= hp.learningrate * (avg_gradient / state.rms.sqrt());
+      state.param->weights.w -= decay_term;
       state.param->gradient.zero();
     }
   }
@@ -25,6 +27,6 @@ namespace dtnn {
     states_.push_back(state);
   }
   template <class Archive> void RMSprop::serialize(Archive &ar) {
-    ar(learningrate_, decay_, states_);
+    ar(decay_, states_);
   }
 }

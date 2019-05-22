@@ -1,15 +1,17 @@
 #include "momentum.hpp"
 
 namespace dtnn {
-  Momentum::Momentum(float learningrate, float decay)
-    : learningrate_(learningrate), decay_(decay)
+  Momentum::Momentum(float decay)
+    : decay_(decay)
   {
   }
-  void Momentum::optimize(unsigned int batch_size) {
+  void Momentum::optimize(Hyperparameters hp) {
     for (auto &state : states_) {
+      auto decay_term = state.param->weights.w * hp.weight_decay;
       state.velocities = (1.f - decay_) * state.velocities
-        + learningrate_ * state.param->gradient / (float)batch_size;
+        + hp.learningrate * state.param->gradient / (float)hp.batch_size;
       state.param->weights -= state.velocities;
+      state.param->weights.w -= decay_term;
       state.param->gradient.zero();
     }
   }
@@ -21,6 +23,6 @@ namespace dtnn {
     states_.push_back(state);
   }
   template <class Archive> void Momentum::serialize(Archive &ar) {
-    ar(learningrate_, decay_, states_);
+    ar(decay_, states_);
   }
 }

@@ -2,15 +2,13 @@
 #include "../arrayfire_util.hpp"
 
 namespace dtnn {
-  Adagrad::Adagrad(float learningrate)
-    : learningrate_(learningrate)
-  {
-  }
-  void Adagrad::optimize(unsigned int batch_size) {
+  void Adagrad::optimize(Hyperparameters hp) {
     for (auto &state : states_) {
-      auto avg_gradient = state.param->gradient / (float)batch_size;
+      auto decay_term = state.param->weights.w * hp.weight_decay;
+      auto avg_gradient = state.param->gradient / (float)hp.batch_size;
       state.sum_of_squared_grad += avg_gradient.pow(2);
-      state.param->weights -= learningrate_ * avg_gradient / state.sum_of_squared_grad.sqrt();
+      state.param->weights -= hp.learningrate * avg_gradient / state.sum_of_squared_grad.sqrt();
+      state.param->weights.w -= decay_term;
       state.param->gradient.zero();
     }
   }
@@ -22,6 +20,6 @@ namespace dtnn {
     states_.push_back(state);
   }
   template <class Archive> void Adagrad::serialize(Archive &ar) {
-    ar(learningrate_, states_);
+    ar(states_);
   }
 }

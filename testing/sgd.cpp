@@ -21,9 +21,12 @@ TEST_CASE("sgd", "[sgd]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::SGD(0.5f);
+  auto optimizer = dtnn::SGD();
   optimizer.attach(ow);
-  optimizer.optimize(10);
+  dtnn::Hyperparameters hp;
+  hp.batch_size = 10;
+  hp.learningrate = 0.5f;
+  optimizer.optimize(hp);
 
   float hexpectedw[] = { 1.5, 3, 1.5, -2 };
   float hexpectedb[] = { 1.5, 1 };
@@ -40,7 +43,7 @@ TEST_CASE("sgd", "[sgd]") {
 
 TEST_CASE("sgd serializes", "[sgd]") {
   std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::SGD>(1.f);
+  optimizer = std::make_shared<dtnn::SGD>();
 
   std::ostringstream ostream;
   {

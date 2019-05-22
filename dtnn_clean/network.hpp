@@ -16,6 +16,7 @@
 #include "loss_function.hpp"
 #include "testing_result.hpp"
 #include "prediction_result.hpp"
+#include "hyperparameters.hpp"
 
 namespace dtnn {
   class Network {
@@ -26,8 +27,8 @@ namespace dtnn {
     void add(std::shared_ptr<WeightedStage> stage);
     void add(std::shared_ptr<LossFunction> loss);
     void generate_gradient(TrainingBatch &batch);
-    void update_weights();
-    void train(TrainingBatch &batch);
+    void update_weights(Hyperparameters hyperparameters);
+    void train(TrainingBatch &batch, Hyperparameters hyperparameters);
     TestingResult test(TrainingBatch &batch);
     PredictionResult predict(PredictionBatch &batch);
     template <class Archive> void serialize(Archive &ar) {

@@ -12,7 +12,8 @@ namespace dtnn {
     Feed feed;
     feed.signal = af::constant(0.f, inputdim_);
     forward_stages(feed);
-    optimizer_->attach(stage->init(feed.signal.dims()));
+    auto parameters = stage->init(feed.signal.dims());
+    optimizer_->attach(parameters);
     stages_.push_back(stage);
   }
   void Network::add(std::shared_ptr<LossFunction> loss) {
@@ -26,13 +27,14 @@ namespace dtnn {
     backward_stages(feed);
     batch_samples_ += feed.signal.dims(3);
   }
-  void Network::update_weights() {
-    optimizer_->optimize(batch_samples_);
+  void Network::update_weights(Hyperparameters hyperparameters) {
+    hyperparameters.batch_size = batch_samples_;
+    optimizer_->optimize(hyperparameters);
     batch_samples_ = 0;
   }
-  void Network::train(TrainingBatch &batch) {
+  void Network::train(TrainingBatch &batch, Hyperparameters hyperparameters) {
     generate_gradient(batch);
-    update_weights();
+    update_weights(hyperparameters);
   }
   TestingResult Network::test(TrainingBatch &batch) {
     Feed feed;
