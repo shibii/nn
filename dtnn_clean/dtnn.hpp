@@ -7,6 +7,7 @@
 #include "techniques/fully_connected.hpp"
 #include "techniques/convolutional.hpp"
 #include "techniques/max_pool.hpp"
+#include "techniques/mean_pool.hpp"
 #include "techniques/dropout.hpp"
 #include "techniques/logistic.hpp"
 #include "techniques/tanh.hpp"
