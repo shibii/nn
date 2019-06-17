@@ -1,7 +1,5 @@
 #include "client.hpp"
 
-#include <iostream>
-
 namespace dtnn {
   Client::Client(std::string target) {
     socket_ = zmq::socket_t(context_, zmq::socket_type::dealer);
@@ -17,7 +15,7 @@ namespace dtnn {
     zmq::multipart_t msg;
     msg.recv(socket_);
     type = std::string(msg[0].data<char>(), msg[0].size());
-    data = std::string(msg[0].data<char>(), msg[0].size());
+    data = std::string(msg[1].data<char>(), msg[1].size());
   }
   void Client::send(const std::string type, const std::string data) {
     zmq::multipart_t msg;

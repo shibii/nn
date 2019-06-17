@@ -1,7 +1,5 @@
 #include "server.hpp"
 
-#include <iostream>
-
 namespace dtnn {
   Server::Server(std::string target) {
     socket_ = zmq::socket_t(context_, zmq::socket_type::router);

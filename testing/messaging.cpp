@@ -11,7 +11,13 @@ TEST_CASE("send and reveice messages between endpoints", "[messaging]") {
   std::string identity;
   std::string type;
   std::string data;
+
   server.receive(identity, type, data);
   REQUIRE(type == "test");
   REQUIRE(data == "data");
+
+  server.respond(identity, "respond test", "respond data");
+  client.receive(type, data);
+  REQUIRE(type == "respond test");
+  REQUIRE(data == "respond data");
 }
