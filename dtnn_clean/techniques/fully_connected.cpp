@@ -32,7 +32,8 @@ namespace dtnn {
   }
   std::shared_ptr<OptimizableWeights> FullyConnected::init(af::dim4 input) {
     dim_t elements = input[0] * input[1] * input[2];
-    auto w = wb(af::dim4(units_, elements), af::dim4(units_), 3.6f / sqrtf((float)units_));
+    float limit = sqrtf(2.f / (float)elements);
+    auto w = wb(af::dim4(units_, elements), af::dim4(units_), limit);
     auto g = wb(af::dim4(units_, elements), af::dim4(units_));
     OptimizableWeights ow = { w, g };
     param_ = std::make_shared<OptimizableWeights>(ow);
