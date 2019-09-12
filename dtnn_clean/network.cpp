@@ -13,6 +13,7 @@ namespace dtnn {
     feed.signal = af::constant(0.f, inputdim_);
     forward_stages(feed);
     auto parameters = stage->init(feed.signal.dims());
+    weights_.push_back(parameters);
     optimizer_->attach(parameters);
     stages_.push_back(stage);
   }
@@ -49,6 +50,15 @@ namespace dtnn {
     feed.signal = batch.inputs;
     forward_stages(feed);
     return PredictionResult(loss_->output(feed));
+  }
+  void Network::merge_weights(Network &from, float bias) {
+    for (int layer = 0; layer < weights_.size(); layer++) {
+      weights_[layer]->weights = bias * weights_[layer]->weights
+        + (1.f - bias) * from.get_weights()[layer]->weights;
+    }
+  }
+  std::vector<std::shared_ptr<OptimizableWeights>> Network::get_weights() {
+    return weights_;
   }
   void Network::forward_stages(Feed &feed) {
     for (auto &stage : stages_) {

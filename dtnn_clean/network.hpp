@@ -31,6 +31,8 @@ namespace dtnn {
     void train(TrainingBatch &batch, Hyperparameters hyperparameters);
     TestingResult test(TrainingBatch &batch);
     PredictionResult predict(PredictionBatch &batch);
+    void merge_weights(Network &from, float bias);
+    std::vector<std::shared_ptr<OptimizableWeights>> get_weights();
     template <class Archive> void serialize(Archive &ar) {
       ar(stages_, loss_, optimizer_, inputdim_);
     }
@@ -40,6 +42,7 @@ namespace dtnn {
     void backward_stages(Feed &feed);
 
     std::vector<std::shared_ptr<PropagationStage>> stages_;
+    std::vector<std::shared_ptr<OptimizableWeights>> weights_;
     std::shared_ptr<LossFunction> loss_;
     std::shared_ptr<Optimizer> optimizer_;
     af::dim4 inputdim_;
