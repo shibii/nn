@@ -1,8 +1,8 @@
 #pragma once
 
 #include "network.hpp"
-#include "training_blob.hpp"
-#include "prediction_blob.hpp"
+#include "training_batch_provider.hpp"
+#include "prediction_batch_provider.hpp"
 #include "optimizable_weights.hpp"
 #include "techniques/fully_connected.hpp"
 #include "techniques/convolutional.hpp"

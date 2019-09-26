@@ -7,8 +7,8 @@
 #include <cereal/types/memory.hpp>
 
 #include "arrayfire_serialization.hpp"
-#include "training_provider.hpp"
-#include "prediction_provider.hpp"
+#include "training_batch.hpp"
+#include "prediction_batch.hpp"
 #include "optimizer.hpp"
 #include "propagation_stage.hpp"
 #include "weighted_stage.hpp"

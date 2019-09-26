@@ -22,11 +22,11 @@ namespace dtnn {
   }
   void Network::generate_gradient(TrainingBatch &batch) {
     Feed feed;
-    feed.signal = batch.inputs;
+    feed.signal = batch.samples_;
     forward_stages(feed);
-    feed.signal = loss_->error(feed, batch.targets);
+    feed.signal = loss_->error(feed, batch.targets_);
     backward_stages(feed);
-    batch_samples_ += feed.signal.dims(3);
+    batch_samples_ += (unsigned int)feed.signal.dims(3);
   }
   void Network::update_weights(Hyperparameters hyperparameters) {
     hyperparameters.batch_size = batch_samples_;
@@ -39,15 +39,15 @@ namespace dtnn {
   }
   TestingResult Network::test(TrainingBatch &batch) {
     Feed feed;
-    feed.signal = batch.inputs;
+    feed.signal = batch.samples_;
     forward_stages(feed);
-    af::array loss = loss_->loss(feed, batch.targets);
+    af::array loss = loss_->loss(feed, batch.targets_);
     af::array output = loss_->output(feed);
-    return TestingResult(output, batch.targets, loss);
+    return TestingResult(output, batch.targets_, loss);
   }
   PredictionResult Network::predict(PredictionBatch &batch) {
     Feed feed;
-    feed.signal = batch.inputs;
+    feed.signal = batch.samples_;
     forward_stages(feed);
     return PredictionResult(loss_->output(feed));
   }
