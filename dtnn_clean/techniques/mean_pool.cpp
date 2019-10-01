@@ -24,7 +24,7 @@ namespace nn {
     // error laid out into rows
     error = af::moddims(error, 1, error.dims(0) * error.dims(1), error.dims(2), error.dims(3));
     // error is equally distributed among elements within subsampling windows
-    error = af::tile(error, unwrapdim_[0]) / (size0_ * size1_);
+    error = af::tile(error, (unsigned int)unwrapdim_[0]) / (size0_ * size1_);
     // error is wrapped back to the shape originally received in forward pass
     f.signal = af::wrap(error, inputdim_[0], inputdim_[1], size0_, size1_, stride0_, stride1_, pad0_, pad1_);
   }
