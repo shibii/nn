@@ -1,7 +1,7 @@
 #include "softmax_cross_entropy.hpp"
 #include "../arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   af::array SoftmaxCrossEntropy::error(Feed &f, af::array target) const {
     return -(target - softmax(f.signal));
   }

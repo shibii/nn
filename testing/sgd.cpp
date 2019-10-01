@@ -11,7 +11,7 @@ TEST_CASE("sgd", "[sgd]") {
   float hgw[] = { 10, 20, 30, -40 };
   float hgb[] = { -10, 20 };
 
-  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  auto ow = std::make_shared<nn::OptimizableWeights>();
   ow->weights = {
     af::array(af::dim4(2, 2), hw),
     af::array(af::dim4(2), hb)
@@ -21,9 +21,9 @@ TEST_CASE("sgd", "[sgd]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::SGD();
+  auto optimizer = nn::SGD();
   optimizer.attach(ow);
-  dtnn::Hyperparameters hp;
+  nn::Hyperparameters hp;
   hp.batch_size = 10;
   hp.learningrate = 0.5f;
   optimizer.optimize(hp);
@@ -42,14 +42,14 @@ TEST_CASE("sgd", "[sgd]") {
 }
 
 TEST_CASE("sgd serializes", "[sgd]") {
-  std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::SGD>();
+  std::shared_ptr<nn::Optimizer> optimizer;
+  optimizer = std::make_shared<nn::SGD>();
 
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(optimizer);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::SGD\"");
+  std::string identifier("\"polymorphic_name\": \"nn::SGD\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

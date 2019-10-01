@@ -7,7 +7,7 @@
 #include "../loss_function.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class SquaredLoss : public LossFunction {
   public:
     SquaredLoss() = default;
@@ -18,5 +18,5 @@ namespace dtnn {
     template <class Archive> void serialize(Archive &ar);
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::SquaredLoss);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::LossFunction, dtnn::SquaredLoss)
+CEREAL_REGISTER_TYPE(nn::SquaredLoss);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::LossFunction, nn::SquaredLoss)

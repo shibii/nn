@@ -8,7 +8,7 @@
 TEST_CASE("prediction result", "[prediction result]") {
   std::vector<float> h_ouput{ 1, 2, 3, 4, 2, 2, 2, 2, 4, 4, 5, 4 };
   af::array output = af::array(af::dim4(2, 2, 1, 3), h_ouput.data());
-  dtnn::PredictionResult result(output);
+  nn::PredictionResult result(output);
 
   REQUIRE(h_ouput == result.output_raw());
   REQUIRE(10 == result.classify());

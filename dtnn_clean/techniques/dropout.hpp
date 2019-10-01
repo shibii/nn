@@ -7,7 +7,7 @@
 #include "../weightless_stage.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class Dropout : public WeightlessStage {
   public:
     ~Dropout() = default;
@@ -22,5 +22,5 @@ namespace dtnn {
     af::array passmask_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Dropout);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::Dropout)
+CEREAL_REGISTER_TYPE(nn::Dropout);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::Dropout)

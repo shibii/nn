@@ -5,7 +5,7 @@
 
 #include "training_batch.hpp"
 
-namespace dtnn {
+namespace nn {
   class TrainingBatchProvider {
   public:
     TrainingBatchProvider(std::vector<float> sample_data, af::dim4 sampledim, std::vector<float> target_data, af::dim4 targetdim);

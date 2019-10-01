@@ -1,6 +1,6 @@
 #include "dropout.hpp"
 
-namespace dtnn {
+namespace nn {
   Dropout::Dropout(float pass_probability)
     : pass_probability_(pass_probability)
   {

@@ -1,7 +1,7 @@
 #include "adam.hpp"
 #include "../arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   Adam::Adam(float decay1, float decay2)
     : decay1_(decay1), decay2_(decay2), decay1T_(1), decay2T_(1)
   {

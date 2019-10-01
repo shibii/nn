@@ -1,7 +1,7 @@
 #include "adagrad.hpp"
 #include "../arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   void Adagrad::optimize(Hyperparameters hp) {
     for (auto &state : states_) {
       auto decay_term = state.param->weights.w * hp.weight_decay;

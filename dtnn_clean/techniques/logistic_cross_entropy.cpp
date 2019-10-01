@@ -1,6 +1,6 @@
 #include "logistic_cross_entropy.hpp"
 
-namespace dtnn {
+namespace nn {
   af::array LogisticCrossEntropy::error(Feed &f, af::array target) const {
     return -(target - logistic(f.signal));
   }

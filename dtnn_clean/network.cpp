@@ -1,6 +1,6 @@
 #include "network.hpp"
 
-namespace dtnn {
+namespace nn {
   Network::Network(af::dim4 input_dimensions, std::shared_ptr<Optimizer> optimizer)
     : inputdim_(input_dimensions), optimizer_(optimizer), batch_samples_(0)
   {

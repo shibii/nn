@@ -4,7 +4,7 @@
 
 #include "arrayfire_serialization.hpp"
 
-namespace dtnn {
+namespace nn {
   class wb {
   public:
     wb() = default;

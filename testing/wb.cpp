@@ -7,13 +7,13 @@
 #include "util.hpp"
 
 TEST_CASE("wb serializes", "[wb]") {
-  dtnn::wb owb = { af::randu(af::dim4(2)), af::randu(af::dim4(1)) };
+  nn::wb owb = { af::randu(af::dim4(2)), af::randu(af::dim4(1)) };
   std::stringstream stream;
   {
     cereal::JSONOutputArchive oarchive(stream);
     oarchive(owb);
   }
-  dtnn::wb iwb;
+  nn::wb iwb;
   {
     cereal::JSONInputArchive iarchive(stream);
     iarchive(iwb);

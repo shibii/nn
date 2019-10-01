@@ -1,7 +1,7 @@
 #include "wb.hpp"
 #include "arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   wb::wb(af::array w, af::array b) : w(w), b(b) {
   }
   wb::wb(af::dim4 wdim, af::dim4 bdim) {

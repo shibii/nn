@@ -18,9 +18,9 @@ TEST_CASE("squared loss error", "[squared loss]") {
   af::array error = af::array(af::dim4(3), h_error);
   af::array loss = af::array(af::dim4(3), h_loss);
 
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = input;
-  auto lf = dtnn::SquaredLoss();
+  auto lf = nn::SquaredLoss();
 
   REQUIRE(util::approx(output, lf.output(f)));
   REQUIRE(util::approx(error, lf.error(f, target)));
@@ -28,13 +28,13 @@ TEST_CASE("squared loss error", "[squared loss]") {
 }
 
 TEST_CASE("squared loss serializes", "[squared loss]") {
-  std::shared_ptr<dtnn::LossFunction> loss;
-  loss = std::make_shared<dtnn::SquaredLoss>(dtnn::SquaredLoss());
+  std::shared_ptr<nn::LossFunction> loss;
+  loss = std::make_shared<nn::SquaredLoss>(nn::SquaredLoss());
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(loss);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::SquaredLoss\"");
+  std::string identifier("\"polymorphic_name\": \"nn::SquaredLoss\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

@@ -1,6 +1,6 @@
 #include "training_batch_provider.hpp"
 
-namespace dtnn {
+namespace nn {
   TrainingBatchProvider::TrainingBatchProvider(std::vector<float> sample_data, af::dim4 sampledim, std::vector<float> target_data, af::dim4 targetdim) {
     samples_ = af::array(sampledim, sample_data.data());
     targets_ = af::array(targetdim, target_data.data());

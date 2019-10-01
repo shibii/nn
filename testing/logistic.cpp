@@ -11,9 +11,9 @@ TEST_CASE("logistic", "[logistic]") {
   float hostinput[] = { -1e+20f, -1.f, 0.f, 1.f, 1e+20f };
   float hostexpected[] = { 0.f, .2689f, .5f, .7310f, 1.f};
   af::array expected = af::array(af::dim4(5), hostexpected);
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::array(af::dim4(5), hostinput);
-  auto logistic = dtnn::Logistic();
+  auto logistic = nn::Logistic();
   logistic.forward(f);
 
   REQUIRE(util::isnumber(f.signal));
@@ -32,14 +32,14 @@ TEST_CASE("logistic", "[logistic]") {
 }
 
 TEST_CASE("logistic serializes", "[logistic]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto af = std::make_shared<dtnn::Logistic>(dtnn::Logistic());
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto af = std::make_shared<nn::Logistic>(nn::Logistic());
   stages.push_back(af);
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::Logistic\"");
+  std::string identifier("\"polymorphic_name\": \"nn::Logistic\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

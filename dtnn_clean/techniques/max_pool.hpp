@@ -10,7 +10,7 @@
 #include "../feed.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class MaxPool : public WeightlessStage {
   public:
     ~MaxPool() = default;
@@ -32,5 +32,5 @@ namespace dtnn {
     dim_t pad1_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::MaxPool);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::MaxPool)
+CEREAL_REGISTER_TYPE(nn::MaxPool);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::MaxPool)

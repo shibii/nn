@@ -5,7 +5,7 @@
 
 #include "prediction_batch.hpp"
 
-namespace dtnn {
+namespace nn {
   class PredictionBatchProvider {
   public:
     PredictionBatchProvider(std::vector<float> sample_data, af::dim4 sampledim);

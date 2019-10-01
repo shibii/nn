@@ -12,7 +12,7 @@ TEST_CASE("testing result", "[testing result]") {
   af::array output = af::array(af::dim4(2, 2, 1, 3), h_ouput.data());
   af::array target = af::array(af::dim4(2, 2, 1, 3), h_target.data());
   af::array loss = af::array(af::dim4(2, 2, 1, 3), h_loss.data());
-  dtnn::TestingResult result(output, target, loss);
+  nn::TestingResult result(output, target, loss);
 
   REQUIRE(h_ouput == result.output_raw());
   REQUIRE(h_target == result.target_raw());

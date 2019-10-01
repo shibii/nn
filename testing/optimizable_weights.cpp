@@ -7,15 +7,15 @@
 #include "util.hpp"
 
 TEST_CASE("optimizable weights serializes", "[optimizable weights]") {
-  dtnn::wb ow = { af::randu(af::dim4(2)), af::randu(af::dim4(1)) };
-  dtnn::wb og = { af::randu(af::dim4(2)), af::randu(af::dim4(1)) };
-  dtnn::OptimizableWeights oweights = { ow, og };
+  nn::wb ow = { af::randu(af::dim4(2)), af::randu(af::dim4(1)) };
+  nn::wb og = { af::randu(af::dim4(2)), af::randu(af::dim4(1)) };
+  nn::OptimizableWeights oweights = { ow, og };
   std::stringstream stream;
   {
     cereal::JSONOutputArchive oarchive(stream);
     oarchive(oweights);
   }
-  dtnn::OptimizableWeights iweights;
+  nn::OptimizableWeights iweights;
   {
     cereal::JSONInputArchive iarchive(stream);
     iarchive(iweights);

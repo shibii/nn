@@ -12,9 +12,9 @@ TEST_CASE("mean pool", "[mean pool]") {
     1,1,1,3,1,1,1,2,0,0,2,0,0,0,0,0,1 };
   float hostexpected[] = { .75,1,.5,1,1,.75,.5,.25,1.5,1.5,1.5,1.75,0,.5,0,.25 };
   af::array expected = af::array(af::dim4(2, 2, 2, 2), hostexpected);
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::array(af::dim4(3, 3, 2, 2), hostinput);
-  auto pool = dtnn::MeanPool(2, 2, 1, 1, 0, 0);
+  auto pool = nn::MeanPool(2, 2, 1, 1, 0, 0);
   pool.forward(f);
 
   REQUIRE(util::isnumber(f.signal));
@@ -36,14 +36,14 @@ TEST_CASE("mean pool", "[mean pool]") {
 }
 
 TEST_CASE("mean pool serializes", "[mean pool]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto pool = std::make_shared<dtnn::MeanPool>(dtnn::MeanPool(2, 2, 2, 2, 0, 0));
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto pool = std::make_shared<nn::MeanPool>(nn::MeanPool(2, 2, 2, 2, 0, 0));
   stages.push_back(pool);
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::MeanPool\"");
+  std::string identifier("\"polymorphic_name\": \"nn::MeanPool\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

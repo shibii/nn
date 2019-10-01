@@ -1,6 +1,6 @@
 #include "leaky_relu.hpp"
 
-namespace dtnn {
+namespace nn {
   LeakyReLU::LeakyReLU(float leak)
     : leak_(leak)
   {

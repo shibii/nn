@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace dtnn {
+namespace nn {
   class Serializer {
   public:
     template <typename... ObjectTypes>

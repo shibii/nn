@@ -18,9 +18,9 @@ TEST_CASE("logistic cross entropy", "[logistic cross entropy]") {
   af::array error = af::array(af::dim4(10), h_error);
   af::array loss = af::array(af::dim4(10), h_loss);
 
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = input;
-  auto lf = dtnn::LogisticCrossEntropy();
+  auto lf = nn::LogisticCrossEntropy();
 
   REQUIRE(util::approx(output, lf.output(f)));
   REQUIRE(util::approx(error, lf.error(f, target)));
@@ -28,13 +28,13 @@ TEST_CASE("logistic cross entropy", "[logistic cross entropy]") {
 }
 
 TEST_CASE("logistic cross entropy serializes", "[logistic cross entropy]") {
-  std::shared_ptr<dtnn::LossFunction> loss;
-  loss = std::make_shared<dtnn::LogisticCrossEntropy>(dtnn::LogisticCrossEntropy());
+  std::shared_ptr<nn::LossFunction> loss;
+  loss = std::make_shared<nn::LogisticCrossEntropy>(nn::LogisticCrossEntropy());
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(loss);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::LogisticCrossEntropy\"");
+  std::string identifier("\"polymorphic_name\": \"nn::LogisticCrossEntropy\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

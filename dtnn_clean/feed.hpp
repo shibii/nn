@@ -2,7 +2,7 @@
 
 #include <arrayfire.h>
 
-namespace dtnn {
+namespace nn {
   struct Feed {
     af::array signal;
   };

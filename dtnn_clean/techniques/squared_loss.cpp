@@ -1,6 +1,6 @@
 #include "squared_loss.hpp"
 
-namespace dtnn {
+namespace nn {
   af::array SquaredLoss::error(Feed &f, af::array target) const {
     return -(target - f.signal);
   }

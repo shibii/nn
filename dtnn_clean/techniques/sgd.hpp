@@ -11,7 +11,7 @@
 #include "../optimizer.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class SGD : public Optimizer {
   public:
     SGD() = default;
@@ -23,5 +23,5 @@ namespace dtnn {
     std::vector<std::shared_ptr<OptimizableWeights>> params_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::SGD);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::Optimizer, dtnn::SGD)
+CEREAL_REGISTER_TYPE(nn::SGD);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::Optimizer, nn::SGD)

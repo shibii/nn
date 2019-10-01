@@ -11,7 +11,7 @@
 #include "../optimizer.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class Adagrad : public Optimizer {
   public:
     Adagrad() = default;
@@ -31,5 +31,5 @@ namespace dtnn {
     template <class Archive> void serialize(Archive &ar) { ar(param, sum_of_squared_grad); }
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Adagrad);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::Optimizer, dtnn::Adagrad)
+CEREAL_REGISTER_TYPE(nn::Adagrad);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::Optimizer, nn::Adagrad)

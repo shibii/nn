@@ -11,9 +11,9 @@ TEST_CASE("leaky relu", "[leaky relu]") {
   float hostinput[] = { -1e+20f, -1.f, 0.f, 1.f, 1e+20f };
   float hostexpected[] = { -1e+19f, -.1f, 0.f, 1.f, 1e+20f };
   af::array expected = af::array(af::dim4(5), hostexpected);
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::array(af::dim4(5), hostinput);
-  auto leaky_relu = dtnn::LeakyReLU(0.1f);
+  auto leaky_relu = nn::LeakyReLU(0.1f);
   leaky_relu.forward(f);
 
   REQUIRE(util::isnumber(f.signal));
@@ -32,14 +32,14 @@ TEST_CASE("leaky relu", "[leaky relu]") {
 }
 
 TEST_CASE("leaky relu serializes", "[leaky relu]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto af = std::make_shared<dtnn::LeakyReLU>(dtnn::LeakyReLU());
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto af = std::make_shared<nn::LeakyReLU>(nn::LeakyReLU());
   stages.push_back(af);
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::LeakyReLU\"");
+  std::string identifier("\"polymorphic_name\": \"nn::LeakyReLU\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

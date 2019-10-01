@@ -11,7 +11,7 @@
 #include "../optimizer.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class Adam : public Optimizer {
   public:
     ~Adam() = default;
@@ -35,5 +35,5 @@ namespace dtnn {
     template <class Archive> void serialize(Archive &ar) { ar(param, m, v); }
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Adam);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::Optimizer, dtnn::Adam)
+CEREAL_REGISTER_TYPE(nn::Adam);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::Optimizer, nn::Adam)

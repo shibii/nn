@@ -7,7 +7,7 @@
 namespace cereal {
   template <class Archive> void save(Archive& archive, af::array const& a) {
     std::vector<dim_t> dims{ a.dims(0), a.dims(1), a.dims(2), a.dims(3) };
-    auto elements = dtnn::util::vectorize(a);
+    auto elements = nn::util::vectorize(a);
     archive(dims, elements);
   }
 

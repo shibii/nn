@@ -1,13 +1,13 @@
 #include <iostream>
 #include <ctime>
 #include <chrono>
-#include <dtnn.hpp>
+#include <nn.hpp>
 
 #include "arrayfire_util.hpp"
 #include "mnistSampler.hpp"
 
 int main(unsigned int argc, const char* argv[]) {
-  using namespace dtnn;
+  using namespace nn;
 
   //af::setBackend(AF_BACKEND_CPU);
   //af::setBackend(AF_BACKEND_CUDA);

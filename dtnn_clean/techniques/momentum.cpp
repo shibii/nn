@@ -1,6 +1,6 @@
 #include "momentum.hpp"
 
-namespace dtnn {
+namespace nn {
   Momentum::Momentum(float decay)
     : decay_(decay)
   {

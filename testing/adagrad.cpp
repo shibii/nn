@@ -11,7 +11,7 @@ TEST_CASE("adagrad", "[adagrad]") {
   float hgw[] = { 10, 20, -10, -20 };
   float hgb[] = { 10, 30 };
 
-  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  auto ow = std::make_shared<nn::OptimizableWeights>();
   ow->weights = {
     af::array(af::dim4(2, 2), hw),
     af::array(af::dim4(2), hb)
@@ -21,9 +21,9 @@ TEST_CASE("adagrad", "[adagrad]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::Adagrad();
+  auto optimizer = nn::Adagrad();
   optimizer.attach(ow);
-  dtnn::Hyperparameters hp;
+  nn::Hyperparameters hp;
   hp.batch_size = 10;
   hp.learningrate = 0.5f;
   optimizer.optimize(hp);
@@ -53,10 +53,10 @@ TEST_CASE("adagrad", "[adagrad]") {
 }
 
 TEST_CASE("adagrad serializes", "[adagrad]") {
-  std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::Adagrad>();
+  std::shared_ptr<nn::Optimizer> optimizer;
+  optimizer = std::make_shared<nn::Adagrad>();
 
-  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  auto ow = std::make_shared<nn::OptimizableWeights>();
   ow->weights = {
     af::randu(af::dim4(2, 2)),
     af::randu(af::dim4(2))
@@ -72,6 +72,6 @@ TEST_CASE("adagrad serializes", "[adagrad]") {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(optimizer);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::Adagrad\"");
+  std::string identifier("\"polymorphic_name\": \"nn::Adagrad\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

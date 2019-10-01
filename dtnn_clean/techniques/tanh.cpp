@@ -1,6 +1,6 @@
 #include "tanh.hpp"
 
-namespace dtnn {
+namespace nn {
   void Tanh::forward(Feed &f) {
     activation_ = af::tanh(f.signal);
     f.signal = activation_;

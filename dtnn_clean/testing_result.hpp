@@ -2,7 +2,7 @@
 
 #include <arrayfire.h>
 
-namespace dtnn {
+namespace nn {
   class TestingResult {
   public:
     TestingResult(af::array output, af::array target, af::array loss);

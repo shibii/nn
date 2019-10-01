@@ -1,7 +1,7 @@
 #include "prediction_result.hpp"
 #include "arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   PredictionResult::PredictionResult(af::array output)
     : output_(output)
   {

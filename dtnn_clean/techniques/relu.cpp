@@ -1,6 +1,6 @@
 #include "relu.hpp"
 
-namespace dtnn {
+namespace nn {
   void ReLU::forward(Feed &f) {
     input_ = f.signal;
     f.signal = (input_ > 0.f) * input_;

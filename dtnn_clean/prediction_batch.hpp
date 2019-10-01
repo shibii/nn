@@ -3,7 +3,7 @@
 #include <vector>
 #include <arrayfire.h>
 
-namespace dtnn {
+namespace nn {
   class PredictionBatch {
   public:
     PredictionBatch(std::vector<float> sample_data, af::dim4 sample_dim);

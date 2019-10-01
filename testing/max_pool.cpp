@@ -12,9 +12,9 @@ TEST_CASE("max pool", "[max pool]") {
     1,1,1,3,1,1,1,2,0,0,2,0,0,0,0,0,1 };
   float hostexpected[] = { 2,2,1,2,3,1,2,1,3,3,3,3,0,2,0,1 };
   af::array expected = af::array(af::dim4(2,2,2,2), hostexpected);
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::array(af::dim4(3,3,2,2), hostinput);
-  auto pool = dtnn::MaxPool(2,2,1,1,0,0);
+  auto pool = nn::MaxPool(2,2,1,1,0,0);
   pool.forward(f);
 
   REQUIRE(util::isnumber(f.signal));
@@ -34,14 +34,14 @@ TEST_CASE("max pool", "[max pool]") {
 }
 
 TEST_CASE("max pool serializes", "[max pool]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto pool = std::make_shared<dtnn::MaxPool>(dtnn::MaxPool(2,2,2,2,0,0));
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto pool = std::make_shared<nn::MaxPool>(nn::MaxPool(2,2,2,2,0,0));
   stages.push_back(pool);
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::MaxPool\"");
+  std::string identifier("\"polymorphic_name\": \"nn::MaxPool\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

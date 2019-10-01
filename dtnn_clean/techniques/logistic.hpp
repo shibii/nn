@@ -7,7 +7,7 @@
 #include "../weightless_stage.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class Logistic : public WeightlessStage {
   public:
     ~Logistic() = default;
@@ -20,5 +20,5 @@ namespace dtnn {
     af::array activation_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Logistic);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::Logistic)
+CEREAL_REGISTER_TYPE(nn::Logistic);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::Logistic)

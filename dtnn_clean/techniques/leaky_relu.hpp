@@ -7,7 +7,7 @@
 #include "../weightless_stage.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class LeakyReLU : public WeightlessStage {
   public:
     ~LeakyReLU() = default;
@@ -22,5 +22,5 @@ namespace dtnn {
     float leak_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::LeakyReLU);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::LeakyReLU)
+CEREAL_REGISTER_TYPE(nn::LeakyReLU);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::LeakyReLU)

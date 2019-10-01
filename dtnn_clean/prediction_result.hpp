@@ -3,7 +3,7 @@
 #include <vector>
 #include <arrayfire.h>
 
-namespace dtnn {
+namespace nn {
   class PredictionResult {
   public:
     PredictionResult(af::array output);

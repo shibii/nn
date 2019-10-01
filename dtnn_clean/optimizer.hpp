@@ -5,7 +5,7 @@
 #include "optimizable_weights.hpp"
 #include "hyperparameters.hpp"
 
-namespace dtnn {
+namespace nn {
   class Optimizer {
   public:
     Optimizer() = default;

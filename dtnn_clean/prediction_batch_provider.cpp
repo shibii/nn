@@ -1,6 +1,6 @@
 #include "prediction_batch_provider.hpp"
 
-namespace dtnn {
+namespace nn {
   PredictionBatchProvider::PredictionBatchProvider(std::vector<float> sample_data, af::dim4 sampledim) {
     samples_ = af::array(sampledim, sample_data.data());
   }

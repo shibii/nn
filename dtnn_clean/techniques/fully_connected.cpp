@@ -1,7 +1,7 @@
 #include "fully_connected.hpp"
 #include "../arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   FullyConnected::FullyConnected(dim_t units) : units_(units)
   {
   }

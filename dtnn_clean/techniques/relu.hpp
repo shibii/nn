@@ -7,7 +7,7 @@
 #include "../weightless_stage.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class ReLU : public WeightlessStage {
   public:
     ~ReLU() = default;
@@ -20,5 +20,5 @@ namespace dtnn {
     af::array input_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::ReLU);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::ReLU)
+CEREAL_REGISTER_TYPE(nn::ReLU);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::ReLU)

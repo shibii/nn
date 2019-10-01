@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dtnn {
+namespace nn {
   struct Hyperparameters {
     Hyperparameters() :
       learningrate(1e-3f), weight_decay(0.f)

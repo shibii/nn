@@ -1,6 +1,6 @@
 #include "sgd.hpp"
 
-namespace dtnn {
+namespace nn {
   void SGD::optimize(Hyperparameters hp) {
     for (auto &param : params_) {
       auto decay_term = param->weights.w * hp.weight_decay;

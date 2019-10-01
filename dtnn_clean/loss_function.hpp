@@ -4,7 +4,7 @@
 
 #include "feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class LossFunction {
   public:
     LossFunction() = default;

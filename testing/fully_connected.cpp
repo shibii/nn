@@ -10,11 +10,11 @@ TEST_CASE("fully connected", "[fully connected]") {
   float hweights[] = { 1, -1, 2, 1 };
   float hbias[] = { 1, 2 };
 
-  dtnn::Feed f;
+  nn::Feed f;
   float hinput[] = { 0, 1, -1, -2 };
   f.signal = af::array(af::dim4(2, 1, 1, 2), hinput);
 
-  auto fc = dtnn::FullyConnected(2);
+  auto fc = nn::FullyConnected(2);
   auto param = fc.init(f.signal.dims());
   param->weights = {
     af::array(af::dim4(2, 2), hweights),
@@ -56,11 +56,11 @@ TEST_CASE("fully connected", "[fully connected]") {
 }
 
 TEST_CASE("fully connected serializes", "[fully connected]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
-  auto fc = std::make_shared<dtnn::FullyConnected>(dtnn::FullyConnected(2));
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto weights = std::make_shared<nn::wb>(nn::wb());
+  auto fc = std::make_shared<nn::FullyConnected>(nn::FullyConnected(2));
 
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::constant(0.f, af::dim4(2, 1, 1, 2));
   fc->init(f.signal.dims());
 
@@ -70,6 +70,6 @@ TEST_CASE("fully connected serializes", "[fully connected]") {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::FullyConnected\"");
+  std::string identifier("\"polymorphic_name\": \"nn::FullyConnected\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

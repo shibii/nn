@@ -7,7 +7,7 @@
 #include "../loss_function.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class LogisticCrossEntropy : public LossFunction {
   public:
     LogisticCrossEntropy() = default;
@@ -20,5 +20,5 @@ namespace dtnn {
     af::array logistic(const af::array &input) const;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::LogisticCrossEntropy);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::LossFunction, dtnn::LogisticCrossEntropy)
+CEREAL_REGISTER_TYPE(nn::LogisticCrossEntropy);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::LossFunction, nn::LogisticCrossEntropy)

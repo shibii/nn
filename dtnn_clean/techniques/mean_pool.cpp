@@ -1,7 +1,7 @@
 #include "mean_pool.hpp"
 #include "../arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   MeanPool::MeanPool(dim_t size0, dim_t size1, dim_t stride0, dim_t stride1, dim_t pad0, dim_t pad1)
     : size0_(size0), size1_(size1), stride0_(stride0), stride1_(stride1), pad0_(pad0), pad1_(pad1)
   {

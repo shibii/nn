@@ -1,12 +1,12 @@
 #include <sstream>
 #include "catch.hpp"
 
-#include "dtnn.hpp"
+#include "nn.hpp"
 
 #include "util.hpp"
 
 TEST_CASE("network serializes", "[network]") {
-  using namespace dtnn;
+  using namespace nn;
   auto optimizer = std::make_shared<SGD>();
   Network nn(af::dim4(1), optimizer);
   auto fc1 = std::make_shared<FullyConnected>(20);
@@ -20,12 +20,12 @@ TEST_CASE("network serializes", "[network]") {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(nn);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::SGD\"");
+  std::string identifier("\"polymorphic_name\": \"nn::SGD\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
-  identifier = ("\"polymorphic_name\": \"dtnn::FullyConnected\"");
+  identifier = ("\"polymorphic_name\": \"nn::FullyConnected\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
-  identifier = ("\"polymorphic_name\": \"dtnn::Logistic\"");
+  identifier = ("\"polymorphic_name\": \"nn::Logistic\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
-  identifier = ("\"polymorphic_name\": \"dtnn::SquaredLoss\"");
+  identifier = ("\"polymorphic_name\": \"nn::SquaredLoss\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

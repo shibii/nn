@@ -1,7 +1,7 @@
 #include "testing_result.hpp"
 #include "arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   TestingResult::TestingResult(af::array output, af::array target, af::array loss)
     : output_(output), target_(target), loss_(loss)
   {}

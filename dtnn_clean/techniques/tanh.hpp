@@ -7,7 +7,7 @@
 #include "../weightless_stage.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class Tanh : public WeightlessStage {
   public:
     ~Tanh() = default;
@@ -20,5 +20,5 @@ namespace dtnn {
     af::array activation_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Tanh);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::Tanh)
+CEREAL_REGISTER_TYPE(nn::Tanh);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::Tanh)

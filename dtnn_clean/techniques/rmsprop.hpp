@@ -11,7 +11,7 @@
 #include "../optimizer.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class RMSprop : public Optimizer {
   public:
     ~RMSprop() = default;
@@ -31,5 +31,5 @@ namespace dtnn {
     template <class Archive> void serialize(Archive &ar) { ar(param, rms); }
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::RMSprop);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::Optimizer, dtnn::RMSprop)
+CEREAL_REGISTER_TYPE(nn::RMSprop);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::Optimizer, nn::RMSprop)

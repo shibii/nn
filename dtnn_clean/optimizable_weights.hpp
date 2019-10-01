@@ -2,7 +2,7 @@
 
 #include "wb.hpp"
 
-namespace dtnn {
+namespace nn {
   struct OptimizableWeights {
     wb weights;
     wb gradient;

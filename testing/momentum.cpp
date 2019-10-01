@@ -11,7 +11,7 @@ TEST_CASE("momentum", "[momentum]") {
   float hgw[] = { 10, 20, 30, -40 };
   float hgb[] = { -10, 20 };
 
-  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  auto ow = std::make_shared<nn::OptimizableWeights>();
   ow->weights = {
     af::array(af::dim4(2, 2), hw),
     af::array(af::dim4(2), hb)
@@ -21,9 +21,9 @@ TEST_CASE("momentum", "[momentum]") {
     af::array(af::dim4(2), hgb)
   };
 
-  auto optimizer = dtnn::Momentum(0.1f);
+  auto optimizer = nn::Momentum(0.1f);
   optimizer.attach(ow);
-  dtnn::Hyperparameters hp;
+  nn::Hyperparameters hp;
   hp.batch_size = 10;
   hp.learningrate = 0.5f;
   optimizer.optimize(hp);
@@ -52,10 +52,10 @@ TEST_CASE("momentum", "[momentum]") {
 }
 
 TEST_CASE("momentum serializes", "[momentum]") {
-  std::shared_ptr<dtnn::Optimizer> optimizer;
-  optimizer = std::make_shared<dtnn::Momentum>();
+  std::shared_ptr<nn::Optimizer> optimizer;
+  optimizer = std::make_shared<nn::Momentum>();
 
-  auto ow = std::make_shared<dtnn::OptimizableWeights>();
+  auto ow = std::make_shared<nn::OptimizableWeights>();
   ow->weights = {
     af::randu(af::dim4(2, 2)),
     af::randu(af::dim4(2))
@@ -71,6 +71,6 @@ TEST_CASE("momentum serializes", "[momentum]") {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(optimizer);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::Momentum\"");
+  std::string identifier("\"polymorphic_name\": \"nn::Momentum\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

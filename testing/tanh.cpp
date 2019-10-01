@@ -11,9 +11,9 @@ TEST_CASE("tanh", "[tanh]") {
   float hostinput[] = { -1e+20f, -1.f, 0.f, 1.f, 1e+20f };
   float hostexpected[] = { -1.f, -.7616f, 0.f, .7616f, 1.f };
   af::array expected = af::array(af::dim4(5), hostexpected);
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::array(af::dim4(5), hostinput);
-  auto tanh = dtnn::Tanh();
+  auto tanh = nn::Tanh();
   tanh.forward(f);
 
   REQUIRE(util::isnumber(f.signal));
@@ -32,14 +32,14 @@ TEST_CASE("tanh", "[tanh]") {
 }
 
 TEST_CASE("tanh serializes", "[tanh]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto af = std::make_shared<dtnn::Tanh>(dtnn::Tanh());
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto af = std::make_shared<nn::Tanh>(nn::Tanh());
   stages.push_back(af);
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::Tanh\"");
+  std::string identifier("\"polymorphic_name\": \"nn::Tanh\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

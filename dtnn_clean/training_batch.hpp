@@ -3,7 +3,7 @@
 #include <vector>
 #include <arrayfire.h>
 
-namespace dtnn {
+namespace nn {
   class TrainingBatch {
   public:
     TrainingBatch(std::vector<float> sample_data, std::vector<float> target_data, af::dim4 sample_dim, af::dim4 target_dim);

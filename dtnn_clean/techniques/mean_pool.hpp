@@ -10,7 +10,7 @@
 #include "../feed.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class MeanPool : public WeightlessStage {
   public:
     ~MeanPool() = default;
@@ -31,5 +31,5 @@ namespace dtnn {
     dim_t pad1_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::MeanPool);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::MeanPool)
+CEREAL_REGISTER_TYPE(nn::MeanPool);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::MeanPool)

@@ -19,9 +19,9 @@ TEST_CASE("softmax cross entropy", "[softmax cross entropy]") {
   af::array error = af::array(af::dim4(6), h_error);
   af::array loss = af::array(af::dim4(6), h_loss);
 
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = input;
-  auto lf = dtnn::SoftmaxCrossEntropy();
+  auto lf = nn::SoftmaxCrossEntropy();
 
   REQUIRE(util::approx(output, lf.output(f)));
   REQUIRE(util::approx(error, lf.error(f, target)));
@@ -29,13 +29,13 @@ TEST_CASE("softmax cross entropy", "[softmax cross entropy]") {
 }
 
 TEST_CASE("softmax cross entropy serializes", "[softmax cross entropy]") {
-  std::shared_ptr<dtnn::LossFunction> loss;
-  loss = std::make_shared<dtnn::SoftmaxCrossEntropy>(dtnn::SoftmaxCrossEntropy());
+  std::shared_ptr<nn::LossFunction> loss;
+  loss = std::make_shared<nn::SoftmaxCrossEntropy>(nn::SoftmaxCrossEntropy());
   std::ostringstream ostream;
   {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(loss);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::SoftmaxCrossEntropy\"");
+  std::string identifier("\"polymorphic_name\": \"nn::SoftmaxCrossEntropy\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

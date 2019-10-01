@@ -7,7 +7,7 @@
 #include "../loss_function.hpp"
 #include "../feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class SoftmaxCrossEntropy : public LossFunction {
   public:
     SoftmaxCrossEntropy() = default;
@@ -20,5 +20,5 @@ namespace dtnn {
     af::array softmax(const af::array &input) const;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::SoftmaxCrossEntropy);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::LossFunction, dtnn::SoftmaxCrossEntropy)
+CEREAL_REGISTER_TYPE(nn::SoftmaxCrossEntropy);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::LossFunction, nn::SoftmaxCrossEntropy)

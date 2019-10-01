@@ -1,7 +1,7 @@
 #include "rmsprop.hpp"
 #include "../arrayfire_util.hpp"
 
-namespace dtnn {
+namespace nn {
   RMSprop::RMSprop(float decay)
     : decay_(decay)
   {

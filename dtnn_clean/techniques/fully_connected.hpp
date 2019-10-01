@@ -10,7 +10,7 @@
 #include "../feed.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class FullyConnected : public WeightedStage {
   public:
     ~FullyConnected() = default;
@@ -28,5 +28,5 @@ namespace dtnn {
     af::array inputflat_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::FullyConnected);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::FullyConnected)
+CEREAL_REGISTER_TYPE(nn::FullyConnected);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::FullyConnected)

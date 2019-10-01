@@ -2,7 +2,7 @@
 
 #include "feed.hpp"
 
-namespace dtnn {
+namespace nn {
   class PropagationStage {
   public:
     PropagationStage() = default;

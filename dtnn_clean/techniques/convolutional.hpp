@@ -10,7 +10,7 @@
 #include "../feed.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class Convolutional : public WeightedStage {
   public:
     ~Convolutional() = default;
@@ -36,5 +36,5 @@ namespace dtnn {
     dim_t features_;
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Convolutional);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::PropagationStage, dtnn::Convolutional)
+CEREAL_REGISTER_TYPE(nn::Convolutional);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::Convolutional)

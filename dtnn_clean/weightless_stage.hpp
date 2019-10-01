@@ -2,7 +2,7 @@
 
 #include "propagation_stage.hpp"
 
-namespace dtnn {
+namespace nn {
   class WeightlessStage : public PropagationStage {
   };
 }

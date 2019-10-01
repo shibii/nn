@@ -10,13 +10,13 @@ TEST_CASE("convolutional", "[convolutional]") {
   float hweights[] = { 1, 1, 1, 1, 2, 2, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0};
   float hbias[] = { -3, -4 };
 
-  dtnn::Feed f;
+  nn::Feed f;
   float hinput[] = { 1,2,1,2,0,0,1,1,1,0,2,1,1,0,0,1,1,1,
     1,1,1,0,0,0,1,1,1,1,2,0,2,0,1,0,1,0,
     0,2,0,2,0,0,1,1,2,1,2,0,0,2,0,1,1,1 };
   f.signal = af::array(af::dim4(3, 3, 2, 3), hinput);
 
-  auto conv = dtnn::Convolutional(2, 2, 1, 1, 0, 0, 2);
+  auto conv = nn::Convolutional(2, 2, 1, 1, 0, 0, 2);
   auto param = conv.init(f.signal.dims());
   param->weights = {
     af::array(af::dim4(8, 2), hweights),
@@ -60,11 +60,11 @@ TEST_CASE("convolutional", "[convolutional]") {
 }
 
 TEST_CASE("convolutional serializes", "[convolutional]") {
-  std::vector<std::shared_ptr<dtnn::PropagationStage>> stages;
-  auto weights = std::make_shared<dtnn::wb>(dtnn::wb());
-  auto conv = std::make_shared<dtnn::Convolutional>(dtnn::Convolutional(2,2,1,1,1,1,8));
+  std::vector<std::shared_ptr<nn::PropagationStage>> stages;
+  auto weights = std::make_shared<nn::wb>(nn::wb());
+  auto conv = std::make_shared<nn::Convolutional>(nn::Convolutional(2,2,1,1,1,1,8));
 
-  dtnn::Feed f;
+  nn::Feed f;
   f.signal = af::constant(0.f, af::dim4(2, 1, 1, 2));
   conv->init(f.signal.dims());
 
@@ -74,6 +74,6 @@ TEST_CASE("convolutional serializes", "[convolutional]") {
     cereal::JSONOutputArchive oarchive(ostream);
     oarchive(stages);
   }
-  std::string identifier("\"polymorphic_name\": \"dtnn::Convolutional\"");
+  std::string identifier("\"polymorphic_name\": \"nn::Convolutional\"");
   REQUIRE(ostream.str().find(identifier) != std::string::npos);
 }

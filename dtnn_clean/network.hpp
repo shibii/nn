@@ -18,7 +18,7 @@
 #include "prediction_result.hpp"
 #include "hyperparameters.hpp"
 
-namespace dtnn {
+namespace nn {
   class Network {
   public:
     Network() = default;

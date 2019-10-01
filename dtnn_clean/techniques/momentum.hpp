@@ -11,7 +11,7 @@
 #include "../optimizer.hpp"
 #include "../optimizable_weights.hpp"
 
-namespace dtnn {
+namespace nn {
   class Momentum : public Optimizer {
   public:
     ~Momentum() = default;
@@ -31,5 +31,5 @@ namespace dtnn {
     template <class Archive> void serialize(Archive &ar) { ar(param, velocities); }
   };
 }
-CEREAL_REGISTER_TYPE(dtnn::Momentum);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(dtnn::Optimizer, dtnn::Momentum)
+CEREAL_REGISTER_TYPE(nn::Momentum);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::Optimizer, nn::Momentum)
