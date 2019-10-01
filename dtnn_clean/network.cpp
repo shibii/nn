@@ -21,8 +21,7 @@ namespace nn {
     loss_ = loss;
   }
   void Network::generate_gradient(TrainingBatch &batch) {
-    Feed feed;
-    feed.signal = batch.samples_;
+    Feed feed = { batch.samples_, true };
     forward_stages(feed);
     feed.signal = loss_->error(feed, batch.targets_);
     backward_stages(feed);
@@ -38,16 +37,14 @@ namespace nn {
     update_weights(hyperparameters);
   }
   TestingResult Network::test(TrainingBatch &batch) {
-    Feed feed;
-    feed.signal = batch.samples_;
+    Feed feed = { batch.samples_, false };
     forward_stages(feed);
     af::array loss = loss_->loss(feed, batch.targets_);
     af::array output = loss_->output(feed);
     return TestingResult(output, batch.targets_, loss);
   }
   PredictionResult Network::predict(PredictionBatch &batch) {
-    Feed feed;
-    feed.signal = batch.samples_;
+    Feed feed = { batch.samples_, false };
     forward_stages(feed);
     return PredictionResult(loss_->output(feed));
   }
