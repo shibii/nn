@@ -14,7 +14,6 @@ namespace nn {
   class Convolutional : public WeightedStage {
   public:
     ~Convolutional() = default;
-    Convolutional() = default;
     Convolutional(dim_t size0, dim_t size1, dim_t stride0, dim_t stride1, dim_t pad0, dim_t pad1, dim_t features);
     void forward(Feed &f) override;
     void backward(Feed &f) override;
@@ -22,6 +21,8 @@ namespace nn {
     template <class Archive> void serialize(Archive &ar);
 
   private:
+    friend class cereal::access;
+    Convolutional() = default;
     std::shared_ptr<OptimizableWeights> param_;
     af::array inputflat_;
     af::dim4 inputdim_;
