@@ -19,7 +19,7 @@ namespace nn {
     void optimize(Hyperparameters hp) override;
     void attach(std::shared_ptr<OptimizableWeights> param) override;
     template <class Archive> void serialize(Archive &ar);
-
+  private:
     float decay_;
     struct OptimizerState;
     std::vector<OptimizerState> states_;
