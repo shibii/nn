@@ -11,8 +11,7 @@ namespace nn {
   class LeakyReLU : public WeightlessStage {
   public:
     ~LeakyReLU() = default;
-    LeakyReLU() = default;
-    LeakyReLU(float leak);
+    LeakyReLU(float leak = 0.01f);
     void forward(Feed &f) override;
     void backward(Feed &f) override;
     template <class Archive> void serialize(Archive &ar);

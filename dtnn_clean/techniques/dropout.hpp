@@ -11,8 +11,7 @@ namespace nn {
   class Dropout : public WeightlessStage {
   public:
     ~Dropout() = default;
-    Dropout() = default;
-    Dropout(float pass_probability);
+    Dropout(float pass_probability = 0.5f);
     void forward(Feed &f) override;
     void backward(Feed &f) override;
     template <class Archive> void serialize(Archive &ar);
