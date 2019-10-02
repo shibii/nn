@@ -20,7 +20,6 @@ namespace nn {
     void attach(std::shared_ptr<OptimizableWeights> param) override;
     template <class Archive> void serialize(Archive &ar);
 
-    float learningrate_;
     struct OptimizerState;
     std::vector<OptimizerState> states_;
   };
