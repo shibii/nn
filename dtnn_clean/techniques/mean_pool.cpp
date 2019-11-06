@@ -14,7 +14,7 @@ namespace nn {
     unwrapdim_ = unwrapped.dims();
     // claculate the mean value of each individual subsampling window
     af::array mean = af::mean(unwrapped, 0);
-    //return spatial dimensions
+    // return spatial dimensions
     dim_t windows0 = 1 + (inputdim_[0] + 2 * pad0_ - size0_) / stride0_;
     dim_t windows1 = 1 + (inputdim_[1] + 2 * pad1_ - size1_) / stride1_;
     f.signal = af::moddims(mean, windows0, windows1, inputdim_[2], inputdim_[3]);

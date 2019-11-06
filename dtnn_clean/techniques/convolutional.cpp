@@ -12,8 +12,8 @@ namespace nn {
     af::array unwrapped = af::unwrap(f.signal, size0_, size1_, stride0_, stride1_,
       pad0_, pad1_);
     // reordering the input into matrix in such way that
-    // each feature of the corresponding window are in the same colums
-    // and each window of each sample of the batch are in seperate rows
+    // each feature of the corresponding window are in the same columns
+    // and each window of each sample of the batch are in separate rows
     af::array reorderinput = af::reorder(unwrapped, 0, 2, 1, 3);
     reorderdim_ = reorderinput.dims();
     af::dim4 flatdim(reorderinput.dims(0) * reorderinput.dims(1),

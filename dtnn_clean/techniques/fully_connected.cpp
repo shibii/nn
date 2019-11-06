@@ -13,7 +13,6 @@ namespace nn {
     // weighted connections are calculated
     af::array output = af::matmul(param_->weights.w, inputflat_);
     output = af::batchFunc(output, param_->weights.b, util::add);
-
     // batch dimension is restored
     f.signal = af::moddims(output, output.dims(0), 1, 1, output.dims(1));
   }

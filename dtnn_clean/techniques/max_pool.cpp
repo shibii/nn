@@ -12,23 +12,23 @@ namespace nn {
     af::array unwrapped = af::unwrap(f.signal, size0_, size1_, stride0_, stride1_,
       pad0_, pad1_);
     unwrapdim_ = unwrapped.dims();
-    //find each window columns maximum value and its index
+    // find maximum values and their indices
     af::array max;
     af::max(max, maxidx_, unwrapped, 0);
-    //return spatial dimensions
+    // return spatial dimensions
     dim_t windows0 = 1 + (inputdim_[0] + 2 * pad0_ - size0_) / stride0_;
     dim_t windows1 = 1 + (inputdim_[1] + 2 * pad1_ - size1_) / stride1_;
     f.signal = af::moddims(max, windows0, windows1, inputdim_[2], inputdim_[3]);
   }
   void MaxPool::backward(Feed &f) {
     af::array error = f.signal;
-    // error laid out into rows
+    // error is laid out into rows
     error = af::moddims(error, 1, error.dims(0) * error.dims(1), error.dims(2), error.dims(3));
-    // constructing linear indexing array to the maximum elements of each
+    // constructing a linear indexing array to the maximum elements of each
     // unwrapped window column
     af::dim4 lineardim{1, unwrapdim_[1], unwrapdim_[2], unwrapdim_[3]};
     af::array linear = af::iota(lineardim) * unwrapdim_[0] + maxidx_;
-    // generating mask for the largest elements of each window column
+    // generating a mask for the largest elements of each window column
     af::array mask = af::constant(0.f, unwrapdim_);
     mask(linear) = 1.f;
     // error is tiled back to the dimensions of seperate window
