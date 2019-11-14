@@ -3,6 +3,5 @@
 #include "propagation_stage.hpp"
 
 namespace nn {
-  class WeightlessStage : public PropagationStage {
-  };
-}
+class WeightlessStage : public PropagationStage {};
+}  // namespace nn

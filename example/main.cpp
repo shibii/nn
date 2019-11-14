@@ -29,19 +29,22 @@ int main(unsigned int argc, const char* argv[]) {
   auto optimizer = std::make_shared<Momentum>();
   Network nn(training_provider.sample_dimensions(), optimizer);
 
-  auto conv1 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 10);
+  auto conv1 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 32);
   nn.add(conv1);
   nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
-  nn.add(std::make_shared<ReLU>());
+  nn.add(std::make_shared<LeakyReLU>());
+  //nn.add(std::make_shared<Dropout>(0.5f));
 
-  auto conv2 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 20);
+  auto conv2 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 64);
   nn.add(conv2);
   nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
-  nn.add(std::make_shared<ReLU>());
+  nn.add(std::make_shared<LeakyReLU>());
+  //nn.add(std::make_shared<Dropout>(0.5f));
 
-  auto fc1 = std::make_shared<FullyConnected>(40);
+  auto fc1 = std::make_shared<FullyConnected>(64);
   nn.add(fc1);
-  nn.add(std::make_shared<ReLU>());
+  nn.add(std::make_shared<LeakyReLU>());
+  //nn.add(std::make_shared<Dropout>(0.5f));
 
   auto out = std::make_shared<FullyConnected>(10);
   nn.add(out);
@@ -69,7 +72,7 @@ int main(unsigned int argc, const char* argv[]) {
 
       //try {
         Hyperparameters hp;
-        hp.learningrate = 1e-3f;
+        hp.learningrate = 1e-2f;
         hp.weight_decay = 1e-6f;
         nn.train(batch, hp);
       //}
@@ -123,8 +126,8 @@ int main(unsigned int argc, const char* argv[]) {
     duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
     std::cout << std::endl << "execution time: " << duration.count() << " seconds";
 
-    //std::ofstream ostream("network.json", std::ios::binary);
-    //Serializer::serializeJSON(ostream, nn);
+    std::ofstream ostream("network.xml", std::ios::binary);
+    Serializer::serializeXML(ostream, nn);
   }
 
   return 0;

@@ -3,8 +3,8 @@
 #include <arrayfire.h>
 
 namespace nn {
-  struct Feed {
-    af::array signal;
-    bool is_training;
-  };
-}
+struct Feed {
+  af::array signal;
+  bool is_training;
+};
+}  // namespace nn

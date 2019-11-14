@@ -1,15 +1,13 @@
 #include "squared_loss.hpp"
 
 namespace nn {
-  af::array SquaredLoss::error(Feed &f, af::array target) const {
-    return -(target - f.signal);
-  }
-  af::array SquaredLoss::loss(Feed &f, af::array target) const {
-    return .5f * (target - f.signal)*(target - f.signal);
-  }
-  af::array SquaredLoss::output(Feed &f) const {
-    return f.signal;
-  }
-  template <class Archive> void SquaredLoss::serialize(Archive &ar) {
-  }
+af::array SquaredLoss::error(Feed &f, af::array target) const {
+  return -(target - f.signal);
 }
+af::array SquaredLoss::loss(Feed &f, af::array target) const {
+  return .5f * (target - f.signal) * (target - f.signal);
+}
+af::array SquaredLoss::output(Feed &f) const { return f.signal; }
+template <class Archive>
+void SquaredLoss::serialize(Archive &ar) {}
+}  // namespace nn

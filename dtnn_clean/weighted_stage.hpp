@@ -2,13 +2,13 @@
 
 #include <memory>
 
-#include "propagation_stage.hpp"
-#include "optimizable_weights.hpp"
 #include "feed.hpp"
+#include "optimizable_weights.hpp"
+#include "propagation_stage.hpp"
 
 namespace nn {
-  class WeightedStage : public PropagationStage {
-  public:
-    virtual std::shared_ptr<OptimizableWeights> init(af::dim4 input) = 0;
-  };
-}
+class WeightedStage : public PropagationStage {
+ public:
+  virtual std::shared_ptr<OptimizableWeights> init(af::dim4 input) = 0;
+};
+}  // namespace nn
