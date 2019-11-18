@@ -33,18 +33,15 @@ int main(unsigned int argc, const char* argv[]) {
   nn.add(conv1);
   nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
   nn.add(std::make_shared<LeakyReLU>());
-  //nn.add(std::make_shared<Dropout>(0.5f));
 
   auto conv2 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 64);
   nn.add(conv2);
   nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
   nn.add(std::make_shared<LeakyReLU>());
-  //nn.add(std::make_shared<Dropout>(0.5f));
 
   auto fc1 = std::make_shared<FullyConnected>(64);
   nn.add(fc1);
   nn.add(std::make_shared<LeakyReLU>());
-  //nn.add(std::make_shared<Dropout>(0.5f));
 
   auto out = std::make_shared<FullyConnected>(10);
   nn.add(out);
@@ -68,18 +65,16 @@ int main(unsigned int argc, const char* argv[]) {
       std::vector<float> batch_indices(indices.begin() + i, indices.begin() + i + batch_size);
       auto batch = training_provider.batch(batch_indices);
 
-      //auto batch = training_provider.batch(i, batch_size);
-
-      //try {
+      try {
         Hyperparameters hp;
         hp.learningrate = 1e-2f;
         hp.weight_decay = 1e-6f;
         nn.train(batch, hp);
-      //}
-      //catch (af::exception& e) {
-      //  fprintf(stderr, "%s\n", e.what());
-      //  throw;
-      //}
+      }
+      catch (af::exception& e) {
+        fprintf(stderr, "%s\n", e.what());
+        throw;
+      }
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
@@ -103,25 +98,11 @@ int main(unsigned int argc, const char* argv[]) {
       batches++;
       loss += result.loss();
       accuracy += result.accuracy();
-
-      //tp += result.true_positive(.5f);
-      //tn += result.true_negative(.5f);
-      //fp += result.false_positive(.5f);
-      //fn += result.false_negative(.5f);
     }
-    //float precision = tp / (tp + fp);
-    //float recall = tp / (tp + fn);
-    //float f1 = (2 * precision * recall) / (precision + recall);
 
     std::cout << std::endl << "loss: " << loss / (float)batches
       << " accuracy: " << accuracy / (float)batches;
-      //<< " tp: " << tp
-      //<< " tn: " << tn
-      //<< " fp: " << fp
-      //<< " fn: " << fn
-      //<< " precision: " << precision
-      //<< " recall: " << recall
-      //<< " f1: " << f1;
+
     stop = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
     std::cout << std::endl << "execution time: " << duration.count() << " seconds";
