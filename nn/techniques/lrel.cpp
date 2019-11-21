@@ -1,16 +1,16 @@
-#include "leaky_relu.hpp"
+#include "lrel.hpp"
 
 namespace nn {
-LeakyReLU::LeakyReLU(float leak) : leak_(leak) {}
-void LeakyReLU::forward(Feed &f) {
+LReL::LReL(float leak) : leak_(leak) {}
+void LReL::forward(Feed &f) {
   input_ = f.signal;
   f.signal = (input_ > 0.f) * input_ + (input_ <= 0.f) * input_ * leak_;
 }
-void LeakyReLU::backward(Feed &f) {
+void LReL::backward(Feed &f) {
   f.signal = (input_ > 0.f) * f.signal + (input_ <= 0.f) * f.signal * leak_;
 }
 template <class Archive>
-void LeakyReLU::serialize(Archive &ar) {
+void LReL::serialize(Archive &ar) {
   ar(leak_);
 }
 }  // namespace nn

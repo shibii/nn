@@ -8,10 +8,10 @@
 #include "../weightless_stage.hpp"
 
 namespace nn {
-class LeakyReLU : public WeightlessStage {
+class ReL : public WeightlessStage {
  public:
-  ~LeakyReLU() = default;
-  LeakyReLU(float leak = 0.01f);
+  ~ReL() = default;
+  ReL() = default;
   void forward(Feed &f) override;
   void backward(Feed &f) override;
   template <class Archive>
@@ -19,8 +19,7 @@ class LeakyReLU : public WeightlessStage {
 
  private:
   af::array input_;
-  float leak_;
 };
 }  // namespace nn
-CEREAL_REGISTER_TYPE(nn::LeakyReLU);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::LeakyReLU)
+CEREAL_REGISTER_TYPE(nn::ReL);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(nn::PropagationStage, nn::ReL)
