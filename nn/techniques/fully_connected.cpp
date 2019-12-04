@@ -27,7 +27,7 @@ void FullyConnected::backward(Feed &f) {
   // error shape is modified to match the input received in forward pass
   f.signal = af::moddims(output, inputdim_);
 }
-std::shared_ptr<OptimizableWeights> FullyConnected::init(af::dim4 input) {
+std::shared_ptr<OptimizableWeights> FullyConnected::init(const af::dim4 input) {
   dim_t elements = input[0] * input[1] * input[2];
   float limit = sqrtf(2.f / (float)elements);
   auto w = wb(af::dim4(units_, elements), af::dim4(units_), limit);

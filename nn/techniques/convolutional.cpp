@@ -52,7 +52,7 @@ void Convolutional::backward(Feed &f) {
   f.signal = af::wrap(error, inputdim_[0], inputdim_[1], size0_, size1_,
                       stride0_, stride1_, pad0_, pad1_);
 }
-std::shared_ptr<OptimizableWeights> Convolutional::init(af::dim4 input) {
+std::shared_ptr<OptimizableWeights> Convolutional::init(const af::dim4 input) {
   af::dim4 kerneldim = {size0_ * size1_ * input[2], features_};
   float limit = sqrtf(2.f / (size0_ * size1_ * input[2]));
   auto w = wb(kerneldim, af::dim4(1, features_), limit);

@@ -9,6 +9,6 @@
 namespace nn {
 class WeightedStage : public PropagationStage {
  public:
-  virtual std::shared_ptr<OptimizableWeights> init(af::dim4 input) = 0;
+  virtual std::shared_ptr<OptimizableWeights> init(const af::dim4 input) = 0;
 };
 }  // namespace nn

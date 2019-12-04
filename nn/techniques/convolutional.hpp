@@ -18,13 +18,14 @@ class Convolutional : public WeightedStage {
                 dim_t pad0, dim_t pad1, dim_t features);
   void forward(Feed &f) override;
   void backward(Feed &f) override;
-  std::shared_ptr<OptimizableWeights> init(af::dim4 input) override;
+  std::shared_ptr<OptimizableWeights> init(const af::dim4 input) override;
+
+ private:
+  Convolutional() = default;
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
-  friend class cereal::access;
-  Convolutional() = default;
   std::shared_ptr<OptimizableWeights> param_;
   af::array inputflat_;
   af::dim4 inputdim_;

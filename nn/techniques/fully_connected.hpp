@@ -17,13 +17,14 @@ class FullyConnected : public WeightedStage {
   FullyConnected(dim_t units);
   void forward(Feed &f) override;
   void backward(Feed &f) override;
-  std::shared_ptr<OptimizableWeights> init(af::dim4 input) override;
+  std::shared_ptr<OptimizableWeights> init(const af::dim4 input) override;
+
+ private:
+  FullyConnected() = default;
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
-  friend class cereal::access;
-  FullyConnected() = default;
   std::shared_ptr<OptimizableWeights> param_;
   dim_t units_;
   af::dim4 inputdim_;
