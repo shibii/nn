@@ -18,7 +18,7 @@ void Adam::optimize(Hyperparameters hp) {
     // sqrt is numerically stabilized internally
     state.param->weights -= hp.learningrate * mhat / vhat.sqrt();
     state.param->apply_weight_decay(decay_term);
-    state.param->gradient.zero();
+    state.param->gradient.reset();
   }
 }
 void Adam::attach(std::shared_ptr<OptimizableWeights> param) {

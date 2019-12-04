@@ -6,7 +6,7 @@ void SGD::optimize(Hyperparameters hp) {
     auto decay_term = param->get_decay_deltas(hp.weight_decay);
     param->weights -= hp.learningrate * param->gradient / (float)hp.batch_size;
     param->apply_weight_decay(decay_term);
-    param->gradient.zero();
+    param->gradient.reset();
   }
 }
 void SGD::attach(std::shared_ptr<OptimizableWeights> param) {

@@ -11,7 +11,7 @@ void Adagrad::optimize(Hyperparameters hp) {
     state.param->weights -=
         hp.learningrate * avg_gradient / state.sum_of_squared_grad.sqrt();
     state.param->apply_weight_decay(decay_term);
-    state.param->gradient.zero();
+    state.param->gradient.reset();
   }
 }
 void Adagrad::attach(std::shared_ptr<OptimizableWeights> param) {

@@ -10,7 +10,7 @@ void Momentum::optimize(Hyperparameters hp) {
         hp.learningrate * state.param->gradient / (float)hp.batch_size;
     state.param->weights -= state.velocities;
     state.param->apply_weight_decay(decay_term);
-    state.param->gradient.zero();
+    state.param->gradient.reset();
   }
 }
 void Momentum::attach(std::shared_ptr<OptimizableWeights> param) {

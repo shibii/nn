@@ -11,7 +11,7 @@ wb::wb(af::dim4 wdim, af::dim4 bdim, float sigma) {
   w = af::randn(wdim) * sigma;
   b = af::constant(0.f, bdim);
 }
-void wb::zero() {
+void wb::reset() {
   w = 0.f;
   b = 0.f;
 }

@@ -11,7 +11,7 @@ class wb {
   wb(af::array w, af::array b);
   wb(af::dim4 wdim, af::dim4 bdim);
   wb(af::dim4 wdim, af::dim4 bdim, float sigma);
-  void zero();
+  void reset();
   wb pow(int p) const;
   wb sqrt() const;
   template <class Archive>
