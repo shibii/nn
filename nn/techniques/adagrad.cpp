@@ -7,6 +7,7 @@ void Adagrad::optimize(Hyperparameters hp) {
     auto decay_term = state.param->get_decay_deltas(hp.weight_decay);
     auto avg_gradient = state.param->gradient / (float)hp.batch_size;
     state.sum_of_squared_grad += avg_gradient.pow(2);
+    // sqrt is numerically stabilized internally
     state.param->weights -=
         hp.learningrate * avg_gradient / state.sum_of_squared_grad.sqrt();
     state.param->apply_weight_decay(decay_term);
