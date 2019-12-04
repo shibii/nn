@@ -3,10 +3,12 @@
 #include <arrayfire.h>
 #include <vector>
 
+#include "data_shape.hpp"
+
 namespace nn {
 class PredictionBatch {
  public:
-  PredictionBatch(std::vector<float> sample_data, af::dim4 sample_dim);
+  PredictionBatch(std::vector<float> sample_data, DataShape sample_dim);
   PredictionBatch(af::array samples);
 
  private:

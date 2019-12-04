@@ -2,8 +2,9 @@
 
 namespace nn {
 TrainingBatch::TrainingBatch(std::vector<float> sample_data,
+                             DataShape sample_dim,
                              std::vector<float> target_data,
-                             af::dim4 sample_dim, af::dim4 target_dim) {
+                             DataShape target_dim) {
   samples_ = af::array(sample_dim, sample_data.data());
   targets_ = af::array(target_dim, target_data.data());
 }

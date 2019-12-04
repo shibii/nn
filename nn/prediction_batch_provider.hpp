@@ -8,7 +8,7 @@
 namespace nn {
 class PredictionBatchProvider {
  public:
-  PredictionBatchProvider(std::vector<float> sample_data, af::dim4 sampledim);
+  PredictionBatchProvider(std::vector<float> sample_data, DataShape sample_dim);
   PredictionBatchProvider(af::array samples);
   PredictionBatch batch(std::vector<float> indices);
   PredictionBatch batch(unsigned int from, unsigned int batch_size);

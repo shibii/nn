@@ -2,11 +2,11 @@
 
 namespace nn {
 TrainingBatchProvider::TrainingBatchProvider(std::vector<float> sample_data,
-                                             af::dim4 sampledim,
+                                             DataShape sample_dim,
                                              std::vector<float> target_data,
-                                             af::dim4 targetdim) {
-  samples_ = af::array(sampledim, sample_data.data());
-  targets_ = af::array(targetdim, target_data.data());
+                                             DataShape target_dim) {
+  samples_ = af::array(sample_dim, sample_data.data());
+  targets_ = af::array(target_dim, target_data.data());
 }
 TrainingBatchProvider::TrainingBatchProvider(af::array samples,
                                              af::array targets) {

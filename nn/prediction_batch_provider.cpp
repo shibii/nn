@@ -2,8 +2,8 @@
 
 namespace nn {
 PredictionBatchProvider::PredictionBatchProvider(std::vector<float> sample_data,
-                                                 af::dim4 sampledim) {
-  samples_ = af::array(sampledim, sample_data.data());
+                                                 DataShape sample_dim) {
+  samples_ = af::array(sample_dim, sample_data.data());
 }
 PredictionBatchProvider::PredictionBatchProvider(af::array samples) {
   samples_ = samples;

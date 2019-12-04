@@ -4,12 +4,13 @@
 #include <vector>
 
 #include "training_batch.hpp"
+#include "data_shape.hpp"
 
 namespace nn {
 class TrainingBatchProvider {
  public:
-  TrainingBatchProvider(std::vector<float> sample_data, af::dim4 sampledim,
-                        std::vector<float> target_data, af::dim4 targetdim);
+  TrainingBatchProvider(std::vector<float> sample_data, DataShape sample_dim,
+                        std::vector<float> target_data, DataShape target_dim);
   TrainingBatchProvider(af::array samples, af::array targets);
   TrainingBatch batch(std::vector<float> indices);
   TrainingBatch batch(unsigned int from, unsigned int batch_size);
