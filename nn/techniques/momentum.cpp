@@ -4,12 +4,12 @@ namespace nn {
 Momentum::Momentum(float decay) : decay_(decay) {}
 void Momentum::optimize(Hyperparameters hp) {
   for (auto &state : states_) {
-    auto decay_term = state.param->weights.w * hp.weight_decay;
+    auto decay_term = state.param->get_decay_deltas(hp.weight_decay);
     state.velocities =
         (1.f - decay_) * state.velocities +
         hp.learningrate * state.param->gradient / (float)hp.batch_size;
     state.param->weights -= state.velocities;
-    state.param->weights.w -= decay_term;
+    state.param->apply_weight_decay(decay_term);
     state.param->gradient.zero();
   }
 }

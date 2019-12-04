@@ -9,7 +9,7 @@ void Adam::optimize(Hyperparameters hp) {
   decay2T_ *= decay2_;
 
   for (auto &state : states_) {
-    auto decay_term = state.param->weights.w * hp.weight_decay;
+    auto decay_term = state.param->get_decay_deltas(hp.weight_decay);
     auto avg_gradient = state.param->gradient / (float)hp.batch_size;
 
     state.m = decay1_ * state.m + (1.f - decay1_) * avg_gradient;
@@ -19,7 +19,7 @@ void Adam::optimize(Hyperparameters hp) {
     wb vhat = state.v / (1.f - decay2T_);
 
     state.param->weights -= hp.learningrate * mhat / vhat.sqrt();
-    state.param->weights.w -= decay_term;
+    state.param->apply_weight_decay(decay_term);
     state.param->gradient.zero();
   }
 }

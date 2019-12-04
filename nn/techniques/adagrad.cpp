@@ -4,12 +4,12 @@
 namespace nn {
 void Adagrad::optimize(Hyperparameters hp) {
   for (auto &state : states_) {
-    auto decay_term = state.param->weights.w * hp.weight_decay;
+    auto decay_term = state.param->get_decay_deltas(hp.weight_decay);
     auto avg_gradient = state.param->gradient / (float)hp.batch_size;
     state.sum_of_squared_grad += avg_gradient.pow(2);
     state.param->weights -=
         hp.learningrate * avg_gradient / state.sum_of_squared_grad.sqrt();
-    state.param->weights.w -= decay_term;
+    state.param->apply_weight_decay(decay_term);
     state.param->gradient.zero();
   }
 }
