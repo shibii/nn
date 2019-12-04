@@ -22,3 +22,4 @@
 #include "techniques/squared_loss.hpp"
 #include "techniques/tanh.hpp"
 #include "training_batch_provider.hpp"
+#include "util.hpp"
