@@ -24,7 +24,7 @@ TEST_CASE("squared loss error", "[squared loss]") {
 
   REQUIRE(util::approx(output, lf.output(f)));
   REQUIRE(util::approx(error, lf.error(f, target)));
-  REQUIRE(util::approx(loss, lf.loss(f, target)));
+  REQUIRE(util::approx(loss, lf.loss(f, target), 1e-2f));
 }
 
 TEST_CASE("squared loss serializes", "[squared loss]") {
