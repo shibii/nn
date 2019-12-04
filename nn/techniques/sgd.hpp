@@ -18,6 +18,9 @@ class SGD : public Optimizer {
   ~SGD() = default;
   void optimize(Hyperparameters hp) override;
   void attach(std::shared_ptr<OptimizableWeights> param) override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 

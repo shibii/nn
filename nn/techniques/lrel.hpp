@@ -14,10 +14,12 @@ class LReL : public WeightlessStage {
   LReL(float leak = 0.01f);
   void forward(Feed &f) override;
   void backward(Feed &f) override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
   af::array input_;
   float leak_;
 };

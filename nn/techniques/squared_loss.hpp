@@ -15,6 +15,9 @@ class SquaredLoss : public LossFunction {
   af::array error(Feed &f, af::array target) const override;
   af::array loss(Feed &f, af::array target) const override;
   af::array output(Feed &f) const override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 };

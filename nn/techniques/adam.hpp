@@ -18,10 +18,12 @@ class Adam : public Optimizer {
   Adam(float decay1 = 0.9f, float decay2 = 0.999f);
   void optimize(Hyperparameters hp) override;
   void attach(std::shared_ptr<OptimizableWeights> param) override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
   float decay1_;
   float decay2_;
   float decay1T_;

@@ -15,10 +15,11 @@ class LogisticCrossEntropy : public LossFunction {
   af::array error(Feed &f, af::array target) const override;
   af::array loss(Feed &f, af::array target) const override;
   af::array output(Feed &f) const override;
-  template <class Archive>
-  void serialize(Archive &ar);
 
  private:
+  friend class cereal::access;
+  template <class Archive>
+  void serialize(Archive &ar);
   af::array logistic(const af::array &input) const;
 };
 }  // namespace nn

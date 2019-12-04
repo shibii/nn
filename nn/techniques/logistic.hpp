@@ -14,10 +14,12 @@ class Logistic : public WeightlessStage {
   Logistic() = default;
   void forward(Feed &f) override;
   void backward(Feed &f) override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
   af::array activation_;
 };
 }  // namespace nn

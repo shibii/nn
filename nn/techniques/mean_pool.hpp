@@ -18,12 +18,13 @@ class MeanPool : public WeightlessStage {
            dim_t pad1);
   void forward(Feed &f) override;
   void backward(Feed &f) override;
+
+ private:
+  MeanPool() = default;
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
-  friend class cereal::access;
-  MeanPool() = default;
   af::dim4 inputdim_;
   af::dim4 unwrapdim_;
   dim_t size0_;

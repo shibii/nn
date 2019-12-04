@@ -14,12 +14,14 @@ class Dropout : public WeightlessStage {
   Dropout(float pass_probability = 0.5f);
   void forward(Feed &f) override;
   void backward(Feed &f) override;
-  template <class Archive>
-  void serialize(Archive &ar);
 
   float pass_probability_;
 
  private:
+  friend class cereal::access;
+  template <class Archive>
+  void serialize(Archive &ar);
+
   af::array passmask_;
 };
 }  // namespace nn

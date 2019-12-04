@@ -18,10 +18,12 @@ class RMSprop : public Optimizer {
   RMSprop(float decay = 0.1f);
   void optimize(Hyperparameters hp) override;
   void attach(std::shared_ptr<OptimizableWeights> param) override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
   float decay_;
   struct OptimizerState;
   std::vector<OptimizerState> states_;

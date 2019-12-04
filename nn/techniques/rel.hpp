@@ -14,10 +14,12 @@ class ReL : public WeightlessStage {
   ReL() = default;
   void forward(Feed &f) override;
   void backward(Feed &f) override;
+
+ private:
+  friend class cereal::access;
   template <class Archive>
   void serialize(Archive &ar);
 
- private:
   af::array input_;
 };
 }  // namespace nn
