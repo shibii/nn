@@ -17,7 +17,7 @@ void Network::add(std::shared_ptr<WeightedStage> stage) {
   stages_.push_back(stage);
 }
 void Network::add(std::shared_ptr<LossFunction> loss) { loss_ = loss; }
-void Network::generate_gradient(TrainingBatch &batch) {
+void Network::generate_gradient(const TrainingBatch &batch) {
   Feed feed = {batch.samples_, true};
   forward_stages(feed);
   feed.signal = loss_->error(feed, batch.targets_);
@@ -29,18 +29,19 @@ void Network::update_weights(Hyperparameters hyperparameters) {
   optimizer_->optimize(hyperparameters);
   batch_samples_ = 0;
 }
-void Network::train(TrainingBatch &batch, Hyperparameters hyperparameters) {
+void Network::train(const TrainingBatch &batch,
+                    Hyperparameters hyperparameters) {
   generate_gradient(batch);
   update_weights(hyperparameters);
 }
-TestingResult Network::test(TrainingBatch &batch) {
+TestingResult Network::test(const TrainingBatch &batch) {
   Feed feed = {batch.samples_, false};
   forward_stages(feed);
   af::array loss = loss_->loss(feed, batch.targets_);
   af::array output = loss_->output(feed);
   return TestingResult(output, batch.targets_, loss);
 }
-PredictionResult Network::predict(PredictionBatch &batch) {
+PredictionResult Network::predict(const PredictionBatch &batch) {
   Feed feed = {batch.samples_, false};
   forward_stages(feed);
   return PredictionResult(loss_->output(feed));

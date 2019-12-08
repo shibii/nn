@@ -26,11 +26,11 @@ class Network {
   void add(std::shared_ptr<WeightlessStage> stage);
   void add(std::shared_ptr<WeightedStage> stage);
   void add(std::shared_ptr<LossFunction> loss);
-  void generate_gradient(TrainingBatch &batch);
+  void generate_gradient(const TrainingBatch &batch);
   void update_weights(Hyperparameters hyperparameters);
-  void train(TrainingBatch &batch, Hyperparameters hyperparameters);
-  TestingResult test(TrainingBatch &batch);
-  PredictionResult predict(PredictionBatch &batch);
+  void train(const TrainingBatch &batch, Hyperparameters hyperparameters);
+  TestingResult test(const TrainingBatch &batch);
+  PredictionResult predict(const PredictionBatch &batch);
   void merge_weights(Network &from, float bias);
   std::vector<std::shared_ptr<OptimizableWeights>> get_weights();
   template <class Archive>
