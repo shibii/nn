@@ -12,8 +12,8 @@ class SquaredLoss : public LossFunction {
  public:
   SquaredLoss() = default;
   ~SquaredLoss() = default;
-  af::array error(Feed &f, af::array target) const override;
-  af::array loss(Feed &f, af::array target) const override;
+  af::array error(Feed &f, const af::array target) const override;
+  af::array loss(Feed &f, const af::array target) const override;
   af::array output(Feed &f) const override;
 
  private:

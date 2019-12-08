@@ -2,10 +2,10 @@
 #include "../arrayfire_util.hpp"
 
 namespace nn {
-af::array SoftmaxCrossEntropy::error(Feed &f, af::array target) const {
+af::array SoftmaxCrossEntropy::error(Feed &f, const af::array target) const {
   return -(target - softmax(f.signal));
 }
-af::array SoftmaxCrossEntropy::loss(Feed &f, af::array target) const {
+af::array SoftmaxCrossEntropy::loss(Feed &f, const af::array target) const {
   // shifted values are used to calculate the log of softmax
   af::array max = af::max(f.signal);
   af::array expsum = af::sum(af::exp(af::batchFunc(f.signal, max, util::sub)));
