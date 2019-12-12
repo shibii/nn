@@ -14,7 +14,7 @@ PredictionBatch PredictionBatchProvider::batch(std::vector<long long> indices) {
   PredictionBatch batch(af::lookup(samples_, index, 3));
   return batch;
 }
-PredictionBatch PredictionBatchProvider::batch(unsigned int from,
+PredictionBatch PredictionBatchProvider::batch(long long from,
                                                unsigned int batch_size) {
   auto range = af::seq(from, from + batch_size - 1);
   auto batch_samples = samples_(af::span, af::span, af::span, range);

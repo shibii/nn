@@ -11,7 +11,7 @@ class PredictionBatchProvider {
   PredictionBatchProvider(std::vector<float> sample_data, DataShape sample_dim);
   PredictionBatchProvider(af::array samples);
   PredictionBatch batch(std::vector<long long> indices);
-  PredictionBatch batch(unsigned int from, unsigned int batch_size);
+  PredictionBatch batch(long long from, unsigned int batch_size);
   unsigned int sample_count();
   af::dim4 sample_dimensions();
 

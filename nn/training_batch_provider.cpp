@@ -20,7 +20,7 @@ TrainingBatch TrainingBatchProvider::batch(std::vector<long long> indices) {
                       af::lookup(targets_, index, 3));
   return batch;
 }
-TrainingBatch TrainingBatchProvider::batch(unsigned int from,
+TrainingBatch TrainingBatchProvider::batch(long long from,
                                            unsigned int batch_size) {
   auto range = af::seq(from, from + batch_size - 1);
   auto batch_samples = samples_(af::span, af::span, af::span, range);

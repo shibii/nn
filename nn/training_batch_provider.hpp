@@ -13,7 +13,7 @@ class TrainingBatchProvider {
                         std::vector<float> target_data, DataShape target_dim);
   TrainingBatchProvider(af::array samples, af::array targets);
   TrainingBatch batch(std::vector<long long> indices);
-  TrainingBatch batch(unsigned int from, unsigned int batch_size);
+  TrainingBatch batch(long long from, unsigned int batch_size);
   unsigned int sample_count();
   af::dim4 sample_dimensions();
 
