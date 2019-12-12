@@ -8,8 +8,8 @@ af::array SoftmaxCrossEntropy::error(Feed &f, const af::array target) const {
 af::array SoftmaxCrossEntropy::loss(Feed &f, const af::array target) const {
   // shifted values are used to calculate the log of softmax
   af::array max = af::max(f.signal);
-  af::array expsum = af::sum(af::exp(af::batchFunc(f.signal, max, util::sub)));
-  af::array logexpsum = af::log(expsum);
+  af::array logexpsum =
+      af::log(af::sum(af::exp(af::batchFunc(f.signal, max, util::sub))));
   af::array logsoftmax = af::batchFunc(f.signal, max, util::sub);
   logsoftmax = af::batchFunc(logsoftmax, logexpsum, util::sub);
   return -(target * logsoftmax);
