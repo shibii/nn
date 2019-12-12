@@ -2,7 +2,7 @@
 
 namespace nn {
 af::array LogisticCrossEntropy::error(Feed &f, const af::array target) const {
-  return -(target - logistic(f.signal));
+  return logistic(f.signal) - target;
 }
 af::array LogisticCrossEntropy::loss(Feed &f, const af::array target) const {
   af::array clamped = af::clamp(f.signal, 0.f, af::Inf);
