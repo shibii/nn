@@ -3,7 +3,7 @@
 
 namespace nn {
 af::array SoftmaxCrossEntropy::error(Feed &f, const af::array target) const {
-  return -(target - softmax(f.signal));
+  return softmax(f.signal) - target;
 }
 af::array SoftmaxCrossEntropy::loss(Feed &f, const af::array target) const {
   // shifted values are used to calculate the log of softmax
@@ -12,7 +12,7 @@ af::array SoftmaxCrossEntropy::loss(Feed &f, const af::array target) const {
       af::log(af::sum(af::exp(af::batchFunc(f.signal, max, util::sub))));
   af::array logsoftmax = af::batchFunc(f.signal, max, util::sub);
   logsoftmax = af::batchFunc(logsoftmax, logexpsum, util::sub);
-  return -(target * logsoftmax);
+  return -target * logsoftmax;
 }
 af::array SoftmaxCrossEntropy::output(Feed &f) const {
   return softmax(f.signal);
