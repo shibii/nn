@@ -13,8 +13,9 @@ TrainingBatchProvider::TrainingBatchProvider(af::array samples,
   samples_ = samples;
   targets_ = targets;
 }
-TrainingBatch TrainingBatchProvider::batch(std::vector<float> indices) {
-  af::array index(indices.size(), indices.data());
+TrainingBatch TrainingBatchProvider::batch(std::vector<long long> indices) {
+  std::vector<float> floatindices(indices.begin(), indices.end());
+  af::array index(floatindices.size(), floatindices.data());
   TrainingBatch batch(af::lookup(samples_, index, 3),
                       af::lookup(targets_, index, 3));
   return batch;

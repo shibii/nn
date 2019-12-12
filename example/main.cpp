@@ -31,13 +31,18 @@ int main(unsigned int argc, const char* argv[]) {
   auto optimizer = std::make_shared<Momentum>();
   Network nn(training_provider.sample_dimensions(), optimizer);
 
-  auto conv1 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 32);
+  auto conv1 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 20);
   nn.add(conv1);
   nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
   nn.add(std::make_shared<LReL>());
 
-  auto conv2 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 64);
+  auto conv2 = std::make_shared<Convolutional>(3, 3, 1, 1, 0, 0, 40);
   nn.add(conv2);
+  nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
+  nn.add(std::make_shared<LReL>());
+
+  auto conv3 = std::make_shared<Convolutional>(3, 3, 1, 1, 1, 1, 60);
+  nn.add(conv3);
   nn.add(std::make_shared<MaxPool>(2, 2, 2, 2, 0, 0));
   nn.add(std::make_shared<LReL>());
 
@@ -53,7 +58,7 @@ int main(unsigned int argc, const char* argv[]) {
 
   dim_t batch_size = 16;
 
-  std::vector<float> indices(training_provider.sample_count());
+  std::vector<long long> indices(training_provider.sample_count());
   std::iota(indices.begin(), indices.end(), 0);
 
   while (true) {
@@ -64,14 +69,14 @@ int main(unsigned int argc, const char* argv[]) {
                  std::mt19937{std::random_device{}()});
 
     for (int i = 0; i < training_provider.sample_count(); i += batch_size) {
-      std::vector<float> batch_indices(indices.begin() + i,
+      std::vector<long long> batch_indices(indices.begin() + i,
                                        indices.begin() + i + batch_size);
       auto batch = training_provider.batch(batch_indices);
 
       try {
         Hyperparameters hp;
         hp.learningrate = 1e-2f;
-        hp.weight_decay = 1e-6f;
+        hp.weight_decay = 1e-7f;
         nn.train(batch, hp);
       } catch (af::exception& e) {
         fprintf(stderr, "%s\n", e.what());
@@ -87,10 +92,6 @@ int main(unsigned int argc, const char* argv[]) {
 
     float loss = 0.f;
     float accuracy = 0.f;
-    float tp = 0.f;
-    float tn = 0.f;
-    float fp = 0.f;
-    float fn = 0.f;
 
     start = std::chrono::high_resolution_clock::now();
     std::cout << std::endl << "testing";
