@@ -12,26 +12,35 @@ int main(unsigned int argc, const char* argv[]) {
   nn::set_backend(nn::BACKEND::OPENCL);
   nn::seed(time(NULL));
   nn::info();
-
-  af::array training_images, training_targets;
-  bool parse_result = MNIST::parseMnist("../../mnist/train-images.idx3-ubyte",
-                    "../../mnist/train-labels.idx1-ubyte", training_images,
-                    training_targets);
-  if (!parse_result) {
-    std::cout << "failed to parse MNIST" << std::endl;
+  if (argc < 2) {
+    std::cout << "pass mnist set directory as an argument" << std::endl;
     return EXIT_FAILURE;
-   }
+  }
+  std::string path = argv[1];
+
+  std::vector<float> training_images, training_targets;
+  bool parse_result = MNIST::parseMnist(path + "/train-images.idx3-ubyte",
+                                        path + "/train-labels.idx1-ubyte",
+                                        training_images, training_targets);
+  if (!parse_result) {
+    std::cout << "failed to parse mnist" << std::endl;
+    return EXIT_FAILURE;
+  }
   auto training_provider =
-      TrainingBatchProvider(training_images, training_targets);
+      TrainingBatchProvider(training_images, DataShape(28, 28, 1, 60000),
+                            training_targets, DataShape(10, 1, 1, 60000));
   std::cout << "training samples: " << training_provider.sample_count()
             << std::endl;
 
-  af::array test_images, test_targets;
-  parse_result = MNIST::parseMnist("../../mnist/t10k-images.idx3-ubyte",
-                    "../../mnist/t10k-labels.idx1-ubyte", test_images, test_targets);
-  auto test_provider = TrainingBatchProvider(test_images, test_targets);
+  std::vector<float> test_images, test_targets;
+  parse_result = MNIST::parseMnist(path + "/t10k-images.idx3-ubyte",
+                                   path + "/t10k-labels.idx1-ubyte",
+                                   test_images, test_targets);
+  auto test_provider =
+      TrainingBatchProvider(test_images, DataShape(28, 28, 1, 10000),
+                            test_targets, DataShape(10, 1, 1, 10000));
   if (!parse_result) {
-    std::cout << "failed to parse MNIST" << std::endl;
+    std::cout << "failed to parse mnist" << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << "test samples: " << test_provider.sample_count() << std::endl;
@@ -78,7 +87,7 @@ int main(unsigned int argc, const char* argv[]) {
 
     for (int i = 0; i < training_provider.sample_count(); i += batch_size) {
       std::vector<long long> batch_indices(indices.begin() + i,
-                                       indices.begin() + i + batch_size);
+                                           indices.begin() + i + batch_size);
       auto batch = training_provider.batch(batch_indices);
 
       try {

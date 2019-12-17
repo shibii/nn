@@ -1,7 +1,5 @@
 #pragma once
 
-#include <arrayfire.h>
-
 #include <cstdint>
 #include <iostream>
 #include <fstream>
@@ -17,9 +15,8 @@ int32_t swapEndianness(int32_t i) {
           ((i & 0xFF000000) >> 24));
 }
 
-bool parseMnist(const char *imagePath, const char *labelPath,
-                af::array &inputData, af::array &targetData) {
-  // inputs
+bool parseMnist(const std::string &imagePath, const std::string &labelPath,
+                std::vector<float> &inputData, std::vector<float> &targetData) {
   std::ifstream f;
   f.open(imagePath, std::ios::in | std::ios::binary);
   if (f.is_open()) {
@@ -40,14 +37,12 @@ bool parseMnist(const char *imagePath, const char *labelPath,
     f.read((char *)&c, sizeof c);
     c = swapEndianness(c);
 
-    std::vector<float> inputsVec(n * r * c);
-
-    for (int v = 0; v < inputsVec.size(); v++) {
+    inputData.resize(n * r * c);
+    for (int v = 0; v < inputData.size(); v++) {
       uint8_t i;
       f.read((char *)&i, sizeof(uint8_t));
-      inputsVec[v] = (float)i / 255.f;
+      inputData[v] = (float)i / 255.f;
     }
-    inputData = af::array(af::dim4(r, c, 1, n), inputsVec.data());
     f.close();
 
     // targets
@@ -62,15 +57,13 @@ bool parseMnist(const char *imagePath, const char *labelPath,
     f.read((char *)&n, sizeof n);
     n = swapEndianness(n);
 
-    std::vector<float> targetsVec(n * 10, 0.f);
-
+    targetData.resize(n * 10, 0.f);
     for (int v = 0; v < n; v++) {
       uint8_t i;
       f.read((char *)&i, sizeof(uint8_t));
 
-      targetsVec[v * 10 + i] = 1.f;
+      targetData[v * 10 + i] = 1.f;
     }
-    targetData = af::array(af::dim4(10, 1, 1, n), targetsVec.data());
     f.close();
     return true;
   } else {
