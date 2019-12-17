@@ -9,16 +9,15 @@ IF (WIN32)
 ENDIF()
 
 find_package(ArrayFire)
-find_path (ARRAYFIRE_INCLUDE_DIR NAMES "arrayfire.h" PATHS "./include/arrayfire")
+find_path (ARRAYFIRE_INCLUDE_DIR NAMES arrayfire.h PATHS ${PROJECT_SOURCE_DIR}/include/arrayfire)
 include_directories(${ARRAYFIRE_INCLUDE_DIR})
 
-find_path (CEREAL_INCLUDE_DIR NAMES "cereal.hpp" PATHS "./include/cereal")
+find_path (CEREAL_INCLUDE_DIR NAMES cereal.hpp PATHS ${PROJECT_SOURCE_DIR}/include/cereal)
 include_directories(${CEREAL_INCLUDE_DIR}/..)
 
-find_path (NN_INCLUDE_DIR NAMES "nn.hpp" PATHS "./include/nn")
-include_directories(${NN_INCLUDE_DIR} ${NN_INCLUDE_DIR}/techniques)
+include_directories(${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include/nn ${PROJECT_SOURCE_DIR}/include/nn/techniques)
 
-file(GLOB SOURCES "./src/*.cpp" "./src/techniques/*.cpp")
+file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/techniques/*.cpp)
 add_library(nn ${SOURCES})
 
 add_subdirectory(test)
