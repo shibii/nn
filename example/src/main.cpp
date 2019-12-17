@@ -14,18 +14,26 @@ int main(unsigned int argc, const char* argv[]) {
   nn::info();
 
   af::array training_images, training_targets;
-  MNIST::parseMnist("mnist/train-images.idx3-ubyte",
-                    "mnist/train-labels.idx1-ubyte", training_images,
+  bool parse_result = MNIST::parseMnist("../../mnist/train-images.idx3-ubyte",
+                    "../../mnist/train-labels.idx1-ubyte", training_images,
                     training_targets);
+  if (!parse_result) {
+    std::cout << "failed to parse MNIST" << std::endl;
+    return EXIT_FAILURE;
+   }
   auto training_provider =
       TrainingBatchProvider(training_images, training_targets);
   std::cout << "training samples: " << training_provider.sample_count()
             << std::endl;
 
   af::array test_images, test_targets;
-  MNIST::parseMnist("mnist/t10k-images.idx3-ubyte",
-                    "mnist/t10k-labels.idx1-ubyte", test_images, test_targets);
+  parse_result = MNIST::parseMnist("../../mnist/t10k-images.idx3-ubyte",
+                    "../../mnist/t10k-labels.idx1-ubyte", test_images, test_targets);
   auto test_provider = TrainingBatchProvider(test_images, test_targets);
+  if (!parse_result) {
+    std::cout << "failed to parse MNIST" << std::endl;
+    return EXIT_FAILURE;
+  }
   std::cout << "test samples: " << test_provider.sample_count() << std::endl;
 
   auto optimizer = std::make_shared<Momentum>();
@@ -56,7 +64,7 @@ int main(unsigned int argc, const char* argv[]) {
   auto classifier = std::make_shared<SoftmaxCrossEntropy>();
   nn.add(classifier);
 
-  dim_t batch_size = 16;
+  dim_t batch_size = 32;
 
   std::vector<long long> indices(training_provider.sample_count());
   std::iota(indices.begin(), indices.end(), 0);
@@ -96,8 +104,8 @@ int main(unsigned int argc, const char* argv[]) {
     start = std::chrono::high_resolution_clock::now();
     std::cout << std::endl << "testing";
     int batches = 0;
-    for (int i = 0; i < test_provider.sample_count(); i += batch_size) {
-      auto batch = test_provider.batch(i, batch_size);
+    for (int i = 0; i < test_provider.sample_count(); i += 100) {
+      auto batch = test_provider.batch(i, 100);
       auto result = nn.test(batch);
       batches++;
       loss += result.loss();
@@ -117,5 +125,5 @@ int main(unsigned int argc, const char* argv[]) {
     Serializer::serializeXML(ostream, nn);
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
