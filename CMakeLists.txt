@@ -17,7 +17,7 @@ include_directories(${CEREAL_INCLUDE_DIR}/..)
 
 include_directories(${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include/nn ${PROJECT_SOURCE_DIR}/include/nn/techniques)
 
-file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/techniques/*.cpp)
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 add_library(nn ${SOURCES})
 
 add_subdirectory(test)
